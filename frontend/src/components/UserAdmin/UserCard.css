@@ -1,0 +1,12 @@
+.user-card-container{
+    margin: auto;
+}
+
+.user-card-container .user-info{
+    /* display: flex;
+    flex-wrap: wrap; */
+}
+.user-card-container .user-info .user-admin{
+    margin: 0.5vmax 1.5vmax;
+
+}

@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,500&display=swap');
+
+
+.receiver-header-container{
+    background-color: #565656;
+}
+.receiver-header-info{
+    display: flex;
+    justify-content: space-between;
+}
+.receiver-header-info .receiver-header{
+    display: flex;
+    padding: 1vmax;
+    justify-content: center;
+    align-items: center;
+}
+.receiver-header-info .receiver-avatar{
+    width: 10vh;
+    height: 10vh;
+}
+.receiver-header-info .receiver-avatar img{
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+}
+
+.receiver-header-info .receiver-name{
+    margin-left: 1vw;
+    font-size: 1.2rem;
+    font-family:"Roboto";
+    color: white;
+}
+
+.receiver-header-container .receiver-header-info .side{
+    display: flex;
+    margin-right: 1vmax;
+    justify-content: center;
+    align-items: center;
+}
+
+.receiver-header-container .receiver-header-info .side > div{
+    padding: 0.7vmax;
+    /* transition: all 0.5s; */
+    border-radius: 30px ;
+    background-color: #dcd6d6d7;
+    margin: 0px 0.5vmax;
+}
+.receiver-header-container .receiver-header-info .side > div:hover{
+    background-color: #828282;
+
+}
+
+
+.receiver-header-container .receiver-header-info .side svg{
+    font-size: 2rem;
+}
+
+
+/* message body starts here  */
+
+
+.message-body-container{
+    background-image: url("https://img.freepik.com/free-vector/idea_24908-54076.jpg?size=626&ext=jpg&ga=GA1.1.993883846.1702032095");
+    height: 77vh;
+    background-position: center;
+    background-size: cover;
+}
+
+.message-body-container .message{
+    /* max-width: 30vw; */
+    max-width: fit-content;
+    word-wrap: break-word;
+    padding: 2vmax;
+    background-color: #b2b2b2;
+    border-radius: 30px;
+    /* color: white; */
+}
+
+
+.send-message .take-input{
+    display: flex;
+}
+
+.send-message .take-input input[type="text"]{
+    width: 100%;
+    padding: 1vmax;
+    font-size: 1.2rem;
+    font-family: "Roboto";
+}
+
+.send-message .take-input button{
+    width: 15%;
+    background-color: #b2b2b2;
+    padding: 1vmax;
+    font-size: 1.2rem;
+    font-family: "Roboto";
+}
+.send-message .take-input button:hover{
+    background-color: #6a6565;
+    
+}
+

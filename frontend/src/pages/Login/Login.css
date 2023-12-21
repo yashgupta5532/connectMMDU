@@ -1,0 +1,50 @@
+
+.login-contaier{
+    /* margin: auto; */
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.login-contaier form{
+    display: flex;
+    background-color: rgb(218, 224, 227);
+    padding: 3vmax 6vmax;
+    flex-direction: column;
+    border-radius: 20px;
+    margin: 2vmax;
+}
+
+.login-contaier h2{
+    font: 400 1.6rem "Roboto";
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 1vmax;
+}
+.login-contaier input{
+    padding: 1.5vmax;
+    border-radius: 15px;
+    font-weight: 600;
+    margin: 0.5vmax;
+    width: 100%;
+    border: 1px solid black;
+}
+.login-contaier button{
+    outline: none;
+    padding: 1vmax;
+    border-radius: 10px;
+    font-weight: 600;
+    margin: 2vmax;
+    width: 100%;
+    font-size: 1.3rem;
+    background-color: rgba(146, 146, 205, 0.712);
+}
+.login-contaier button:hover{
+    background-color: rgb(67, 67, 203);
+}
+.login-contaier a {
+    font-size: 1.3rem;
+    margin: 1vmax;
+    text-align: center;
+}

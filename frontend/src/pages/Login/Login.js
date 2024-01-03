@@ -1,11 +1,16 @@
 import React, { Fragment, useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import { clearErrors, loginUser } from "../../Actions/UserAction.js";
+import { useAlert } from "react-alert";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user,setUser]=useState("");
+  // const dispatch = useDispatch();
+  const alert = useAlert();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,18 +24,30 @@ const Login = () => {
       });
 
       if (response.ok) {
-        const {data} = await response.json()
-        console.log("data is",data)
-        setUser(data.user)
-
+        const { data } = await response.json();
+        console.log("data is", data);
+        alert.success("Logged in successfully");
+        navigate("/friend/suggest")
+        // setUser(data.user);
       } else {
         const errorMessage = await response.text();
+        alert.error(errorMessage);
         console.error(`Error while logging in: ${errorMessage}`);
       }
     } catch (error) {
+      alert.error(error.message);
       console.error("Error during login:", error.message);
     }
   };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     dispatch(loginUser(email, password));
+  //   } catch (error) {
+  //     alert.error(error.message);
+  //   }
+  // };
 
   return (
     <Fragment>

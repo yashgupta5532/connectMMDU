@@ -9,7 +9,6 @@ const user = {
 };
 
 const FriendRequest = () => {
-  
   return (
     <Fragment>
       <div className="friend-request-container">

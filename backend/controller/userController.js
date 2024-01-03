@@ -126,6 +126,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(user._id);
+  // console.log("accessToken",accessToken,"refreshToken",refreshToken)
 
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
@@ -133,13 +134,14 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
+    // sameSite: "None",
+    secure: false, // if https then make it true
   };
 
   return res
+    .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
-    .status(200)
     .json(
       new ApiResponse(
         200,
@@ -275,8 +277,8 @@ const getAllFriends = asyncHandler(async (req, res) => {
 
 const matchers = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  console.log("user is", user);
-  console.log("req user is", req.user);
+  // console.log("user is", user);
+  // console.log("req user is", req.user);
   if (!user) {
     throw new ApiError(404, "Login first");
   }

@@ -7,12 +7,12 @@ const app = express();
 app.use(
   cors({
     // origin: process.env.CORS_ORIGIN_URL,
-    origin: "http://localhost:3000",
-    // credentials: true,
+    origin: "*",
+    credentials: true,
   })
 );
 app.use(express.json({ limit: "30kb" }));
-app.use(express.urlencoded({ limit: "30kb", extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //import routes

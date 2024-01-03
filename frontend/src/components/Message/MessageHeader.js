@@ -22,6 +22,7 @@ const MessageHeader = () => {
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
+      console.log("message sending",msg)
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
@@ -29,9 +30,10 @@ const MessageHeader = () => {
       socket.disconnect();
     };
   }, []);
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log("message in frontend",message);
     socket.emit("chat message", message);
     setMessage("");
   };

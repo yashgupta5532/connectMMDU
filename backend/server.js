@@ -24,11 +24,14 @@ connectDb().then(() => {
 
 io.on("connection", (socket) => {
   console.log("A client connected");
-  socket.emit("chat message", (msg) => {
-    console.log("chat message event received",msg)
+
+  socket.on("chat message", (msg) => {
+    console.log("chat message event received", msg);
     io.emit("chat message", msg);
   });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 });
+

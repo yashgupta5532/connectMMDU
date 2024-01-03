@@ -1,17 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 
-const user = {
+const user = [{
   _id: "6579adaa2273a1c6147c2615",
   name: "Babu Gupta",
   FriendsCount: 50,
   image:
     "https://scontent.fdel27-1.fna.fbcdn.net/v/t39.30808-1/405190742_122094454016137510_232655995027735425_n.jpg?stp=dst-jpg_p240x240&_nc_cat=111&ccb=1-7&_nc_sid=5740b7&_nc_ohc=JR-yMOictIgAX8R5nhP&_nc_ht=scontent.fdel27-1.fna&oh=00_AfAC7X_NL1cmZSPA7rfLlhphuErsKs16vfvYOzyz1khrEA&oe=65878A14",
-};
+}];
 
 const Suggestion = () => {
   const alert = useAlert();
-  const [suggestedFriends, setSuggestedFriends] = useState([]);
+  const [suggestedFriends, setSuggestedFriends] = useState(user);
 
   useEffect(() => {
     const fetchSuggestedFriends = async () => {

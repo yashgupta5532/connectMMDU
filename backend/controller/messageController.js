@@ -33,10 +33,10 @@ const sendMessage = asyncHandler(async (req, res) => {
 });
 
 const getMessage = asyncHandler(async (req, res) => {
-  //const userId=req.user._id;
+  const userId=req.user._id;
   const receiverId = req.params.id;
   console.log(receiverId);
-  const { userId } = req.body;
+  // const { userId } = req.body;
   if (!receiverId) {
     throw new ApiError(401, "receiverId is required");
   }

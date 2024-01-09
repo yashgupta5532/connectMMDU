@@ -169,10 +169,9 @@ userSchema.methods.generateAccessToken = async function () {
       status: this.status,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    {
-      // expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-      expiresIn: '5d',
-    }
+    // {
+    //   expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+    // }
   );
 };
 
@@ -182,10 +181,10 @@ userSchema.methods.generateRefreshToken = async function () {
       _id: this._id,
     },
     process.env.REFRESH_TOKEN_SECRET,
-    {
-      // expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-      expiresIn: '10d',
-    }
+    // {
+    //   expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+    // }
   );
 };
+
 export const User = mongoose.model("User", userSchema);

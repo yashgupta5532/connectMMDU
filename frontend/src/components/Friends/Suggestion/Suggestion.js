@@ -17,7 +17,7 @@ const Suggestion = () => {
     const fetchSuggestedFriends = async () => {
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/v1/user/find/matchers",
+          "http://localhost:8000/api/v1/user/find/matchers",
           {
             method: "GET",
             credentials: "include",
@@ -40,7 +40,9 @@ const Suggestion = () => {
     };
 
     fetchSuggestedFriends();
-  }, []); 
+  }, []);
+
+  console.log("suggested friends are ", suggestedFriends);
 
   const sendFriendRequest = async (userId) => {
     console.log("clicked", userId);
@@ -65,7 +67,7 @@ const Suggestion = () => {
 
   return (
     <Fragment>
-      {suggestedFriends.map((friend) => (
+      {suggestedFriends?.map((friend) => (
         <div key={friend._id} className="friend-request-container">
           <div className="friend-user-container">
             <div className="images">

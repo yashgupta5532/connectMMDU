@@ -20,22 +20,29 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // Include credentials
         body: JSON.stringify({ email, password }),
       });
+      const cookies = document.cookie;
+      console.log("cookies in frontend ", cookies);
 
       if (response.ok) {
         const { data } = await response.json();
-        console.log("data is", data);
+        console.log("Server response:", data);
         alert.success("Logged in successfully");
-        navigate("/friend/suggest")
+        navigate("/friend/suggest");
         // setUser(data.user);
       } else {
         const errorMessage = await response.text();
-        alert.error(errorMessage);
+        if (response.status === 401) {
+          alert.error("Invalid email or password");
+        } else {
+          alert.error(`Error while logging in: ${errorMessage}`);
+        }
         console.error(`Error while logging in: ${errorMessage}`);
       }
     } catch (error) {
-      alert.error(error.message);
+      alert.error("Error during login. Please try again.");
       console.error("Error during login:", error.message);
     }
   };

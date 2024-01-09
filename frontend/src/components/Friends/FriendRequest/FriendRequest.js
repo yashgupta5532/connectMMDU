@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import "./FriendRequest.css";
 
 const user = {
@@ -9,6 +9,8 @@ const user = {
 };
 
 const FriendRequest = () => {
+  const [allFriends, setAllFriends] = useState([]);
+
   return (
     <Fragment>
       <div className="friend-request-container">

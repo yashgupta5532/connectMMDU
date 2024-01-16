@@ -4,17 +4,27 @@
     margin: 1.5vmax;
 }
 
+.f-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    /* margin: 2vmax; */
+}
+
 .friend-request-container .friend-user-container{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     margin: 2vmax;
     max-width: fit-content;
     border-radius: 15px;
     border: 1px solid black;
+    padding-bottom: 1vmax;
 }
 
 .friend-request-container .images img{
-    max-width: inherit;
+    /* max-width: inherit; */
+    width: 15vw;
+    height: 20vh;
     border-radius: 15px;
 }
 

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 // import { useDispatch, useSelector } from "react-redux";
 // import { clearErrors, loginUser } from "../../Actions/UserAction.js";
 import { useAlert } from "react-alert";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,35 +16,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Include credentials
-        body: JSON.stringify({ email, password }),
-      });
-      const cookies = document.cookie;
-      console.log("cookies in frontend ", cookies);
-
-      if (response.ok) {
-        const { data } = await response.json();
-        console.log("Server response:", data);
-        alert.success("Logged in successfully");
-        navigate("/friend/suggest");
-        // setUser(data.user);
-      } else {
-        const errorMessage = await response.text();
-        if (response.status === 401) {
-          alert.error("Invalid email or password");
-        } else {
-          alert.error(`Error while logging in: ${errorMessage}`);
+      const { data } = await axios.post(
+        "http://localhost:8000/api/v1/user/login",
+        {
+          email,
+          password,
         }
-        console.error(`Error while logging in: ${errorMessage}`);
+        , { withCredentials: true }
+      );
+      if (data.success) {
+        alert.success(data.message);
+        navigate("/friend/suggest");
       }
     } catch (error) {
-      alert.error("Error during login. Please try again.");
-      console.error("Error during login:", error.message);
+      console.log("error", error);
+      alert.error(`${error.response.data.message}`);
     }
   };
 

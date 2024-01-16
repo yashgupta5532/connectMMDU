@@ -1,33 +1,93 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import "./FriendRequest.css";
-
-const user = {
-  name: "Babu Gupta",
-  FriendsCount: 50,
-  image:
-    "https://scontent.fdel27-1.fna.fbcdn.net/v/t39.30808-1/405190742_122094454016137510_232655995027735425_n.jpg?stp=dst-jpg_p240x240&_nc_cat=111&ccb=1-7&_nc_sid=5740b7&_nc_ohc=JR-yMOictIgAX8R5nhP&_nc_ht=scontent.fdel27-1.fna&oh=00_AfAC7X_NL1cmZSPA7rfLlhphuErsKs16vfvYOzyz1khrEA&oe=65878A14",
-};
+import axios from "axios";
+import { serverUrl } from "../../../constants";
+import { useAlert } from "react-alert";
 
 const FriendRequest = () => {
-  const [allFriends, setAllFriends] = useState([]);
+  const [allFriendRequestUser, setAllFriendRequestUser] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
+  const alert = useAlert();
+
+  useEffect(() => {
+    const fetchAllFriendRequests = async () => {
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/user/all/friends/requests`,
+          { withCredentials: true }
+        );
+
+        if (data.success) {
+          setAllFriendRequestUser(data.data);
+        }
+      } catch (error) {
+        alert.error(error.response.data.message);
+      }
+    };
+
+    fetchAllFriendRequests();
+  }, [alert]);
+
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const userDetailsPromises = allFriendRequestUser.map(async (request) => {
+        const userDetailsResponse = await axios.get(
+          `${serverUrl}/user/userDetails/${request.sender}`,
+          { withCredentials: true }
+        );
+        return userDetailsResponse.data.data;
+      });
+
+      const userDetails = await Promise.all(userDetailsPromises);
+      setUserDetails(userDetails);
+    };
+
+    if (allFriendRequestUser.length > 0) {
+      fetchUserDetails();
+    }
+  }, [allFriendRequestUser]);
+
+  const handleAcceptRejectFriendRequest=async(status,friendId)=>{
+    try {
+      const {data} = await axios.put(`${serverUrl}/user/response/friendRequest`,{status,friendId},
+      { withCredentials: true }
+      )
+      console.log("response of friendrequest", data);
+      if (data.success) {
+        alert.success(data.message);
+      } else {
+        alert.error("Error", data.message);
+      }
+    } catch (error) {
+      alert.error(error);
+    }
+  }
+
+  // console.log("all friends ",userDetails)
 
   return (
     <Fragment>
-      <div className="friend-request-container">
-        <div className="friend-user-container">
-          <div className="images">
-            <img src={user.image} alt="img" />
-          </div>
-          <div className="name">
-            <h3>{user.name}</h3>
-          </div>
-          <div className="friends-count">
-            <img src={user.image} alt="" />
-            <p>{user.FriendsCount} mutual Friends</p>
-          </div>
-          <button className="btn-confirm">Confirm</button>
-          <button className="btn-delete">Delete</button>
-        </div>
+      <div className="f-wrap">
+        {userDetails &&
+          userDetails.map((user) => (
+            <div key={user._id} className="friend-request-container">
+              <div className="friend-user-container">
+                <div className="images">
+                  <img src={user.avatar} alt="img" />
+                </div>
+                <div className="name">
+                  <h3>{user.fullname}</h3>
+                </div>
+                <div className="friends-count">
+                  <img src={user.avatar} alt="" />
+                  <p>{user.FriendsCount} mutual Friends</p>
+                </div>
+                <button className="btn-confirm" onClick={()=>handleAcceptRejectFriendRequest("Accepted",user._id)}>Confirm</button>
+                <button className="btn-delete" onClick={()=>handleAcceptRejectFriendRequest("Rejected",user._id)}>Delete</button>
+              </div>
+            </div>
+          ))}
       </div>
     </Fragment>
   );

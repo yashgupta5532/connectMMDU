@@ -133,8 +133,8 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
-    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    secure: false,
+    // expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     // domain: "localhost",
     // SameSite: "None",
   };
@@ -146,7 +146,8 @@ const loginUser = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        { user: loggedInUser, refreshToken, accessToken },
+        // { user: loggedInUser, refreshToken, accessToken },
+        loggedInUser,
         "User logged In Successfully"
       )
     );
@@ -202,11 +203,22 @@ const searchUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+export const getUserDetails= asyncHandler(async (req,res)=>{
+  const userId=req.params.id;
+  const user=await User.findById(userId);
+  if(!user){
+    throw new ApiError(401,'Invalid UserId');
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user));
+})
+
 //send a friend request to a user
 const sendFriendRequest = asyncHandler(async (req, res) => {
   const receipientId = req.params.id;
   const senderId = req.user._id; //authenticated user
-  console.log("logged user is", req.user);
+  // console.log("logged user is", req.user);
   const user = await User.findByIdAndUpdate(receipientId, {
     $push: {
       friendRequests: { sender: senderId },
@@ -218,6 +230,24 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Friend request send"));
+});
+
+//cancel a friend request 
+const cancelFriendRequest = asyncHandler(async (req, res) => {
+  const receipientId = req.params.id;
+  const senderId = req.user._id; //authenticated user
+  // console.log("logged user is", req.user);
+  const user = await User.findByIdAndUpdate(receipientId, {
+    $pull: {
+      friendRequests: { sender: senderId },
+    },
+  });
+  if (!user) {
+    throw new ApiError(400, "User not found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Friend request cancelled"));
 });
 
 //now receiver will either accept or reject the friendRequest
@@ -272,6 +302,21 @@ const getAllFriends = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, friends));
 });
 
+export const getAllFriendRequestsUsers = asyncHandler(async(req,res)=>{
+  // const allFriends=await User.find({
+  //   _id:{
+  //     $in:req.user.friendRequests.sender
+  //   }
+  // }).populate("sender")
+  // .exec();
+  const allFriends=req.user.friendRequests
+  console.log(allFriends);
+  if (allFriends.length <= 0) {
+    throw new ApiError(401, "No friend Requests");
+  }
+  return res.status(200).json(new ApiResponse(200, allFriends));
+})
+
 const matchers = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (!user) {
@@ -310,7 +355,7 @@ const matchers = asyncHandler(async (req, res) => {
       },
       { friends: { $in: user.friends } },
     ],
-  }).select("-password -refreshToken")
+  }).select("-password -refreshToken");
 
   return res.status(200).json(new ApiResponse(200, users));
 });
@@ -411,6 +456,7 @@ export {
   logoutUser,
   searchUser,
   sendFriendRequest,
+  cancelFriendRequest,
   acceptRejectFriendRequest,
   matchers,
   updateProfile,

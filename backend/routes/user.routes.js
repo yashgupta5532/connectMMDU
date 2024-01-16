@@ -3,9 +3,12 @@ import { upload } from "../middleware/multer.middleware.js";
 import {
   acceptRejectFriendRequest,
   blockUserAccount,
+  cancelFriendRequest,
   deleteProfile,
   deleteProfileAdmin,
+  getAllFriendRequestsUsers,
   getAllFriends,
+  getUserDetails,
   loginUser,
   logoutUser,
   matchers,
@@ -38,8 +41,10 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJwt, logoutUser);
 
 router.route("/search/:keyword").get(searchUser);
+router.route("/userDetails/:id").get(verifyJwt,getUserDetails)
 
 router.route("/sendFriendRequest/:id").post(verifyJwt, sendFriendRequest);
+router.route("/cancelFriendRequest/:id").post(verifyJwt, cancelFriendRequest);
 
 router
   .route("/response/friendRequest")
@@ -58,6 +63,8 @@ router.route("/update/profile").put(
   updateProfile
 );
 router.route("/all/friends").get(verifyJwt, getAllFriends);
+
+router.route("/all/friends/requests").get(verifyJwt, getAllFriendRequestsUsers);
 
 router.route("/delete/profile").delete(deleteProfile); //user
 

@@ -63,6 +63,11 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    coverImage:[
+      {
+      type:String
+      }
+    ],
     interests: [{ type: String }],
     hobbies: [{ type: String }],
     posts: [

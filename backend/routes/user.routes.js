@@ -6,8 +6,10 @@ import {
   cancelFriendRequest,
   deleteProfile,
   deleteProfileAdmin,
+  followUnfollowUser,
   getAllFriendRequestsUsers,
   getAllFriends,
+  getMyDetails,
   getUserDetails,
   loginUser,
   logoutUser,
@@ -16,6 +18,8 @@ import {
   searchUser,
   sendFriendRequest,
   unBlockUserAccount,
+  updateAvatar,
+  updateCoverImage,
   updateProfile,
 } from "../controller/userController.js";
 import { isAdmin, verifyJwt } from "../middleware/auth.middleware.js";
@@ -39,9 +43,12 @@ router.route("/register").post(
 router.route("/login").post(loginUser);
 
 router.route("/logout").post(verifyJwt, logoutUser);
+router.route("/avatar").patch(verifyJwt,upload.single("avatar"),updateAvatar);
+router.route("/coverImage").patch(verifyJwt,upload.single("coverImage"),updateCoverImage);
 
 router.route("/search/:keyword").get(searchUser);
 router.route("/userDetails/:id").get(verifyJwt,getUserDetails)
+router.route("/myDetails").get(verifyJwt,getMyDetails)
 
 router.route("/sendFriendRequest/:id").post(verifyJwt, sendFriendRequest);
 router.route("/cancelFriendRequest/:id").post(verifyJwt, cancelFriendRequest);
@@ -51,6 +58,7 @@ router
   .put(verifyJwt, acceptRejectFriendRequest);
 
 router.route("/find/matchers").get(verifyJwt, matchers);
+router.route("/follow-unfollow/:id").post(verifyJwt,followUnfollowUser);
 
 router.route("/update/profile").put(
   upload.fields([

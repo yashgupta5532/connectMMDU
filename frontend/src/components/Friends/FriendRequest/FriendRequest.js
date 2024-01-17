@@ -3,11 +3,14 @@ import "./FriendRequest.css";
 import axios from "axios";
 import { serverUrl } from "../../../constants";
 import { useAlert } from "react-alert";
+import Suggestion from "../Suggestion/Suggestion";
+import Loader from "../../Loader/Loader";
 
 const FriendRequest = () => {
   const [allFriendRequestUser, setAllFriendRequestUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
   const alert = useAlert();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllFriendRequests = async () => {
@@ -22,12 +25,13 @@ const FriendRequest = () => {
         }
       } catch (error) {
         alert.error(error.response.data.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchAllFriendRequests();
   }, [alert]);
-
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -48,11 +52,13 @@ const FriendRequest = () => {
     }
   }, [allFriendRequestUser]);
 
-  const handleAcceptRejectFriendRequest=async(status,friendId)=>{
+  const handleAcceptRejectFriendRequest = async (status, friendId) => {
     try {
-      const {data} = await axios.put(`${serverUrl}/user/response/friendRequest`,{status,friendId},
-      { withCredentials: true }
-      )
+      const { data } = await axios.put(
+        `${serverUrl}/user/response/friendRequest`,
+        { status, friendId },
+        { withCredentials: true }
+      );
       console.log("response of friendrequest", data);
       if (data.success) {
         alert.success(data.message);
@@ -62,33 +68,53 @@ const FriendRequest = () => {
     } catch (error) {
       alert.error(error);
     }
-  }
-
-  // console.log("all friends ",userDetails)
+  };
 
   return (
     <Fragment>
-      <div className="f-wrap">
-        {userDetails &&
-          userDetails.map((user) => (
-            <div key={user._id} className="friend-request-container">
-              <div className="friend-user-container">
-                <div className="images">
-                  <img src={user.avatar} alt="img" />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <h3 className="h-center">Friend Requests</h3>
+          <div className="f-wrap">
+            {userDetails &&
+              userDetails.map((user) => (
+                <div key={user._id} className="friend-request-container">
+                  <div className="friend-user-container">
+                    <div className="images">
+                      <img src={user.avatar} alt="img" />
+                    </div>
+                    <div className="name">
+                      <h3>{user.fullname}</h3>
+                    </div>
+                    <div className="friends-count">
+                      <img src={user.avatar} alt="" />
+                      <p>{user.FriendsCount} mutual Friends</p>
+                    </div>
+                    <button
+                      className="btn-confirm"
+                      onClick={() =>
+                        handleAcceptRejectFriendRequest("Accepted", user._id)
+                      }
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() =>
+                        handleAcceptRejectFriendRequest("Rejected", user._id)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-                <div className="name">
-                  <h3>{user.fullname}</h3>
-                </div>
-                <div className="friends-count">
-                  <img src={user.avatar} alt="" />
-                  <p>{user.FriendsCount} mutual Friends</p>
-                </div>
-                <button className="btn-confirm" onClick={()=>handleAcceptRejectFriendRequest("Accepted",user._id)}>Confirm</button>
-                <button className="btn-delete" onClick={()=>handleAcceptRejectFriendRequest("Rejected",user._id)}>Delete</button>
-              </div>
-            </div>
-          ))}
-      </div>
+              ))}
+          </div>
+          <Suggestion />
+        </Fragment>
+      )}
     </Fragment>
   );
 };

@@ -1,50 +1,89 @@
-
-.login-contaier{
-    /* margin: auto; */
+.login {
+    width: 100vw;
     height: 100vh;
-    justify-content: center;
+    background-color: #f0f2f5;
+    display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.loginWrapper {
+    width: 70%;
+    height: 70%;
     display: flex;
 }
 
-.login-contaier form{
+.loginLeft , .loginRight {
+    flex: 1;
     display: flex;
-    background-color: rgb(218, 224, 227);
-    padding: 3vmax 6vmax;
     flex-direction: column;
-    border-radius: 20px;
-    margin: 2vmax;
+    justify-content: center;
 }
 
-.login-contaier h2{
-    font: 400 1.6rem "Roboto";
-    text-align: center;
-    text-decoration: underline;
-    margin-bottom: 1vmax;
+.loginLogo {
+    font-size: 50px;
+    font-weight: 800;
+    color: #1775ee;
+    margin-bottom: 10px;
 }
-.login-contaier input{
-    padding: 1.5vmax;
-    border-radius: 15px;
-    font-weight: 600;
-    margin: 0.5vmax;
-    width: 100%;
-    border: 1px solid black;
+
+.loginDesc {
+    font-size: 24px;
 }
-.login-contaier button{
-    outline: none;
-    padding: 1vmax;
+
+.loginBox {
+    height: 300px;
+    padding: 20px;
+    background-color: white;
     border-radius: 10px;
-    font-weight: 600;
-    margin: 2vmax;
-    width: 100%;
-    font-size: 1.3rem;
-    background-color: rgba(146, 146, 205, 0.712);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-.login-contaier button:hover{
-    background-color: rgb(67, 67, 203);
+
+.loginInput {
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 18px;
+    padding-left: 20px;
 }
-.login-contaier a {
-    font-size: 1.3rem;
-    margin: 1vmax;
+
+.loginInput:focus {
+    outline: none;
+}
+
+.loginButton {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1775ee;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.loginForgot {
     text-align: center;
+    color: #1775ee;
+}
+
+.loginRgisterButton {
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #42b72a;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.text-center{
+    text-align: center;
+    text-decoration: none;
+    
 }

@@ -1,17 +1,13 @@
 {
-  "name": "frontend",
+  "name": "fb-clone-app",
   "version": "0.1.0",
-  "proxy": "http://localhost:8000",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@material-ui/icons": "^4.11.3",
-    "@mui/icons-material": "^5.15.0",
-    "@mui/material": "^5.15.0",
-    "@reduxjs/toolkit": "^2.0.1",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.11",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.5",
@@ -19,15 +15,10 @@
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
     "react-dom": "^18.2.0",
-    "react-loader-spinner": "^6.1.1-0",
     "react-modal": "^3.16.1",
-    "react-redux": "^9.0.4",
-    "react-router-dom": "^6.21.0",
-    "react-scripts": "5.0.1",
+    "react-router-dom": "^6.21.2",
     "react-select": "^5.8.0",
-    "reactjs-navbar": "^1.0.2",
-    "redux": "^5.0.1",
-    "socket.io-client": "^4.7.2",
+    "socket.io-client": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -55,6 +46,6 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.7"
+    "react-scripts": "^5.0.1"
   }
 }

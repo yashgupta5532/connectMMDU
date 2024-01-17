@@ -1,0 +1,42 @@
+
+.profile-container-header{
+    margin-left: 1.5vw;
+    width: 30vw;
+}
+
+.profile-container-header .profile-container .bg-img{
+   width: inherit;
+   height: 8vh;
+}
+.profile-container-header .profile-container .bg-img img{
+    width: inherit;
+}
+
+.profile-container-header .profile-container .avatar{
+    width: 10vw;
+}
+
+.profile-container-header .profile-container .avatar img{
+    width: inherit;
+    border-radius: 50%;
+}
+.profile-container-header .profile-container .info{
+    position: relative;
+    top: 26vh;
+    left: 3vw;
+    z-index: 2;
+}
+.profile-container-header .profile-container .follow{
+    padding: 0.5vmax;
+    margin-top: 0.5vmax;
+    background-color: royalblue;
+    color: white;
+    border-radius: 5px;
+    margin-left: -1vw;
+}
+
+.profile-container-header .profile-container .user-info{
+    background-color: rgb(188, 167, 167);
+    border-radius: 0 0 10px;
+}
+

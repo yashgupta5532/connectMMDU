@@ -1,138 +1,84 @@
-/* body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-  } */
-  
-  .register-container {
-    margin:2vw 5vw;
-    background-color: #DAD3D2;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-  
-  /* Register header styling */
-  .register-header {
-    text-align: center;
-    color: #333;
-    font-size: 1.8em;
-    border-bottom: 1px solid gray;
-    width: 20vw;
-    margin: auto;
-    padding: 1vmax;
-  }
-  
-  /* Register form styling */
-  .register-form {
-    padding: 1vmax 5vmax;
+.login {
+    width: 100vw;
+    height: 100vh;
+    background-color: #f0f2f5;
     display: flex;
-    flex-wrap: wrap;
-    gap: 5vw;
-    margin: auto;
-    align-items: flex-start;
-  }
-  
-  .register-label {
-    margin: 10px;
-    color: #545050;
-  }
-  
-  .register-input,
-  .register-textarea,
-  .register-radio-input,
-  .add-interest-button {
-    margin-top: 5px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 100%;
-    font-weight: 500;
-    box-sizing: border-box;
-  }
-  
-  /* Register radio group styling */
-  .register-radio-group {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Add interest button styling */
-  .add-interest-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .add-interest-button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Modal styling */
-  .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 60vw;
-    height: 80vh;
-  }
-  .modal h2 {
-    padding: 2vmax;
-    text-align: center;
-  }
-  .modal input[type="text"]{
-    padding: 1vmax;
-    /* display: flex; */
-    width: 20vw;
-    margin: 1vmax;
-    border-radius: 15px;
-  }
-  .modal button{
-    padding: 1vmax;
-    margin: 1vmax;
-    font-size: 1.2rem;
-    width: 10vw;
-    color: white;
-    background-color: rgb(75, 75, 155);
-    border-radius: 10px;
-  }
-  .interest-checkbox-label{
-    padding: 1vmax;
-    margin: 2vmax;
-    background-color: #333;
-    color: white;
-    border-radius: 19px;
-  }
-  .interest-checkbox-label input[type="checkbox"] {
-    padding: 1vmax;
-    margin: 1.5vmax;
-  }
-
-  .register-label select option{
-    padding: 3vmax;
-    border: 5px solid black;
-  }
-  /* Overlay styling */
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-.register-button{
-    width: 10vw;
-    padding: 1vmax;
-    border-radius: 10px;
-    color: white;
-    font-size: 1.3rem;
-    background-color: rgb(80, 80, 197);
+    align-items: center;
+    justify-content: center;
 }
+
+.loginWrapper {
+    width: 70%;
+    height: 70%;
+    display: flex;
+}
+
+.loginLeft , .loginRight {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loginLogo {
+    font-size: 50px;
+    font-weight: 800;
+    color: #1775ee;
+    margin-bottom: 10px;
+}
+
+.loginDesc {
+    font-size: 24px;
+}
+
+.loginBox {
+    height: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.loginInput {
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.loginInput:focus {
+    outline: none;
+}
+
+.loginButton {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1775ee;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.loginForgot {
+    text-align: center;
+    color: #1775ee;
+}
+
+.loginRgisterButton {
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #42b72a;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+

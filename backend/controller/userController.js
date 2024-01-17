@@ -4,7 +4,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const generateAccessTokenAndRefreshToken = async (userId) => {
+export const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
     const accessToken = await user.generateAccessToken();
@@ -21,7 +21,7 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
   }
 };
 
-const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const {
     fullname,
     username,
@@ -60,7 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User Already Exists");
   }
 
-  const avatarFilePath = req.files ? req.files.avatar[0].path : null;
+  const avatarFilePath = req.files ? req.files?.avatar[0].path : null;
 
   let coverImageFilePath;
   if (
@@ -87,7 +87,9 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    coverImage:
+      coverImage?.url ||
+      "https://imgs.search.brave.com/QFLg7TGQUKA9UvSvojofsO00DvMQB-zW8Obk9IX3TMs/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvaS1sb3ZlLXlv/dS1iYWNrZ3JvdW5k/LWlubGI1bWI4Zjhz/a3RmMGguanBn",
     martialStatus,
     gender,
     interests,
@@ -110,7 +112,7 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User Registered successfully"));
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -153,7 +155,7 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
-const logoutUser = asyncHandler(async (req, res) => {
+export const logoutUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   console.log("userId is", userId);
   if (!userId) {
@@ -181,8 +183,128 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Logout successfully"));
 });
 
+export const updateAvatar = asyncHandler(async (req, res) => {
+  const avatarLocalFilePath = req.file.path;
+  if (!avatarLocalFilePath) {
+    throw new ApiError(401, "Avatar is required");
+  }
+
+  const avatar = await uploadOnCloudinary(avatarLocalFilePath);
+
+  if (!avatar.url) {
+    throw new ApiError(401, "Error while uploading avatar");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        avatar: avatar.url,
+      },
+    },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Avatar updated successfully"));
+});
+
+export const updateCoverImage = asyncHandler(async (req, res) => {
+  const coverImagePath = req.file.path;
+  if (!coverImagePath) {
+    throw new ApiError(401, "coverImage is required");
+  }
+  const coverImage = await uploadOnCloudinary(coverImagePath);
+
+  if (!coverImage.url) {
+    throw new ApiError(401, "Error while uploading coverImage");
+  }
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: {
+        coverImage: coverImage.url,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  return res.status(200).json(new ApiResponse(200, user, "CoverImage updated"));
+});
+
+export const followUnfollowUser = asyncHandler(async (req, res) => {
+  const currentUserId = req.user._id;
+  const otherUserId = req.params.id;
+
+  const otherUser = await User.findById(otherUserId);
+  if (currentUserId.equals(otherUserId)) {
+    throw new ApiError(401, "You cannot follow yourself");
+  }
+  
+  if (req.user.following.includes(otherUserId)) {
+    await User.findByIdAndUpdate(
+      currentUserId,
+      {
+        $pull: {
+          following: otherUserId,
+        },
+      },
+      { new: true }
+    );
+
+    await User.findByIdAndUpdate(
+      otherUserId,
+      {
+        $pull: {
+          followers: currentUserId,
+        },
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          null,
+          `${req.user.fullname} started unfollowing ${otherUser.fullname}`
+        )
+      );
+  }
+  await User.findByIdAndUpdate(
+    currentUserId,
+    {
+      $push: {
+        following: otherUserId,
+      },
+    },
+    { new: true }
+  );
+
+  await User.findByIdAndUpdate(
+    otherUserId,
+    {
+      $push: {
+        followers: currentUserId,
+      },
+    },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        null,
+        `${req.user.fullname} started following ${otherUser.fullname}`
+      )
+    );
+});
+
 //search user by fullname username email department branch
-const searchUser = asyncHandler(async (req, res, next) => {
+export const searchUser = asyncHandler(async (req, res, next) => {
   try {
     const keyword = req.params.keyword;
     const users = await User.find({
@@ -203,19 +325,21 @@ const searchUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const getUserDetails= asyncHandler(async (req,res)=>{
-  const userId=req.params.id;
-  const user=await User.findById(userId);
-  if(!user){
-    throw new ApiError(401,'Invalid UserId');
+export const getUserDetails = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(401, "Invalid UserId");
   }
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user));
-})
+  return res.status(200).json(new ApiResponse(200, user));
+});
+
+export const getMyDetails = asyncHandler(async (req, res) => {
+  return res.status(200).json(new ApiResponse(200, req.user));
+});
 
 //send a friend request to a user
-const sendFriendRequest = asyncHandler(async (req, res) => {
+export const sendFriendRequest = asyncHandler(async (req, res) => {
   const receipientId = req.params.id;
   const senderId = req.user._id; //authenticated user
   // console.log("logged user is", req.user);
@@ -224,6 +348,13 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
       friendRequests: { sender: senderId },
     },
   });
+
+  await User.findByIdAndUpdate(senderId, {
+    $pull: {
+      friendRequests: { sender: receipientId },
+    },
+  });
+
   if (!user) {
     throw new ApiError(400, "User not found");
   }
@@ -232,8 +363,8 @@ const sendFriendRequest = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Friend request send"));
 });
 
-//cancel a friend request 
-const cancelFriendRequest = asyncHandler(async (req, res) => {
+//cancel a friend request
+export const cancelFriendRequest = asyncHandler(async (req, res) => {
   const receipientId = req.params.id;
   const senderId = req.user._id; //authenticated user
   // console.log("logged user is", req.user);
@@ -251,7 +382,7 @@ const cancelFriendRequest = asyncHandler(async (req, res) => {
 });
 
 //now receiver will either accept or reject the friendRequest
-const acceptRejectFriendRequest = asyncHandler(async (req, res) => {
+export const acceptRejectFriendRequest = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { status, friendId } = req.body;
 
@@ -294,7 +425,7 @@ const acceptRejectFriendRequest = asyncHandler(async (req, res) => {
 });
 
 //get my all friends
-const getAllFriends = asyncHandler(async (req, res) => {
+export const getAllFriends = asyncHandler(async (req, res) => {
   const friends = req.user.friends;
   if (friends.length <= 0) {
     throw new ApiError(401, "No friends");
@@ -302,22 +433,22 @@ const getAllFriends = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, friends));
 });
 
-export const getAllFriendRequestsUsers = asyncHandler(async(req,res)=>{
+export const getAllFriendRequestsUsers = asyncHandler(async (req, res) => {
   // const allFriends=await User.find({
   //   _id:{
   //     $in:req.user.friendRequests.sender
   //   }
   // }).populate("sender")
   // .exec();
-  const allFriends=req.user.friendRequests
+  const allFriends = req.user.friendRequests;
   console.log(allFriends);
   if (allFriends.length <= 0) {
     throw new ApiError(401, "No friend Requests");
   }
   return res.status(200).json(new ApiResponse(200, allFriends));
-})
+});
 
-const matchers = asyncHandler(async (req, res) => {
+export const matchers = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (!user) {
     throw new ApiError(404, "Login first");
@@ -360,17 +491,17 @@ const matchers = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, users));
 });
 
-const updateProfile = asyncHandler(async (req, res) => {
+export const updateProfile = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const updatedUserInfo = req.body;
   // console.log("updatedinfo",updatedUserInfo)
-  if (updatedUserInfo.avatar) {
-    const avatarLocalFilePath = req.files ? req.files.avatar[0].path : null;
-    console.log("avatar url", avatarLocalFilePath);
-    const avatar = await uploadOnCloudinary(avatarLocalFilePath);
-    console.log("avatar ", avatar);
-    updatedUserInfo.avatar = avatar.url;
-  }
+  // if (updatedUserInfo.avatar) {
+  //   const avatarLocalFilePath = req.files ? req.files.avatar[0].path : null;
+  //   console.log("avatar url", avatarLocalFilePath);
+  //   const avatar = await uploadOnCloudinary(avatarLocalFilePath);
+  //   console.log("avatar ", avatar);
+  //   updatedUserInfo.avatar = avatar.url;
+  // }
 
   const updatedUser = await User.findByIdAndUpdate(userId, updatedUserInfo, {
     new: true,
@@ -384,7 +515,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 });
 
 //delete your own profile
-const deleteProfile = asyncHandler(async (req, res) => {
+export const deleteProfile = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   if (!userId) {
     throw new ApiError(400, "login first");
@@ -396,7 +527,7 @@ const deleteProfile = asyncHandler(async (req, res) => {
 });
 
 //delete profile by Admin
-const deleteProfileAdmin = asyncHandler(async (req, res) => {
+export const deleteProfileAdmin = asyncHandler(async (req, res) => {
   const userId = req.parmas.id;
   if (!userId) {
     throw new ApiError(400, "User not found");
@@ -408,7 +539,7 @@ const deleteProfileAdmin = asyncHandler(async (req, res) => {
 });
 
 //Admin
-const blockUserAccount = asyncHandler(async (req, res) => {
+export const blockUserAccount = asyncHandler(async (req, res) => {
   const userId = req.params.id;
   const user = await User.findById(userId);
   if (!user) {
@@ -440,7 +571,7 @@ const blockUserAccount = asyncHandler(async (req, res) => {
     );
 });
 
-const unBlockUserAccount = asyncHandler(async (req, res) => {
+export const unBlockUserAccount = asyncHandler(async (req, res) => {
   setInterval(async () => {
     const currentDate = new Date();
     await User.updateMany(
@@ -449,20 +580,3 @@ const unBlockUserAccount = asyncHandler(async (req, res) => {
     );
   }, 24 * 60 * 60 * 1000);
 });
-
-export {
-  registerUser,
-  loginUser,
-  logoutUser,
-  searchUser,
-  sendFriendRequest,
-  cancelFriendRequest,
-  acceptRejectFriendRequest,
-  matchers,
-  updateProfile,
-  deleteProfile,
-  deleteProfileAdmin,
-  blockUserAccount,
-  unBlockUserAccount,
-  getAllFriends,
-};

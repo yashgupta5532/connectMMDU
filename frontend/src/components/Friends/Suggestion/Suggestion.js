@@ -27,6 +27,15 @@ const Suggestion = () => {
   
     fetchSuggestedFriends();
   }, [alert]);
+
+  useEffect(() => {
+    const storedRequests = JSON.parse(localStorage.getItem("sentFriendRequests")) || {};
+    setSentFriendRequests(storedRequests);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sentFriendRequests", JSON.stringify(sentFriendRequests));
+  }, [sentFriendRequests]);
   
 
   const handleFriendRequest = async (userId) => {
@@ -54,6 +63,7 @@ const Suggestion = () => {
 
   return (
     <Fragment>
+      <h1 className="h-center">People you may Know !</h1>
       <div className="f-wrap">
         {suggestedFriends?.map((friend) => (
           <div key={friend._id} className="friend-request-container">
@@ -62,7 +72,7 @@ const Suggestion = () => {
                 <img src={friend.avatar} alt="img" />
               </div>
               <div className="name">
-                <h3>{friend.fullname}</h3>
+                <h3>{friend.username}</h3>
               </div>
               <div className="friends-count">
                 <img src={friend.avatar} alt="" />

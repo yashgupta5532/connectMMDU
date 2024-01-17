@@ -10,6 +10,18 @@
     /* margin: 2vmax; */
 }
 
+.h-center{
+    margin: auto;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding-top: 2vmax;
+    letter-spacing: 0.3cap;
+    text-decoration: underline;
+    color: royalblue;
+    text-shadow: 0px 0px 5px tomato;
+}
+
 .friend-request-container .friend-user-container{
     display: flex;
     flex-direction: column;

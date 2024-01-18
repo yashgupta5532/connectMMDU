@@ -27,7 +27,6 @@ export default function Sidebar() {
   };
 
   const handleLogout = async () => {
-    console.log("clicked");
     try {
       const { data } = await axios.post(`${serverUrl}/user/logout`, null, {
         withCredentials: true,
@@ -87,15 +86,17 @@ export default function Sidebar() {
             <span className="sidebarListItemText">Groups</span>
           </li>
           <Link to="/update/profile">
-          <li className="sidebarListItem">
-            <Bookmark className="sidebarIcon" />
-            <span className="sidebarListItemText">Update Profile</span>
-          </li>
+            <li className="sidebarListItem">
+              <Bookmark className="sidebarIcon" />
+              <span className="sidebarListItemText">Update Profile</span>
+            </li>
           </Link>
+          <Link to="/contact">
           <li className="sidebarListItem">
             <HelpOutline className="sidebarIcon" />
             <span className="sidebarListItemText">Contact Us</span>
           </li>
+          </Link>
           <li className="sidebarListItem">
             <WorkOutline className="sidebarIcon" />
             <span className="sidebarListItemText">Jobs</span>
@@ -109,12 +110,10 @@ export default function Sidebar() {
             <span className="sidebarListItemText">Logout</span>
           </li>
         </ul>
-        <button className="sidebarButton">Show More</button>
+        <button className="sidebarButton btn">Show More</button>
         <hr className="sidebarHr" />
         <ul className="sidebarFriendList">
-          {Users.map((u) => (
-            <CloseFriend key={u.id} user={u} />
-          ))}
+          <CloseFriend />
         </ul>
       </div>
     </div>

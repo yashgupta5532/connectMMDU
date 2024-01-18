@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import "./share.css";
 import { PermMedia, Label, Room, EmojiEmotions } from "@mui/icons-material";
-import axios from "axios";
-import { serverUrl } from "../../constants";
+// import axios from "axios";
+// import { serverUrl } from "../../constants";
 
-export default function Share() {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const fetchMyInfo = async () => {
-      try {
-        const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
-          withCredentials: true,
-        });
-        if (data.success) {
-          setUser(data.data);
-        } else {
-          alert.error(data.message);
-        }
-      } catch (error) {
-        alert.error(error);
-      }
-    };
-    fetchMyInfo();
-  }, [alert]);
+export default function Share({user}) {
+  // const [user, setUser] = useState(null);
+  // useEffect(() => {
+  //   const fetchMyInfo = async () => {
+  //     try {
+  //       const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
+  //         withCredentials: true,
+  //       });
+  //       if (data.success) {
+  //         setUser(data.data);
+  //       } else {
+  //         alert.error(data.message);
+  //       }
+  //     } catch (error) {
+  //       alert.error(error);
+  //     }
+  //   };
+  //   fetchMyInfo();
+  // }, [alert]);
 
   return (
     <div className="share">

@@ -11,14 +11,13 @@ const Suggestion = () => {
   useEffect(() => {
     const fetchSuggestedFriends = async () => {
       try {
-        console.log("clicked", serverUrl);
         const { data } = await axios.get(
           `${serverUrl}/user/find/matchers`,
           { withCredentials: true }
         );
-        console.log("response in suggestion", data.data);
-        if (data.success) {
-          setSuggestedFriends(data.data);
+        console.log("response in suggestion", data?.data);
+        if (data?.success) {
+          setSuggestedFriends(data?.data);
         }
       } catch (error) {
         alert.error(error.response.data.message);
@@ -66,29 +65,29 @@ const Suggestion = () => {
       <h1 className="h-center">People you may Know !</h1>
       <div className="f-wrap">
         {suggestedFriends?.map((friend) => (
-          <div key={friend._id} className="friend-request-container">
+          <div key={friend?._id} className="friend-request-container">
             <div className="friend-user-container">
               <div className="images">
-                <img src={friend.avatar} alt="img" />
+                <img src={friend?.avatar} alt="img" />
               </div>
               <div className="name">
-                <h3>{friend.username}</h3>
+                <h3>{friend?.username}</h3>
               </div>
               <div className="friends-count">
-                <img src={friend.avatar} alt="" />
-                <p>{friend.friends.length} mutual Friends</p>
+                <img src={friend?.avatar} alt="" />
+                <p>{friend?.friends.length} mutual Friends</p>
               </div>
               <button
                 className="btn-delete"
-                onClick={() => handleFriendRequest(friend._id)}
+                onClick={() => handleFriendRequest(friend?._id)}
               >
-                {sentFriendRequests[friend._id]
+                {sentFriendRequests[friend?._id]
                   ? "Cancel Request"
                   : "Add Friend"}
               </button>
               <button
                 className={`btn-confirm ${
-                  sentFriendRequests[friend._id] ? "hidden" : ""
+                  sentFriendRequests[friend?._id] ? "hidden" : ""
                 }`}
               >
                 Remove

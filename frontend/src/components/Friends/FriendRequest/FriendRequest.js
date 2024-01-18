@@ -21,7 +21,7 @@ const FriendRequest = () => {
         );
 
         if (data.success) {
-          setAllFriendRequestUser(data.data);
+          setAllFriendRequestUser(data?.data);
         }
       } catch (error) {
         alert.error(error.response.data.message);
@@ -80,22 +80,22 @@ const FriendRequest = () => {
           <div className="f-wrap">
             {userDetails &&
               userDetails.map((user) => (
-                <div key={user._id} className="friend-request-container">
+                <div key={user?._id} className="friend-request-container">
                   <div className="friend-user-container">
                     <div className="images">
-                      <img src={user.avatar} alt="img" />
+                      <img src={user?.avatar} alt="img" />
                     </div>
                     <div className="name">
-                      <h3>{user.fullname}</h3>
+                      <h3>{user?.fullname}</h3>
                     </div>
                     <div className="friends-count">
-                      <img src={user.avatar} alt="" />
-                      <p>{user.FriendsCount} mutual Friends</p>
+                      <img src={user?.avatar} alt="" />
+                      <p>{user?.FriendsCount} mutual Friends</p>
                     </div>
                     <button
                       className="btn-confirm"
                       onClick={() =>
-                        handleAcceptRejectFriendRequest("Accepted", user._id)
+                        handleAcceptRejectFriendRequest("Accepted", user?._id)
                       }
                     >
                       Confirm
@@ -103,7 +103,7 @@ const FriendRequest = () => {
                     <button
                       className="btn-delete"
                       onClick={() =>
-                        handleAcceptRejectFriendRequest("Rejected", user._id)
+                        handleAcceptRejectFriendRequest("Rejected", user?._id)
                       }
                     >
                       Delete

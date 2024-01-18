@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import "./Contact.css"; // Make sure to have a corresponding CSS file
+import "./Contact.css";
+import axios from "axios";
+import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 
 function Contact() {
@@ -14,15 +16,15 @@ function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Assuming formData contains the form fields
     const dataToSend = {
       name: formData.name,
@@ -31,38 +33,34 @@ function Contact() {
       contactNo: formData.contactNo,
       message: formData.message,
     };
-
+  
     // Send a POST request to your backend API
-    fetch(process.env.REACT_APP_FRONTEND_URL+"contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((response) => {
-        if (response.ok) {
-          // Form submitted successfully, you can handle success actions here
-          alert.success("Form submitted successfully");
-          // Clear the form after submission if needed
-          setFormData({
-            name: "",
-            address: "",
-            email: "",
-            contactNo: "",
-            message: "",
-          });
-        } else {
-          // Handle errors here
-          alert.error("Form submission failed");
-        }
-      })
-      .catch((error) => {
-        // Handle network errors here
-        alert.error("Network error:", error);
-      });
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/contact/create-contact`,
+        dataToSend,
+        { withCredentials: true }
+      );
+      console.log("data is ", data);
+      if (data?.success) {
+        alert.success(data.message);
+        setFormData({
+          name: "",
+          address: "",
+          email: "",
+          contactNo: "",
+          message: "",
+        });
+      } else {
+        // Ensure that the error message is a string
+        alert.error(data?.message.toString());
+      }
+    } catch (error) {
+      // Ensure that the error message is a string
+      alert.error(error.toString());
+    }
   };
-
+  
   return (
     <div className="contact-container">
       <h1>Contact Us</h1>
@@ -78,6 +76,7 @@ function Contact() {
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
+            className="loginInput"
             required
           />
         </div>
@@ -92,6 +91,7 @@ function Contact() {
             placeholder="Address"
             value={formData.address}
             onChange={handleChange}
+            className="loginInput"
             required
           />
         </div>
@@ -106,6 +106,7 @@ function Contact() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
+            className="loginInput"
             required
           />
         </div>
@@ -120,6 +121,7 @@ function Contact() {
             placeholder="Contact No"
             value={formData.contactNo}
             onChange={handleChange}
+            className="loginInput"
             required
           />
         </div>
@@ -133,10 +135,13 @@ function Contact() {
             placeholder="Message"
             value={formData.message}
             onChange={handleChange}
+            className="loginInput"
             required
           ></textarea>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className="loginButton">
+          Submit
+        </button>
       </form>
     </div>
   );

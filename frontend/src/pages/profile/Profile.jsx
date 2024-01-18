@@ -8,8 +8,11 @@ import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 
+
 export default function Profile() {
   const [user, setUser] = useState(null);
+  const defaultCoverImage =
+    "https://imgs.search.brave.com/nday_SBE87w0EnZwLFKAvAvEKX6UQZA5RNjU4dX1Geg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzE0LzRl/Lzc2LzE0NGU3NjM2/N2EwNzA0NWI3ODQ1/ZmIwYTY2OWQ3OGNh/LmpwZw";
   const alert = useAlert();
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -17,6 +20,7 @@ export default function Profile() {
         const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
           withCredentials: true,
         });
+        console.log("data is ", data);
         if (data.success) {
           setUser(data.data);
         } else {
@@ -31,7 +35,7 @@ export default function Profile() {
 
   return (
     <>
-      <Topbar avatar={user?.avatar}/>
+      <Topbar avatar={user?.avatar} />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
@@ -39,13 +43,15 @@ export default function Profile() {
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                src={user?.coverImage}
+                src={user?.coverImage || defaultCoverImage}
                 alt="Cover"
               />
               <img className="profileUserImg" src={user?.avatar} alt="" />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">{user?.username}  ({user?.fullname})</h4>
+              <h4 className="profileInfoName">
+                {user?.username} ({user?.fullname})
+              </h4>
               <span className="profileInfoDesc">{user?.status}</span>
               {/* <div className="d-flex">
                 <p className="profileInfoName">Department :{user?.department}</p>
@@ -55,8 +61,8 @@ export default function Profile() {
             </div>
           </div>
           <div className="profilerightBottom">
-            <Feed />
-            <Rightbar profile />
+            <Feed user={user} />
+            <Rightbar user={user} />
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import Modal from "react-modal";
 
 export default function Topbar({ avatar }) {
   const [keyword, setKeyword] = useState("");
+  const defaultAvatar="https://imgs.search.brave.com/cIbwKjDMj9q3jhtd1OukCYhlZGdRRlYdxiBdjTbzKsw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS93M2ltYWdlcy9h/dmF0YXIyLnBuZw"
   const [searchResults, setSearchResults] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -87,7 +88,7 @@ export default function Topbar({ avatar }) {
             <span className="topbarIconBadge">1</span>
           </div>
         </div>
-        <img src={avatar} alt="avatar" className="topbarImg" />
+        <img src={avatar?avatar :defaultAvatar} alt="avatar" className="topbarImg" />
       </div>
 
       <Modal

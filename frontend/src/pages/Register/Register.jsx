@@ -13,6 +13,8 @@ const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing"];
 const defaultInterests = ["Football", "women", "men", "friendship", "love"];
 
 const Register = () => {
+  const [errors, setErrors] = useState({});
+
   const [formData, setFormData] = useState({
     fullname: "",
     username: "",
@@ -91,7 +93,7 @@ const Register = () => {
       formDataToSend.append("email", formData.email);
       formDataToSend.append("password", formData.password);
       formDataToSend.append("contactNo", formData.contactNo);
-      formDataToSend.append("DOB", formData.DOB);
+      formDataToSend.append("DOB", formData.DOB.substring(0,11));
       formDataToSend.append("martialStatus", formData.martialStatus);
       formDataToSend.append("gender", formData.gender);
       formDataToSend.append("department", formData.department);
@@ -130,6 +132,28 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    if (name === "DOB") {
+      const selectedDate = new Date(value);
+      const currentDate = new Date();
+
+      if (selectedDate > currentDate) {
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "Invalid date." }));
+      } else {
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+      }
+    }
+
+    if (name === "contactNo") {
+      if (value.length !== 10) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: "Contact number must be 10 digits.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+      }
+    }
 
     if (
       type === "text" ||
@@ -288,10 +312,14 @@ const Register = () => {
             type="number"
             name="contactNo"
             value={formData.contactNo}
+            maxLength={10}
             placeholder="Enter your ContactNo"
             onChange={handleChange}
             required
           />
+          {errors.contactNo && (
+            <span className="error-message">{errors.contactNo}</span>
+          )}
         </label>
 
         <label className="register-label">
@@ -305,6 +333,7 @@ const Register = () => {
             onChange={handleChange}
             required
           />
+          {errors.DOB && <span className="error-message">{errors.DOB}</span>}
         </label>
 
         <label className="register-label">

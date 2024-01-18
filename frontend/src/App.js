@@ -8,6 +8,7 @@ import Register from "./pages/register/Register.jsx";
 import FriendRequest from "./components/Friends/FriendRequest/FriendRequest.js";
 import AllFriends from "./components/Friends/AllFriends/AllFriends.js"
 import Message from "./components/Message/MessageHeader.js"
+import Contact from "./components/Contact/Contact.js";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/friend/request" element={<FriendRequest/>}/>
           <Route path="/friend/all" element={<AllFriends/>}/>
           <Route path="/message" element={<Message/>}/>
+          <Route path="/contact" element={<Contact/>}/>
         </Routes>
       </Router>
     </Fragment>

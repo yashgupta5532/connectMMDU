@@ -29,13 +29,13 @@ const userSchema = new mongoose.Schema(
     },
     contactNo: {
       type: Number,
-      min: [1000000000, "Contact number must have at least 10 digits"],
-      max: [9999999999, "Contact number must have at most 10 digits"],
-      // required:true
+      min: [1000000000, "Contact number must have 10 digits"],
+      max: [9999999999, "Contact number must have 10 digits"],
+      required:true
     },
     DOB: {
       type: Date,
-      // required:true,
+      required:true,
     },
     messages: [
       {
@@ -127,6 +127,13 @@ const userSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "Something status",
+    },
+    online:{
+      type:Boolean,
+      default:false,
+    },
+    lastActivity:{
+      type:Date
     },
     accountBlockedUntil: {
       type: Date,

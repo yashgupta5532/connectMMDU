@@ -25,6 +25,7 @@
   }
   
   /* Input Container */
+
   .input-container {
     display: flex;
     align-items: center;
@@ -40,7 +41,7 @@
   .input-container input,
   .input-container textarea {
     width: 100%;
-    padding: 18px;
+    /* padding: 18px; */
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -78,6 +79,30 @@
   i.fas {
     font-size: 18px;
   }
+
+  
+.loginInput {
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  font-size: 18px;
+  padding-left: 20px;
+}
+
+.loginInput:focus {
+  outline: none;
+}
+
+.loginButton {
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1775ee;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
   
   /* Responsiveness */
   @media screen and (max-width: 600px) {

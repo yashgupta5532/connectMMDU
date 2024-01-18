@@ -29,6 +29,8 @@ export const registerUser = asyncHandler(async (req, res) => {
     password,
     martialStatus,
     gender,
+    contactNo,
+    DOB,
     interests,
     hobbies,
     department,
@@ -92,6 +94,8 @@ export const registerUser = asyncHandler(async (req, res) => {
       "https://imgs.search.brave.com/QFLg7TGQUKA9UvSvojofsO00DvMQB-zW8Obk9IX3TMs/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvaS1sb3ZlLXlv/dS1iYWNrZ3JvdW5k/LWlubGI1bWI4Zjhz/a3RmMGguanBn",
     martialStatus,
     gender,
+    contactNo,
+    DOB,
     interests,
     hobbies,
     department,
@@ -241,7 +245,7 @@ export const followUnfollowUser = asyncHandler(async (req, res) => {
   if (currentUserId.equals(otherUserId)) {
     throw new ApiError(401, "You cannot follow yourself");
   }
-  
+
   if (req.user.following.includes(otherUserId)) {
     await User.findByIdAndUpdate(
       currentUserId,
@@ -426,11 +430,18 @@ export const acceptRejectFriendRequest = asyncHandler(async (req, res) => {
 
 //get my all friends
 export const getAllFriends = asyncHandler(async (req, res) => {
-  const friends = req.user.friends;
-  if (friends.length <= 0) {
-    throw new ApiError(401, "No friends");
+  try {
+    const friendIds = req.user.friends;
+    const allFriendsDetails = await Promise.all(
+      friendIds.map((friend) => User.findById(friend))
+    );
+
+    // console.log("friendDetails", allFriendsDetails);
+    return res.status(200).json(new ApiResponse(200, allFriendsDetails));
+  } catch (error) {
+    console.error("Error fetching friends:", error);
+    return res.status(500).json(new ApiResponse(500, "Internal Server Error"));
   }
-  return res.status(200).json(new ApiResponse(200, friends));
 });
 
 export const getAllFriendRequestsUsers = asyncHandler(async (req, res) => {
@@ -579,4 +590,38 @@ export const unBlockUserAccount = asyncHandler(async (req, res) => {
       { $unset: { accountBlockedUntil: 1 } } //update all blocked account to 1
     );
   }, 24 * 60 * 60 * 1000);
+});
+
+export const updateOnlineStatus = asyncHandler(async (req, res) => {
+  const { userId, online } = req.body;
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(401, "User not found ");
+  }
+  user.online = online;
+  user.lastActivity = new Data();
+  await user.save({ validateBeforeSave: false });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, `status updated to ${online}`));
+});
+
+export const isOnline = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(401, "User not found ");
+  }
+  const currentTime = new Date();
+  const timeDifference = currentTime - user.lastActivity;
+  const maxInactiveTime = 5 * 60 * 1000; // 5 minutes
+  let online;
+  if (timeDifference <= maxInactiveTime) {
+    online = true;
+  } else {
+    online = false;
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, `User is ${online ? "online" : "offline"}`));
 });

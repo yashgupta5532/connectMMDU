@@ -452,7 +452,7 @@ export const getAllFriendRequestsUsers = asyncHandler(async (req, res) => {
   // }).populate("sender")
   // .exec();
   const allFriends = req.user.friendRequests;
-  console.log(allFriends);
+  // console.log(allFriends);
   if (allFriends.length <= 0) {
     throw new ApiError(401, "No friend Requests");
   }
@@ -625,3 +625,14 @@ export const isOnline = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, `User is ${online ? "online" : "offline"}`));
 });
+
+export const getAllOnlineUsers = asyncHandler(async (req,res)=>{
+  const onlineUsers=await User.find({online:true}).select("-password -refreshToken")
+  // console.log("online suers",onlineUsers);
+  if(onlineUsers.length<=0){
+    throw new ApiError(401,"No online friends")
+  }
+  return res.status(200).json(
+    new ApiResponse(200,onlineUsers,"Fetched all online users")
+  )
+})

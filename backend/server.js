@@ -8,7 +8,13 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config({ path: "./db/.env" });
 
 const server = createServer(app);
-const io = new Server(server);
+
+const io = new Server(server,{
+  cors:{
+    origin: "http://localhost:3000",
+    credentials: true,
+  }
+});
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -24,14 +30,14 @@ connectDb().then(() => {
 
 io.on("connection", (socket) => {
   console.log("A client connected");
-
-  socket.on("chat message", (msg) => {
-    console.log("chat message event received", msg);
-    io.emit("chat message", msg);
+  console.log("userid",socket.id);
+  socket.emit("welcome","welcome to the server")
+  socket.on("message", (msg) => {
+    console.log("message event received", msg);
+    io.emit("message", msg);
   });
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 });
-

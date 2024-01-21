@@ -6,7 +6,8 @@ import axios from "axios";
 import { serverUrl } from "../../constants";
 import Modal from "react-modal";
 
-export default function Topbar({ avatar }) {
+export default function Topbar({ user}) {
+  console.log("user is",user);
   const [keyword, setKeyword] = useState("");
   const defaultAvatar="https://imgs.search.brave.com/cIbwKjDMj9q3jhtd1OukCYhlZGdRRlYdxiBdjTbzKsw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS93M2ltYWdlcy9h/dmF0YXIyLnBuZw"
   const [searchResults, setSearchResults] = useState([]);
@@ -63,24 +64,24 @@ export default function Topbar({ avatar }) {
 
       <div className="topbarRight">
         <div className="topbarLinks">
-          <Link to="/">
+          {/* <Link to="/">
             <span className="topbarLink">Home Page</span>
           </Link>
           <Link to="/timeline">
             <span className="topbarLink">Timeline</span>
-          </Link>
+          </Link> */}
         </div>
         <div className="topbarIcons">
           <Link to="/friend/request" style={{ color: "white" }}>
             <div className="topbarIconItem">
               <Person />
-              <span className="topbarIconBadge">1</span>
+              <span className={`${user?.friendRequests.length > 0   ? 'topbarIconBadge' : 'hidden'}`}>{user?.friendRequests?.length}</span>
             </div>
           </Link>
           <Link to="/message" style={{ color: "white" }}>
             <div className="topbarIconItem">
               <Chat />
-              <span className="topbarIconBadge">2</span>
+              <span className={`${user?.messages.length > 0   ? 'topbarIconBadge' : 'hidden'}`}>{user?.messages.length}</span>
             </div>
           </Link>
           <div className="topbarIconItem">
@@ -88,7 +89,7 @@ export default function Topbar({ avatar }) {
             <span className="topbarIconBadge">1</span>
           </div>
         </div>
-        <img src={avatar?avatar :defaultAvatar} alt="avatar" className="topbarImg" />
+        <img src={user?.avatar} alt="avatar" className="topbarImg" />
       </div>
 
       <Modal

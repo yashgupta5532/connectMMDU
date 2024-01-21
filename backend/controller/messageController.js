@@ -6,8 +6,9 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 //create message
 const sendMessage = asyncHandler(async (req, res) => {
-  // const sender=req.user._id;
-  const { senderId, receiverId, content } = req.body;
+  const senderId=req.user._id;
+  const receiverId=req.params.receriverId;
+  const {content}=req.body;
   if (!receiverId) throw new ApiError(401, "receiver field is required");
   if (!content) throw new ApiError(401, "message is required");
 

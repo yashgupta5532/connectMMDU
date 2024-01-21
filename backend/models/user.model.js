@@ -31,11 +31,11 @@ const userSchema = new mongoose.Schema(
       type: Number,
       min: [1000000000, "Contact number must have 10 digits"],
       max: [9999999999, "Contact number must have 10 digits"],
-      required:true
+      // required:true
     },
     DOB: {
       type: Date,
-      required:true,
+      // required:true,
     },
     messages: [
       {

@@ -9,6 +9,7 @@ import {
   followUnfollowUser,
   getAllFriendRequestsUsers,
   getAllFriends,
+  getAllOnlineUsers,
   getMyDetails,
   getUserDetails,
   loginUser,
@@ -71,6 +72,8 @@ router.route("/update/profile").put(
   updateProfile
 );
 router.route("/all/friends").get(verifyJwt, getAllFriends);
+
+router.route("/all/online/friends").get(verifyJwt,getAllOnlineUsers);
 
 router.route("/all/friends/requests").get(verifyJwt, getAllFriendRequestsUsers);
 

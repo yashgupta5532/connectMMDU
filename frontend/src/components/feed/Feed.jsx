@@ -1,18 +1,39 @@
-import React from 'react'
-import "./feed.css"
-import Share from '../share/Share'
-import Post from '../post/Post'
-import {Posts} from "../../dummyData"
+import React, { useEffect, useState } from "react";
+import "./feed.css";
+import Share from "../share/Share";
+import Post from "../post/Post";
+import axios from "axios";
+import { serverUrl } from "../../constants.js";
 
-export default function Feed({user}) {
+export default function Feed({ user }) {
+  const [allPosts, setAllPosts] = useState([]);
+  useEffect(() => {
+    try {
+      const fetchAllPosts = async () => {
+        const { data } = await axios.get(`${serverUrl}/post/all-posts`, {
+          withCredentials: true,
+        });
+        if (data?.success) {
+          // console.log("all posts is",data);
+          setAllPosts(data?.data);
+        } else {
+          console.log(data?.message);
+        }
+      };
+      fetchAllPosts();
+    } catch (error) {
+      console.log(error)
+    }
+  }, []);
+
   return (
-    <div className='feed'>
+    <div className="feed">
       <div className="feedWrapper">
-        <Share user={user}/>
-        {Posts.map((p) =>(
-          <Post key = {p.id} post ={p}/>
+        <Share user={user} />
+        {allPosts && allPosts.map((post) => (
+          <Post key={post?._id} post={post} userId={user?._id} ownerId={post?.owner}/>
         ))}
       </div>
     </div>
-  )
+  );
 }

@@ -4,20 +4,22 @@ const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      maxLength: [40, "title cannot be greater than 40 chars"],
+      // maxLength: [200, "title cannot be greater than 200 chars"],
       required: [true, "title is required"],
     },
     description: {
       type: String,
-      maxLength: [1000, "Description cannot exceed 300 characters"],
+      // maxLength: [2000, "Description cannot exceed 2000 characters"],
     },
-    images: [{
-      type: String,
-    }],
+    images: [
+      {
+        type: String,
+      },
+    ],
     status: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected"],
-      default: "Pending",
+      enum: ['Pending', 'Approved', 'Rejected'],
+      default: 'Pending',
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -46,4 +48,3 @@ const postSchema = new mongoose.Schema(
 );
 
 export const Post = mongoose.model("Post", postSchema);
-

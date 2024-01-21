@@ -100,3 +100,15 @@
     
 }
 
+.main-message-container{
+    display: flex;
+}
+.message-container{
+    width: 80%;
+}
+.friends-container,.online-user-container{
+    width: 15%;
+    background-color: rgb(214, 229, 234);
+    padding: 2vmax;
+    text-align: center;
+}

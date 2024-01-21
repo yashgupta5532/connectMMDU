@@ -29,9 +29,7 @@ export default function Rightbar({ user }) {
         <img className="rignhtbarAd" src="assets/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarfriendList">
-          {Users.map((u) => (
-            <Online key={u.id} user={u} />
-          ))}
+            <Online />
         </ul>
       </>
     );
@@ -57,7 +55,7 @@ export default function Rightbar({ user }) {
         }
       };
       fetchAllFriends();
-    }, []);
+    }, [alert]);
     return (
       <>
         <h4 className="rightbarTitle">User information</h4>

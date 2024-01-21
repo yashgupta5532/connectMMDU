@@ -19,10 +19,10 @@ export default function Home() {
           withCredentials: true,
         });
         console.log("data is ",data);
-        if (data.success) {
-          setUser(data.data);
+        if (data?.success) {
+          setUser(data?.data);
         } else {
-          alert.error(data.message);
+          alert.error(data?.message);
         }
       } catch (error) {
         alert.error(error);
@@ -32,7 +32,7 @@ export default function Home() {
   }, [alert]);
     return (
         <>
-        <Topbar avatar={user?.avatar}/>
+        <Topbar user={user}/>
         <div className="homeContainer">
             <Sidebar/>
             <Feed user={user}/>

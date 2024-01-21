@@ -9,6 +9,9 @@ a{
     /* text-align: start;
     align-items: self-start; */
 }
+.hidden{
+    display: none;
+}
 .btn{
     background-color: royalblue;
     color: white;

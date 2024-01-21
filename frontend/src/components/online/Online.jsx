@@ -1,14 +1,51 @@
-import React from 'react'
-import "./online.css"
+import React, { Fragment, useEffect, useState } from "react";
+import "./online.css";
+import axios from "axios";
+import { serverUrl } from "../../constants.js";
+import { useAlert } from "react-alert";
+import { Link } from "react-router-dom";
 
-export default function Online({user}) {
+export default function Online() {
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const alert = useAlert();
+  useEffect(() => {
+    const fetchOnlinUsers = async () => {
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/user/all/online/friends`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("data res", data);
+        if (data?.success) {
+          setOnlineUsers(data?.data);
+        } else {
+          alert.error(data?.message);
+        }
+      } catch (error) {
+        alert.error(error);
+      }
+    };
+    fetchOnlinUsers();
+  }, [alert]);
+
   return (
-    <li className="rightbarFriend">
-        <div className="rightbarProfileImgContainer">
-            <img className='rightbarProfileImg' src={user.profilePicture} alt="" />
-            <span className="rightbarOnline"></span>
-        </div>
-        <span className="rightbarUsername">{user.username}</span>
-    </li>
-  )
+    <Fragment>
+      <div className="online-users">
+        {onlineUsers &&
+          onlineUsers.map((user) => (
+           <Link to={`/profile/${user?._id}`} key={user?._id}>
+             <li className="rightbarFriend" >
+              <div className="rightbarProfileImgContainer">
+                <img className="rightbarProfileImg" src={user?.avatar} alt="" />
+                <span className="rightbarOnline"></span>
+              </div>
+              <span className="rightbarUsername">{user?.username}</span>
+            </li>
+           </Link>
+          ))}
+      </div>
+    </Fragment>
+  );
 }

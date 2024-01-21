@@ -5,6 +5,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./Message.css";
 import io from "socket.io-client";
+import CloseFriend from "../closeFriend/CloseFriend.jsx";
+import Online from "../online/Online.jsx";
 
 const user = {
   name: "Yash GUpta",
@@ -22,7 +24,7 @@ const MessageHeader = () => {
 
   useEffect(() => {
     socket.on("chat message", (msg) => {
-      console.log("message sending",msg)
+      console.log("message sending", msg);
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
 
@@ -30,7 +32,7 @@ const MessageHeader = () => {
       socket.disconnect();
     };
   }, []);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("message in frontend",message);
@@ -40,55 +42,66 @@ const MessageHeader = () => {
 
   return (
     <Fragment>
-      <div className="message-container">
-        <div className="receiver-header-container">
-          <div className="receiver-header-info">
-            <div className="receiver-header">
-              <div className="receiver-avatar">
-                <img src={user.avatar} alt="img" />
-              </div>
-              <div className="receiver-name">{user.name}</div>
-            </div>
-            <div className="side">
-              <div className="video">
-                <VideoCallIcon />
-              </div>
-              <div className="audio">
-                <CallIcon />
-              </div>
-              <div className="search">
-                <SearchIcon />
-              </div>
-              <div className="dott">
-                <MoreVertIcon />
-              </div>
-            </div>
-          </div>
+      <div className="main-message-container">
+        <div className="friends-container">
+          <h3 style={{marginBottom:"10px"}}>All Friends</h3><hr style={{marginBottom:"10px"}}/>
+          <CloseFriend />
         </div>
-
-        {/* Message body here  */}
-        <div className="message-body-container">
-          <div className="message ">
-            <ul>
-              {messages &&
-                messages.map((message, idx) => <li key={idx}>{message}</li>)}
-            </ul>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="send-message">
-            <div className="take-input">
-              <input
-                type="text"
-                placeholder="send message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <button type="Submit">Send</button>
+        <div className="message-container">
+          <div className="receiver-header-container">
+            <div className="receiver-header-info">
+              <div className="receiver-header">
+                <div className="receiver-avatar">
+                  <img src={user.avatar} alt="img" />
+                </div>
+                <div className="receiver-name">{user.name}</div>
+              </div>
+              <div className="side">
+                <div className="video">
+                  <VideoCallIcon />
+                </div>
+                <div className="audio">
+                  <CallIcon />
+                </div>
+                <div className="search">
+                  <SearchIcon />
+                </div>
+                <div className="dott">
+                  <MoreVertIcon />
+                </div>
+              </div>
             </div>
           </div>
-        </form>
+
+          {/* Message body here  */}
+          <div className="message-body-container">
+            <div className="message ">
+              <ul>
+                {messages &&
+                  messages.map((message, idx) => <li key={idx}>{message}</li>)}
+              </ul>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className="send-message">
+              <div className="take-input">
+                <input
+                  type="text"
+                  placeholder="send message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+                <button type="Submit">Send</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div className="online-user-container">
+          <h3 style={{marginBottom:"10px"}}>online users</h3>
+          <hr style={{marginBottom:"10px"}}/>
+          <Online />
+        </div>
       </div>
     </Fragment>
   );

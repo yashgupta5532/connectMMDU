@@ -5,6 +5,7 @@ import { serverUrl } from "../../../constants";
 import { useAlert } from "react-alert";
 import Suggestion from "../Suggestion/Suggestion";
 import Loader from "../../Loader/Loader";
+import { Link } from "react-router-dom";
 
 const FriendRequest = () => {
   const [allFriendRequestUser, setAllFriendRequestUser] = useState([]);
@@ -80,7 +81,8 @@ const FriendRequest = () => {
           <div className="f-wrap">
             {userDetails &&
               userDetails.map((user) => (
-                <div key={user?._id} className="friend-request-container">
+                  <Link to={`/profile/${user?._id}`} key={user?._id}  >
+                <div className="friend-request-container">
                   <div className="friend-user-container">
                     <div className="images">
                       <img src={user?.avatar} alt="img" />
@@ -110,6 +112,7 @@ const FriendRequest = () => {
                     </button>
                   </div>
                 </div>
+                  </Link>
               ))}
           </div>
           <Suggestion />

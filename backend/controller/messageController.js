@@ -6,9 +6,12 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 //create message
 const sendMessage = asyncHandler(async (req, res) => {
-  const senderId=req.user._id;
-  const receiverId=req.params.receriverId;
-  const {content}=req.body;
+  const senderId = req.user._id;
+  const receiverId = req.params.receriverId;
+  if (senderId === receiverId) {
+    throw new ApiError(401, "You cannot send message to yourself");
+  }
+  const { content } = req.body;
   if (!receiverId) throw new ApiError(401, "receiver field is required");
   if (!content) throw new ApiError(401, "message is required");
 
@@ -34,10 +37,9 @@ const sendMessage = asyncHandler(async (req, res) => {
 });
 
 const getMessage = asyncHandler(async (req, res) => {
-  const userId=req.user._id;
+  const userId = req.user._id;
   const receiverId = req.params.id;
   console.log(receiverId);
-  // const { userId } = req.body;
   if (!receiverId) {
     throw new ApiError(401, "receiverId is required");
   }
@@ -64,12 +66,30 @@ const markAsReadMessage = asyncHandler(async (req, res) => {
     }
   );
 
-  if(!message){
-    throw new ApiError(401,"message not found");
+  if (!message) {
+    throw new ApiError(401, "message not found");
   }
-  return res.status(200).json(
-    new ApiResponse(200,message)
-  )
+  return res.status(200).json(new ApiResponse(200, message));
 });
 
-export { sendMessage, getMessage ,markAsReadMessage};
+const deleteMessage = asyncHandler(async (req, res) => {
+  const messageId = req.params.id;
+  const userId = req.user._id;
+  const message = await Message.findById(messageId); 
+  console.log(message.sender ,userId ,message.receiver)
+    if (!message) {
+      throw new ApiError(404, "Message not found"); 
+    }
+    if (!(message.sender === userId || message.receiver === userId)) {
+      throw new ApiError(403, "You can delete your message only");
+    }
+    await message.deleteOne();
+    await message.save({validateBeforeSave:false})
+    await User.findByIdAndUpdate(userId, {
+      $pull: { messages: messageId }, 
+    });
+
+    return res.status(200).json(new ApiResponse(200, "Message deleted"));
+});
+
+export { sendMessage, getMessage, markAsReadMessage, deleteMessage };

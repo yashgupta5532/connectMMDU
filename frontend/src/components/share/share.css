@@ -82,3 +82,21 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+.shareBottom .shareOptions .file input[type="file"] {
+    opacity: 0;
+    max-width: 2px;
+}
+
+.shareBottom .shareOptions .file input[type="file"]:focus + label,
+.shareBottom .shareOptions .file input[type="file"]:active + label {
+color: transparent; /* Hide text color on focus or active states */
+}
+
+.shareBottom .shareOptions .file{
+    position: relative;
+    max-width: 2px;
+    /* top: -5px;  */
+    left: -15px; /* Adjust position to overlay the input */
+    cursor: pointer;
+  }

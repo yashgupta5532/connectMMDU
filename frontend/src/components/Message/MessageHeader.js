@@ -3,58 +3,111 @@ import VideoCallIcon from "@mui/icons-material/VideoCall";
 import CallIcon from "@mui/icons-material/Call";
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 import "./Message.css";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useParams } from "react-router-dom";
 import CloseFriend from "../closeFriend/CloseFriend.jsx";
 import Online from "../online/Online.jsx";
+import axios from "axios";
+import { serverUrl } from "../../constants.js";
+import { useAlert } from "react-alert";
 
-const user = {
-  name: "Yash GUpta",
-  messages: ["hi", "Hleoo", "how much"],
-  // message: "Hi from yash gupta",
-  avatar:
-    "https://imgs.search.brave.com/Sj83X2vIO7-OkgD9ifzhvVl_S-18fST7J2kr0m9FBiE/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAyMy8w/OS8yNS8yMC8xMS9i/b2F0LTgyNzU5NjJf/NjQwLmpwZw",
-};
-
-const socket = io("http://localhost:3000/message");
+// const socket = io("http://localhost:8000");
 
 const MessageHeader = () => {
+  const { userId } = useParams();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [user, setUser] = useState(null);
+  const alert = useAlert();
 
   useEffect(() => {
-    socket.on("chat message", (msg) => {
-      console.log("message sending", msg);
-      setMessages((prevMessages) => [...prevMessages, msg]);
+    const fetchMyInfo = async () => {
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/user/userDetails/${userId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log("data profile ", data);
+        if (data?.success) {
+          setUser(data?.data);
+        } else {
+          // alert.error(data?.message);
+        }
+      } catch (error) {
+        // alert.error(error);
+      }
+    };
+    fetchMyInfo();
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchAllMessages = async () => {
+      const { data } = await axios.get(`${serverUrl}/message/all/${userId}`, {
+        withCredentials: true,
+      });
+      console.log("all messages ", data);
+      if (data?.success) {
+        setMessages(data?.data);
+      } else {
+        alert.error(data?.message);
+      }
+    };
+    fetchAllMessages();
+  }, [userId]);
+
+  const socket = io("http://localhost:8000");
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected", socket.id);
     });
 
+    socket.on("message", (msg) => {
+      console.log(msg);
+    });
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [socket]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("message in frontend",message);
-    socket.emit("chat message", message);
-    setMessage("");
+    const { data } = await axios.post(
+      `${serverUrl}/message/send/${userId}`,
+      { content: message },
+      { withCredentials: true }
+    );
+    console.log("mesga ", data);
+    if (data?.success) {
+      setMessages((prevMessages) => [...prevMessages, message]);
+      alert.success(data?.message);
+      setMessage("");
+    } else {
+      alert.error(data?.message);
+    }
+    // socket.emit("chat message", message);
   };
 
   return (
     <Fragment>
       <div className="main-message-container">
         <div className="friends-container">
-          <h3 style={{marginBottom:"10px"}}>All Friends</h3><hr style={{marginBottom:"10px"}}/>
-          <CloseFriend />
+          <h3 style={{ marginBottom: "10px" }}>All Friends</h3>
+          <hr style={{ marginBottom: "10px" }} />
+          <CloseFriend message={true} />
         </div>
         <div className="message-container">
           <div className="receiver-header-container">
             <div className="receiver-header-info">
               <div className="receiver-header">
                 <div className="receiver-avatar">
-                  <img src={user.avatar} alt="img" />
+                  <img src={user?.avatar} alt="img" />
                 </div>
-                <div className="receiver-name">{user.name}</div>
+                <div className="receiver-name">{user?.username}</div>
               </div>
               <div className="side">
                 <div className="video">
@@ -78,7 +131,19 @@ const MessageHeader = () => {
             <div className="message ">
               <ul>
                 {messages &&
-                  messages.map((message, idx) => <li key={idx}>{message}</li>)}
+                  messages.map((message) => (
+                    <div key={message?._id} className="text-msg">
+                      <li
+                        className={`${
+                          userId === message?.sender ? "right" : "left"
+                        }`}
+                      >
+                        {message?.content}
+                      </li>
+                      <DoneAllIcon style={{ color: `${message.read} ? "blue" : "white"`}} />
+                      <DeleteIcon style={{ color: "red", height: 50, float: "right" }}/>
+                    </div>
+                  ))}
               </ul>
             </div>
           </div>
@@ -98,9 +163,9 @@ const MessageHeader = () => {
           </form>
         </div>
         <div className="online-user-container">
-          <h3 style={{marginBottom:"10px"}}>online users</h3>
-          <hr style={{marginBottom:"10px"}}/>
-          <Online />
+          <h3 style={{ marginBottom: "10px" }}>online users</h3>
+          <hr style={{ marginBottom: "10px" }} />
+          <Online message={true} />
         </div>
       </div>
     </Fragment>

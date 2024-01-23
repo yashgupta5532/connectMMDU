@@ -9,25 +9,26 @@ import FriendRequest from "./components/Friends/FriendRequest/FriendRequest.js";
 import AllFriends from "./components/Friends/AllFriends/AllFriends.js";
 import Message from "./components/Message/MessageHeader.js";
 import Contact from "./components/Contact/Contact.js";
+import UpdateUser from "./components/updateUser/UpdateUser.js";
 // import SocketApp from "./components/socket/SocketApp.js"
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 
 function App() {
 
-  const socket = io("http://localhost:8000");
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected", socket.id);
-    });
+  // const socket = io("http://localhost:8000");
+  // useEffect(() => {
+  //   socket.on("connect", () => {
+  //     console.log("connected", socket.id);
+  //   });
 
-    socket.on("message", (msg) => {
-      console.log(msg);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, [socket]);
+  //   socket.on("message", (msg) => {
+  //     console.log(msg);
+  //   });
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [socket]);
 
 
   return (
@@ -43,8 +44,9 @@ function App() {
           />
           <Route path="/friend/request" element={<FriendRequest />} />
           <Route path="/friend/all" element={<AllFriends />} />
-          <Route path="/message" element={<Message />} />
+          <Route path="/message/:userId" element={<Message />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/update/profile" element={<UpdateUser />} />
         </Routes>
       </Router>
     </Fragment>

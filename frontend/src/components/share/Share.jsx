@@ -5,27 +5,31 @@ import { PermMedia, Label, Room, EmojiEmotions } from "@mui/icons-material";
 import axios from "axios";
 import { serverUrl } from "../../constants";
 import { useAlert } from "react-alert";
+import FeelingDialog from "./FeelingDialog";
 
-export default function Share({ user }) {
+export default function Share({ user, myId }) {
   const alert = useAlert();
+  // console.log(user?._id,myId,user?._id===myId);
   const [description, setDescription] = useState("");
   const [images, setImages] = useState(null);
 
   const handleImageChange = (e) => {
-    console.log("res is ",e.target.files)
-    const image = e.target.files[0];
-    console.log("image is ",image)
-    setImages(image);
+    let image = e.target.files[0];
+    const Reader = new FileReader();
+    image = Reader.readAsDataURL(image);
+    if (Reader.readyState === 2) {
+      setImages(image);
+    }
   };
 
   const handleCreatePost = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
       `${serverUrl}/post/createPost`,
-      { description, images },
+      { description },
       { withCredentials: true }
     );
-    console.log("reso is ",data)
+    console.log("reso is ", data);
     if (data?.success) {
       alert.success(data?.message);
     } else {
@@ -33,6 +37,26 @@ export default function Share({ user }) {
     }
   };
 
+  const followHandler = async () => {
+    const { data } = await axios.post(
+      `${serverUrl}/user/follow-unFollow/${user?._id}`,
+      null,
+      { withCredentials: true }
+    );
+    if (data?.success) {
+      alert.success(data?.message);
+    } else {
+      alert.error(data?.message);
+    }
+  };
+  const [isFeelingDialogOpen,setFeelingDialogOpen]=useState(false);
+
+  const closeFeelingDialog=()=>[
+    setFeelingDialogOpen(false)
+  ]
+  const openFeelingDialog =()=>{
+    setFeelingDialogOpen(true)
+  }
 
   return (
     <div className="share">
@@ -71,7 +95,10 @@ export default function Share({ user }) {
         <div className="shareBottom">
           <div className="shareOptions">
             <div className="shareOption">
-              <PermMedia htmlColor="tomato" className="shareIcon" />
+              <PermMedia
+                htmlColor="tomato"
+                className="shareIcon"
+              />
               <label className="file">
                 <input
                   type="file"
@@ -82,12 +109,6 @@ export default function Share({ user }) {
               </label>
             </div>
           </div>
-          {/* <div className="shareOptions">
-            <div className="shareOption">
-              <Label htmlColor="blue" className="shareIcon" />
-              <span className="shareOptionText">Tag</span>
-            </div>
-          </div> */}
           <div className="shareOptions">
             <div className="shareOption">
               <Room htmlColor="green" className="shareIcon" />
@@ -95,7 +116,7 @@ export default function Share({ user }) {
             </div>
           </div>
           <div className="shareOptions">
-            <div className="shareOption">
+            <div className="shareOption" onClick={openFeelingDialog}>
               <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
               <span className="shareOptionText">Feelings</span>
             </div>
@@ -103,7 +124,17 @@ export default function Share({ user }) {
           <button className="shareButton" onClick={handleCreatePost}>
             Share
           </button>
+          <button
+            className="shareButton"
+            disabled={user?._id === myId ? true : false}
+            onClick={followHandler}
+            style={{backgroundColor:"#1877f2"}}
+          >
+            {user?.followers.includes(myId) ? "Following " : "Follow "}
+            {user?.followers.length}
+          </button>
         </div>
+        <FeelingDialog open={isFeelingDialogOpen} onClose={closeFeelingDialog}/>
       </div>
     </div>
   );

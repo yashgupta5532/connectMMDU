@@ -60,20 +60,28 @@
 
 
 .message-body-container{
-    background-image: url("https://img.freepik.com/free-vector/idea_24908-54076.jpg?size=626&ext=jpg&ga=GA1.1.993883846.1702032095");
+    background-image: url("https://imgs.search.brave.com/dnBpniNkPnGwA1tcTMe_Wfj27PFyvo-0N4LnbLFQEuk/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMTI4/ODA5OS5qcGc");
     height: 77vh;
     background-position: center;
     background-size: cover;
 }
 
-.message-body-container .message{
-    /* max-width: 30vw; */
-    max-width: fit-content;
+.message-body-container .message ul{
+    display: flex;
+    flex-direction: column;
+    max-width: 20vw;
+    word-break: break-all;
+}
+
+.message-body-container .message .text-msg{
     word-wrap: break-word;
-    padding: 2vmax;
+    padding: 1vmax;
     background-color: #b2b2b2;
-    border-radius: 30px;
-    /* color: white; */
+    border-radius: 15px;
+    text-align: center;
+    justify-content: space-evenly;
+    list-style: none;
+    margin: 1vmax;
 }
 
 
@@ -111,4 +119,13 @@
     background-color: rgb(214, 229, 234);
     padding: 2vmax;
     text-align: center;
+}
+
+.left{
+    float: left;
+    /* background-color: green; */
+}
+.right{
+    float: right;
+    /* background-color: rgb(128, 117, 0); */
 }

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import axios from "axios";
 import {serverUrl} from "../../../constants.js"
+import { Link } from "react-router-dom";
 
 const Suggestion = () => {
   const alert = useAlert();
@@ -65,7 +66,8 @@ const Suggestion = () => {
       <h1 className="h-center">People you may Know !</h1>
       <div className="f-wrap">
         {suggestedFriends?.map((friend) => (
-          <div key={friend?._id} className="friend-request-container">
+          <Link to={`/profile/${friend?._id}`} key={friend?._id} >
+            <div className="friend-request-container">
             <div className="friend-user-container">
               <div className="images">
                 <img src={friend?.avatar} alt="img" />
@@ -85,15 +87,16 @@ const Suggestion = () => {
                   ? "Cancel Request"
                   : "Add Friend"}
               </button>
-              <button
+              {/* <button
                 className={`btn-confirm ${
                   sentFriendRequests[friend?._id] ? "hidden" : ""
                 }`}
               >
                 Remove
-              </button>
+              </button> */}
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </Fragment>

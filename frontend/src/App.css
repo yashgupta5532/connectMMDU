@@ -9,6 +9,9 @@ a{
     /* text-align: start;
     align-items: self-start; */
 }
+li{
+    list-style: none;
+}
 .hidden{
     display: none;
 }

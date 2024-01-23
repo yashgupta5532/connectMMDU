@@ -8,10 +8,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 export const createPost = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   let imagesLocalPath;
+  console.log('req files',req.files,Array.isArray(req.files));
   if (req.files && Array.isArray(req.files)) {
     imagesLocalPath = req.files[0].path;
   }
-  // console.log('file path',imagesLocalPath);
+  console.log('file path',imagesLocalPath);
 
   // Validate file size
   const maxFileSize = 50 * 1024 * 1024; // 50 MB
@@ -21,7 +22,7 @@ export const createPost = asyncHandler(async (req, res) => {
 
   const image = await uploadOnCloudinary(imagesLocalPath);
 
-  // console.log("file path after uploading", image);
+  console.log("file path after uploading", image);
 
   if (!image?.url) {
     throw new ApiError(401, "Error while uploading images");

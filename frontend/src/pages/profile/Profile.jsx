@@ -20,25 +20,25 @@ export default function Profile() {
   const defaultCoverImage =
     "https://imgs.search.brave.com/nday_SBE87w0EnZwLFKAvAvEKX6UQZA5RNjU4dX1Geg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzE0LzRl/Lzc2LzE0NGU3NjM2/N2EwNzA0NWI3ODQ1/ZmIwYTY2OWQ3OGNh/LmpwZw";
 
-  // const [myDetails, setMyDetails] = useState(null);
+  const [myDetails, setMyDetails] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchMyDetials = async () => {
-  //     try {
-  //       const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
-  //         withCredentials: true,
-  //       });
-  //       if (data?.success) {
-  //         setMyDetails(data?.data);
-  //       } else {
-  //         alert.error(data?.message);
-  //       }
-  //     } catch (error) {
-  //       alert.error(error);
-  //     }
-  //   };
-  //   fetchMyDetials();
-  // }, [alert]);
+  useEffect(() => {
+    const fetchMyDetials = async () => {
+      try {
+        const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
+          withCredentials: true,
+        });
+        if (data?.success) {
+          setMyDetails(data?.data);
+        } else {
+          alert.error(data?.message);
+        }
+      } catch (error) {
+        alert.error(error);
+      }
+    };
+    fetchMyDetials();
+  }, [alert]);
 
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function Profile() {
 
   return (
     <>
-      <Topbar avatar={user?.avatar} />
+      <Topbar user={user} />
       <div className="profile">
         <Sidebar />
         <div className="profileRight">
@@ -100,7 +100,7 @@ export default function Profile() {
           <div className="profilerightBottom">
             <div className="feed">
               <div className="feedWrapper">
-                <Share user={user} />
+                <Share user={user} myId={myDetails?._id}/>
                 {myPosts &&
                   myPosts.map((post) => (
                     <Post

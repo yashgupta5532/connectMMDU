@@ -44,12 +44,14 @@ router.route("/register").post(
 router.route("/login").post(loginUser);
 
 router.route("/logout").post(verifyJwt, logoutUser);
-router.route("/avatar").patch(verifyJwt,upload.single("avatar"),updateAvatar);
-router.route("/coverImage").patch(verifyJwt,upload.single("coverImage"),updateCoverImage);
+router.route("/avatar").patch(verifyJwt, upload.single("avatar"), updateAvatar);
+router
+  .route("/coverImage")
+  .patch(verifyJwt, upload.single("coverImage"), updateCoverImage);
 
 router.route("/search/:keyword").get(searchUser);
-router.route("/userDetails/:id").get(verifyJwt,getUserDetails)
-router.route("/myDetails").get(verifyJwt,getMyDetails)
+router.route("/userDetails/:id").get(verifyJwt, getUserDetails);
+router.route("/myDetails").get(verifyJwt, getMyDetails);
 
 router.route("/sendFriendRequest/:id").post(verifyJwt, sendFriendRequest);
 router.route("/cancelFriendRequest/:id").post(verifyJwt, cancelFriendRequest);
@@ -59,21 +61,14 @@ router
   .put(verifyJwt, acceptRejectFriendRequest);
 
 router.route("/find/matchers").get(verifyJwt, matchers);
-router.route("/follow-unfollow/:id").post(verifyJwt,followUnfollowUser);
+router.route("/follow-unfollow/:id").post(verifyJwt, followUnfollowUser);
 
-router.route("/update/profile").put(
-  upload.fields([
-    {
-      name: "avatar",
-      maxCount: 1,
-    },
-  ]),
-  verifyJwt,
-  updateProfile
-);
+router
+  .route("/update/profile")
+  .put(upload.single("avatar"), verifyJwt, updateProfile);
 router.route("/all/friends").get(verifyJwt, getAllFriends);
 
-router.route("/all/online/friends").get(verifyJwt,getAllOnlineUsers);
+router.route("/all/online/friends").get(verifyJwt, getAllOnlineUsers);
 
 router.route("/all/friends/requests").get(verifyJwt, getAllFriendRequestsUsers);
 
@@ -81,7 +76,7 @@ router.route("/delete/profile").delete(deleteProfile); //user
 
 router.route("/delete/profile/admin/:id").delete(isAdmin, deleteProfileAdmin); //Admin
 
-router.route("/block/:id").put(blockUserAccount); //Admin
+router.route("/block/:id").put(verifyJwt,isAdmin,blockUserAccount); //Admin
 
 router.route("/un-block/:id").put(unBlockUserAccount); //automatically done in 24 hours
 

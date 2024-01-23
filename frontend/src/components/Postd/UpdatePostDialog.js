@@ -15,6 +15,7 @@ const UpdatePostDialog = ({
   description,
 }) => {  
   const alert = useAlert();
+  
   const handleDeletePost = async () => {
     const deletemsg=prompt("Do you really want to delete post","yes/no");
     if(deletemsg === "yes"){
@@ -39,7 +40,7 @@ const UpdatePostDialog = ({
         PaperProps={{ style: { minWidth: "80vw", minHeight: "80vh" } }}
       >
         <DialogContent>
-          <div className="hidden ">
+          <div className="delete-icon">
             <div>
               <div className="delete-post" onClick={handleDeletePost}>
                 <DeleteIcon

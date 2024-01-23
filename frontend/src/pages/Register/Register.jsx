@@ -93,7 +93,7 @@ const Register = () => {
       formDataToSend.append("email", formData.email);
       formDataToSend.append("password", formData.password);
       formDataToSend.append("contactNo", formData.contactNo);
-      formDataToSend.append("DOB", formData.DOB.substring(0,11));
+      formDataToSend.append("DOB", formData.DOB.substring(0, 11));
       formDataToSend.append("martialStatus", formData.martialStatus);
       formDataToSend.append("gender", formData.gender);
       formDataToSend.append("department", formData.department);

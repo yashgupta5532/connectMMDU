@@ -5,7 +5,7 @@ import { useAlert } from "react-alert";
 import "./closeFriend.css";
 import { Link } from "react-router-dom";
 
-export default function CloseFriend() {
+export default function CloseFriend({ message = false }) {
   const [allFriends, setAllFriends] = useState([]);
   const alert = useAlert();
   useEffect(() => {
@@ -26,16 +26,17 @@ export default function CloseFriend() {
     };
     fetchAllFriends();
   }, []);
+
   return (
     <Fragment>
       {allFriends &&
         allFriends.map((friend) => (
-         <Link to={`/profile/${friend?._id}`} key={friend?._id}>
-           <li className="sidebarFriend">
-            <img className="sidebarFriendImg" src={friend?.avatar} alt="" />
-            <span className="sidearFriendName">{friend?.username}</span>
-          </li>
-         </Link>
+          <Link to={`${message ? `/message/${friend?._id}` : `/profile/${friend?._id}`}`} key={friend?._id}>
+            <li className="sidebarFriend" key={friend?._id}>
+              <img className="sidebarFriendImg" src={friend?.avatar} alt="" />
+              <span className="sidearFriendName">{friend?.username}</span>
+            </li>
+          </Link>
         ))}
     </Fragment>
   );

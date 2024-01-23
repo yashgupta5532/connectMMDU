@@ -12,14 +12,15 @@ import {
   School,
 } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Users } from "../../dummyData";
 import CloseFriend from "../closeFriend/CloseFriend";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import Diversity1Icon from '@mui/icons-material/Diversity1';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants";
 import { useAlert } from "react-alert";
 
-export default function Sidebar() {
+export default function Sidebar({userId}) {
   const [isFriendMenuOpen, setIsFriendMenuOpen] = useState(false);
   const alert = useAlert();
   const toggleFriendMenu = () => {
@@ -46,45 +47,45 @@ export default function Sidebar() {
     <div className="sidebar">
       <div className="sidebarWrapper">
         <ul className="sidebarList">
-          <li className="sidebarListItem">
+          <li className="sidebarListItem active">
             <RssFeed className="sidebarIcon" />
             <span className="sidebarListItemText">News-Feed</span>
           </li>
           <li className="sidebarListItem" onClick={toggleFriendMenu}>
-            <RssFeed className="sidebarIcon" />
+            <Diversity1Icon className="sidebarIcon" />
             <span className="sidebarListItemText">Friend</span>
           </li>
           {isFriendMenuOpen && (
             <ul className="nestedList">
               <Link to="/friend/request">
                 <li className="nestedListItem sidebarListItem">
-                  <RssFeed className="sidebarIcon" />
+                  <PersonAddIcon className="sidebarIcon" />
                   <span className="sidebarListItemText">Friend Request</span>
                 </li>
               </Link>
               <Link to="/friend/all">
                 <li className="nestedListItem sidebarListItem">
-                  <RssFeed className="sidebarIcon" />
+                <Group className="sidebarIcon" />
                   <span className="sidebarListItemText">Friends</span>
                 </li>
               </Link>
               {/* Add more nested items as needed */}
             </ul>
           )}
-          <Link to="/message">
+          <Link to={`/message/${userId}`}>
             <li className="sidebarListItem">
               <Chat className="sidebarIcon" />
               <span className="sidebarListItemText">Chats</span>
             </li>
           </Link>
-          <li className="sidebarListItem">
+          {/* <li className="sidebarListItem">
             <PlayCircleFilledOutlined className="sidebarIcon" />
             <span className="sidebarListItemText">Videos</span>
           </li>
           <li className="sidebarListItem">
             <Group className="sidebarIcon" />
             <span className="sidebarListItemText">Groups</span>
-          </li>
+          </li> */}
           <Link to="/update/profile">
             <li className="sidebarListItem">
               <Bookmark className="sidebarIcon" />

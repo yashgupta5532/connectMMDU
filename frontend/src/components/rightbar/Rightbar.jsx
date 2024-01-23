@@ -17,11 +17,7 @@ export default function Rightbar({ user }) {
           <img className="birthdayImg" src="assets/gift.png" alt="" />
           <span className="birthdayText">
             <div className="rightbarFollowing">
-              <img
-                src={user?.avatar}
-                alt=""
-                className="rightbarFollowingImg"
-              />
+              <img src={user?.avatar} alt="" className="rightbarFollowingImg" />
               <span className="rightbarFollowingname">{user?.username}</span>
             </div>
           </span>
@@ -29,7 +25,7 @@ export default function Rightbar({ user }) {
         <img className="rignhtbarAd" src="assets/ad.png" alt="" />
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarfriendList">
-            <Online />
+          <Online />
         </ul>
       </>
     );
@@ -119,15 +115,15 @@ export default function Rightbar({ user }) {
             allFriends.map((friend) => (
               <Link to={`/profile/${friend?._id}`} key={friend?._id}>
                 <div className="rightbarFollowing">
-                <img
-                  src={friend?.avatar}
-                  alt=""
-                  className="rightbarFollowingImg"
-                />
-                <span className="rightbarFollowingname">
-                  {friend?.username}
-                </span>
-              </div>
+                  <img
+                    src={friend?.avatar}
+                    alt={friend?.username} 
+                    className="rightbarFollowingImg"
+                  />
+                  <span className="rightbarFollowingname">
+                    {friend?.username}
+                  </span>
+                </div>
               </Link>
             ))}
         </div>

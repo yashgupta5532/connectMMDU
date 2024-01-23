@@ -505,15 +505,6 @@ export const matchers = asyncHandler(async (req, res) => {
 export const updateProfile = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const updatedUserInfo = req.body;
-  // console.log("updatedinfo",updatedUserInfo)
-  // if (updatedUserInfo.avatar) {
-  //   const avatarLocalFilePath = req.files ? req.files.avatar[0].path : null;
-  //   console.log("avatar url", avatarLocalFilePath);
-  //   const avatar = await uploadOnCloudinary(avatarLocalFilePath);
-  //   console.log("avatar ", avatar);
-  //   updatedUserInfo.avatar = avatar.url;
-  // }
-
   const updatedUser = await User.findByIdAndUpdate(userId, updatedUserInfo, {
     new: true,
   });

@@ -33,24 +33,21 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
     if (description !== desc) {
       updatedData.description = description;
     }
-    if (images !== image) {
-      updatedData.images = images;
-    }
 
-    if(images !== image){
+    if (images !== image) {
       const { data } = await axios.put(
         `${serverUrl}/post/update-post/image/${postId}`,
-        updatedData,
+        {},
         { withCredentials: true }
-      );
-      console.log("image is",data);
+      )
+      console.log("image is", data);
       if (data?.success) {
         alert.success(data?.message);
       } else {
         alert.error(data?.message);
       }
     }
-    
+
     if (Object.keys(updatedData).length > 0) {
       const { data } = await axios.put(
         `${serverUrl}/post/update-post/${postId}`,
@@ -63,9 +60,8 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
         alert.error(data?.message);
       }
     }
-    
   };
-  
+
   return (
     <Fragment>
       {loading ? (
@@ -82,7 +78,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
                 <input
                   type="file"
                   // accept="*"
-                  accept="image/*"
+                  // accept="image/*"
                   onChange={handleImageChange}
                 />
               </div>

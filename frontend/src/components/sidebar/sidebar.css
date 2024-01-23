@@ -16,6 +16,7 @@
 
 ::-webkit-scrollbar-thumb {
     background-color: rgb(179, 179, 179);
+    background-color: #1877f2;
 }
 
 .sidebarWrapper {
@@ -32,6 +33,17 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    /* background-color: lightgray; */
+    background-color: lightblue;
+    /* background-color: #1877f2; */
+    padding: 0.75vmax;
+    border-radius: 5px;
+}
+
+.sidebarListItem:hover ,.active{
+    /* background-color: rgba(86, 83, 83, 0.794); */
+    background-color: #1877f2;
+    color: white;
 }
 
 .sidebarIcon {

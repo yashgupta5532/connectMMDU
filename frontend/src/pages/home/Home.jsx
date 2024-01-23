@@ -3,14 +3,14 @@ import Topbar from "../../components/topbar/Topbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Feed from "../../components/feed/Feed.jsx";
 import Rightbar from "../../components/rightbar/Rightbar.jsx";
-import "./Home.css"
+import "./Home.css";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 
 export default function Home() {
-    const [user, setUser] = useState(null);
-  
+  const [user, setUser] = useState(null);
+
   const alert = useAlert();
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -18,7 +18,7 @@ export default function Home() {
         const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
           withCredentials: true,
         });
-        console.log("data is ",data);
+        console.log("data is ", data);
         if (data?.success) {
           setUser(data?.data);
         } else {
@@ -30,14 +30,15 @@ export default function Home() {
     };
     fetchMyInfo();
   }, [alert]);
-    return (
-        <>
-        <Topbar user={user}/>
-        <div className="homeContainer">
-            <Sidebar/>
-            <Feed user={user}/>
-            <Rightbar user={user}/>
-        </div>
-        </>
-    )
+
+  return (
+    <>
+      <Topbar user={user} />
+      <div className="homeContainer">
+        <Sidebar userId={user?._id} />
+        <Feed user={user} />
+        <Rightbar user={user} />
+      </div>
+    </>
+  );
 }

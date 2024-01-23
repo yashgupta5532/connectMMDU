@@ -5,7 +5,7 @@ import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
 
-export default function Online() {
+export default function Online({ message = false }) {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const alert = useAlert();
   useEffect(() => {
@@ -35,15 +35,24 @@ export default function Online() {
       <div className="online-users">
         {onlineUsers &&
           onlineUsers.map((user) => (
-           <Link to={`/profile/${user?._id}`} key={user?._id}>
-             <li className="rightbarFriend" >
-              <div className="rightbarProfileImgContainer">
-                <img className="rightbarProfileImg" src={user?.avatar} alt="" />
-                <span className="rightbarOnline"></span>
-              </div>
-              <span className="rightbarUsername">{user?.username}</span>
-            </li>
-           </Link>
+            <Link
+              to={`${
+                message ? `/message/${user?._id}` : `/profile/${user?._id}`
+              }`}
+              key={user?._id}
+            >
+              <li className="rightbarFriend">
+                <div className="rightbarProfileImgContainer">
+                  <img
+                    className="rightbarProfileImg"
+                    src={user?.avatar}
+                    alt=""
+                  />
+                  <span className="rightbarOnline"></span>
+                </div>
+                <span className="rightbarUsername">{user?.username}</span>
+              </li>
+            </Link>
           ))}
       </div>
     </Fragment>

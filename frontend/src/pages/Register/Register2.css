@@ -129,8 +129,12 @@
   }
   
 .register-button{
-    width: 10vw;
-    padding: 1vmax;
+    /* width: 40%; */
+    display: flex;
+    padding: 2vmax;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
     border-radius: 10px;
     color: white;
     font-size: 1.3rem;

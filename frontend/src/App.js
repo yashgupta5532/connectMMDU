@@ -10,6 +10,8 @@ import AllFriends from "./components/Friends/AllFriends/AllFriends.js";
 import Message from "./components/Message/MessageHeader.js";
 import Contact from "./components/Contact/Contact.js";
 import UpdateUser from "./components/updateUser/UpdateUser.js";
+import AdminDashboard from "./components/Admin/AdminDashboard.js";
+import ContactInfo from "./components/Admin/ContactInfo.js";
 // import SocketApp from "./components/socket/SocketApp.js"
 // import { io } from "socket.io-client";
 
@@ -47,6 +49,8 @@ function App() {
           <Route path="/message/:userId" element={<Message />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/update/profile" element={<UpdateUser />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
+          <Route path="/admin/all-contact" element={<ContactInfo/>}/>
         </Routes>
       </Router>
     </Fragment>

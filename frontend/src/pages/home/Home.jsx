@@ -35,7 +35,7 @@ export default function Home() {
     <>
       <Topbar user={user} />
       <div className="homeContainer">
-        <Sidebar userId={user?._id} />
+        <Sidebar user={user}/>
         <Feed user={user} />
         <Rightbar user={user} />
       </div>

@@ -84,3 +84,10 @@
     border-radius: 5px;
     object-fit: cover;
 }
+
+
+@media screen and (max-width:980px) {
+    .rightbar{
+        display: none;
+    }
+}

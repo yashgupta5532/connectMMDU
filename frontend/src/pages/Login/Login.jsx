@@ -37,9 +37,9 @@ export default function Login() {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">NewSocial</h3>
+          <h3 className="loginLogo">Connect-MMDU</h3>
           <span className="loginDesc">
-            Connect with friends and the world around you on NewSocial
+            Connect with friends and the world around you on Connect-MMDU
           </span>
         </div>
         <div className="loginRight">

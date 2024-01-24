@@ -1,0 +1,122 @@
+
+.admin-dashboard {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .contact-info{
+    display: flex;
+    float: right;
+    position: relative;
+    right: -10vw;
+    top: -9vh;
+    text-decoration: none;
+    font-size: 2vmax;
+    font-weight: bold;
+  }
+  
+  .admin-dashboard h1{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .admin-dashboard ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .admin-dashboard li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* height: 30vh; */
+  }
+  
+  .post-info {
+    flex: 1;
+  }
+  
+  .post-info img{
+    width: 5vmax;
+    /* height: 30vh; */
+    border-radius: 20px solid black;
+  }
+  .post-info .item img{
+    margin-left: 25px;
+    border-radius: 20%;
+  }
+  .post-info h4 {
+    margin: 0;
+    font-size: 25px;
+    color: #333;
+  }
+  
+  .post-info p {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #666;
+  }
+  
+  .post-info a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .admin-dashboard .item a:hover {
+    text-decoration: underline;
+  }
+  
+  .div-info img {
+    margin-left: 20px;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 5px;
+  }
+  
+  .post-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .post-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .post-actions button.approve-button {
+    background-color: #28a745;
+    color: #fff;
+    margin-bottom: 10px;
+
+  }
+  
+  .post-actions button.reject-button {
+    background-color: #dc3545;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .post-actions button.delete-button {
+    background-color: tomato;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .post-actions button:hover {
+    opacity: 0.9;
+  }
+  

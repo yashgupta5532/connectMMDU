@@ -11,24 +11,24 @@ export default function Share({ user, myId }) {
   const alert = useAlert();
   // console.log(user?._id,myId,user?._id===myId);
   const [description, setDescription] = useState("");
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState([]);
 
   const handleImageChange = (e) => {
-    let image = e.target.files[0];
-    const Reader = new FileReader();
-    image = Reader.readAsDataURL(image);
-    if (Reader.readyState === 2) {
-      setImages(image);
-    }
+    const selectedImages = e.target.files;
+    setImages(selectedImages);
   };
-
+  
   const handleCreatePost = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post(
-      `${serverUrl}/post/createPost`,
-      { description },
-      { withCredentials: true }
-    );
+    const formData = new FormData();
+    formData.append("description", description);
+    for (let i = 0; i < images.length; i++) {
+      formData.append("images", images[i]);
+    }
+   
+    const { data } =  await axios.post(`${serverUrl}/post/createPost`, formData, {
+      withCredentials: true,
+    });
     console.log("reso is ", data);
     if (data?.success) {
       alert.success(data?.message);
@@ -49,14 +49,12 @@ export default function Share({ user, myId }) {
       alert.error(data?.message);
     }
   };
-  const [isFeelingDialogOpen,setFeelingDialogOpen]=useState(false);
+  const [isFeelingDialogOpen, setFeelingDialogOpen] = useState(false);
 
-  const closeFeelingDialog=()=>[
-    setFeelingDialogOpen(false)
-  ]
-  const openFeelingDialog =()=>{
-    setFeelingDialogOpen(true)
-  }
+  const closeFeelingDialog = () => [setFeelingDialogOpen(false)];
+  const openFeelingDialog = () => {
+    setFeelingDialogOpen(true);
+  };
 
   return (
     <div className="share">
@@ -92,49 +90,52 @@ export default function Share({ user, myId }) {
           />
         </div>
         <hr className="shareHr" />
-        <div className="shareBottom">
-          <div className="shareOptions">
-            <div className="shareOption">
-              <PermMedia
-                htmlColor="tomato"
-                className="shareIcon"
-              />
-              <label className="file">
-                <input
-                  type="file"
-                  required
-                  name="images"
-                  onChange={handleImageChange}
-                />
-              </label>
+        <form onSubmit={handleCreatePost}>
+          <div className="shareBottom">
+            <div className="shareOptions">
+              <div className="shareOption">
+                <img src={images[0]} alt="" />
+                <PermMedia htmlColor="tomato" className="shareIcon" />
+                <label className="file">
+                  <input
+                    type="file"
+                    required
+                    name="images"
+                    onChange={handleImageChange}
+                  />
+                </label>
+              </div>
             </div>
-          </div>
-          <div className="shareOptions">
-            <div className="shareOption">
-              <Room htmlColor="green" className="shareIcon" />
-              <span className="shareOptionText">Location</span>
+            <div className="shareOptions">
+              <div className="shareOption">
+                <Room htmlColor="green" className="shareIcon" />
+                <span className="shareOptionText">Location</span>
+              </div>
             </div>
-          </div>
-          <div className="shareOptions">
-            <div className="shareOption" onClick={openFeelingDialog}>
-              <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-              <span className="shareOptionText">Feelings</span>
+            <div className="shareOptions">
+              <div className="shareOption" onClick={openFeelingDialog}>
+                <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
+                <span className="shareOptionText">Feelings</span>
+              </div>
             </div>
+            <button className="shareButton" type="submit">
+              Share
+            </button>
+            <button
+              className="shareButton"
+              disabled={user?._id === myId ? true : false}
+              onClick={followHandler}
+              style={{ backgroundColor: "#1877f2" }}
+            >
+              {user?.followers.includes(myId) ? "Following " : "Follow "}
+              {user?.followers.length}
+            </button>
           </div>
-          <button className="shareButton" onClick={handleCreatePost}>
-            Share
-          </button>
-          <button
-            className="shareButton"
-            disabled={user?._id === myId ? true : false}
-            onClick={followHandler}
-            style={{backgroundColor:"#1877f2"}}
-          >
-            {user?.followers.includes(myId) ? "Following " : "Follow "}
-            {user?.followers.length}
-          </button>
-        </div>
-        <FeelingDialog open={isFeelingDialogOpen} onClose={closeFeelingDialog}/>
+        </form>
+        <FeelingDialog
+          open={isFeelingDialogOpen}
+          onClose={closeFeelingDialog}
+        />
       </div>
     </div>
   );

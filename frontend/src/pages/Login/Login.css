@@ -87,3 +87,15 @@
     text-decoration: none;
     
 }
+
+
+@media screen and (max-width:600px){
+    .loginWrapper{
+        display: flex;
+        flex-direction: column;
+        padding: 1vmax;
+    }
+    .loginLeft{
+        margin-bottom: 4vmax;
+    }
+}

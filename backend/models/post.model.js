@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema(
     title: {
       type: String,
       // maxLength: [200, "title cannot be greater than 200 chars"],
-      required: [true, "title is required"],
+      // required: [true, "title is required"],
     },
     description: {
       type: String,

@@ -21,7 +21,7 @@ import { upload } from "../middleware/multer.middleware.js";
 
 const router = express.Router();
 
-router.route("/createPost").post(verifyJwt, upload.array("images", 4), createPost); 
+router.route("/createPost").post(verifyJwt, upload.array("images"), createPost);
 
 router.route("/admin").get(verifyJwt,isAdmin, Admin); //Admin route
 router.route("/myposts/:id").get(verifyJwt, getMyPosts);
@@ -29,8 +29,8 @@ router.route("/all-posts").get(verifyJwt, getAllPosts);
 router.route("/:id").get(verifyJwt, getSinglePost);
 router.route("/like-dislike/:id").post(verifyJwt, likeDislike);
 router.route("/comment/:id").post(verifyJwt, commentOnPost);
-router.route("/update-post/:id").put(verifyJwt,upload.single("images"), updatePost);
-router.route("/update-post/image/:id").put(verifyJwt,upload.single("images"), updatePostImage);
+router.route("/update-post/:id").put(verifyJwt,upload.array("images"), updatePost);
+router.route("/update-post/image/:id").put(verifyJwt, upload.array("images"), updatePostImage);
 router.route("/delete/:id").delete(verifyJwt, deletePost);
 router.route("/search/:keyword").get(SearchPost);
 router.route("/all/pending").get(verifyJwt,isAdmin, PendingPosts); //admin need to add admin middleware

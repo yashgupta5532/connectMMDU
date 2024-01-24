@@ -13,54 +13,83 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
   const [description, setDescription] = useState(desc);
   const alert = useAlert();
 
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files;
+  //   const Reader = new FileReader();
+  //   Reader.readAsDataURL(file);
+  //   Reader.onload = () => {
+  //     if (Reader.readyState === 2) {
+  //       setImage(Reader.result);
+  //     }
+  //   };
+  // };
+
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const Reader = new FileReader();
-    Reader.readAsDataURL(file);
-    Reader.onload = () => {
-      if (Reader.readyState === 2) {
-        setImage(Reader.result);
-      }
-    };
+    const selectedImages = e.target.files;
+    setImage(selectedImages);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = {};
+  
     if (title !== titled) {
       updatedData.title = title;
     }
     if (description !== desc) {
       updatedData.description = description;
     }
-
+  
+    // Handle image update
     if (images !== image) {
-      const { data } = await axios.put(
-        `${serverUrl}/post/update-post/image/${postId}`,
-        {},
-        { withCredentials: true }
-      )
-      console.log("image is", data);
-      if (data?.success) {
-        alert.success(data?.message);
-      } else {
-        alert.error(data?.message);
+      const formData = new FormData();
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i]);
+      }
+  
+      try {
+        const { data } = await axios.put(
+          `${serverUrl}/post/update-post/image/${postId}`,
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log("image is", data);
+        if (data?.success) {
+          alert.success(data?.message);
+        } else {
+          alert.error(data?.message);
+        }
+      } catch (error) {
+        console.error("Error updating image:", error);
+        alert.error("Error updating image. Please try again.");
       }
     }
-
+  
+    // Handle other updates
     if (Object.keys(updatedData).length > 0) {
-      const { data } = await axios.put(
-        `${serverUrl}/post/update-post/${postId}`,
-        updatedData,
-        { withCredentials: true }
-      );
-      if (data?.success) {
-        alert.success(data?.message);
-      } else {
-        alert.error(data?.message);
+      try {
+        const { data } = await axios.put(
+          `${serverUrl}/post/update-post/${postId}`,
+          updatedData,
+          { withCredentials: true }
+        );
+        if (data?.success) {
+          alert.success(data?.message);
+        } else {
+          alert.error(data?.message);
+        }
+      } catch (error) {
+        console.error("Error updating post:", error);
+        alert.error("Error updating post. Please try again.");
       }
     }
   };
+  
 
   return (
     <Fragment>
@@ -77,8 +106,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
                 {images && <img src={images} alt="post" />}
                 <input
                   type="file"
-                  // accept="*"
-                  // accept="image/*"
+                  name="images"
                   onChange={handleImageChange}
                 />
               </div>

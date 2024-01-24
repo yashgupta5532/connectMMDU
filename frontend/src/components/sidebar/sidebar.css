@@ -4,6 +4,7 @@
     overflow-y: scroll;
     position: sticky;
     top: 50px;
+    z-index: 100;
 }
 
 ::-webkit-scrollbar {
@@ -68,3 +69,36 @@
     list-style: none;
 }
 
+
+@media screen and (max-width: 600px) {
+    .sidebarList span {
+      display: block;
+      /* visibility: hidden;  */
+    }
+
+    .sidebarListItem {
+      background-color: transparent;
+      padding: 0.75vmax 15px; /* Adjust padding for responsiveness */
+    }
+  
+    .sidebarListItem:hover,
+    .active {
+      background-color: transparent;
+      color: #1877f2;
+    }
+    .sidebarList{
+        margin-left: -2vmax;
+    }
+    
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+  }
+  
+
+@media screen and (max-width:557px) {
+    .sidebar{
+        z-index: 100;
+    }
+
+}

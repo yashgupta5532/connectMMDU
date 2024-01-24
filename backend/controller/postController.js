@@ -6,33 +6,33 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 export const createPost = asyncHandler(async (req, res) => {
-  const { title, description } = req.body;
-  let imagesLocalPath;
-  console.log('req files',req.files,Array.isArray(req.files));
-  if (req.files && Array.isArray(req.files)) {
-    imagesLocalPath = req.files[0].path;
+  const { description } = req.body;
+  
+  // Validate if images are present
+  if (!req.files || req.files.length === 0) {
+    throw new ApiError(401, "At least one image file is required");
   }
-  console.log('file path',imagesLocalPath);
 
-  // Validate file size
+  const imagesLocalPaths = req.files.map((file) => file.path);
+
+  // Validate file size for each image
   const maxFileSize = 50 * 1024 * 1024; // 50 MB
-  if (req.files[0].size > maxFileSize) {
-    throw new ApiError(400, "File size exceeds the allowed limit.");
+  for (const file of req.files) {
+    if (file.size > maxFileSize) {
+      throw new ApiError(400, "File size exceeds the allowed limit.");
+    }
   }
 
-  const image = await uploadOnCloudinary(imagesLocalPath);
+  const uploadedImages = await Promise.all(
+    imagesLocalPaths.map((localPath) => uploadOnCloudinary(localPath))
+  );
 
-  console.log("file path after uploading", image);
-
-  if (!image?.url) {
-    throw new ApiError(401, "Error while uploading images");
-  }
+  const imageUrls = uploadedImages.map((image) => image?.url);
 
   const newPost = await Post.create({
-    title,
     description,
     owner: req.user._id,
-    images: image?.url || "",
+    images: imageUrls || [],
   });
   const createdPost = await Post.findById(newPost._id);
   if (!createdPost) {
@@ -138,27 +138,40 @@ export const updatePost = asyncHandler(async (req, res) => {
 
 export const updatePostImage = asyncHandler(async (req, res) => {
   const postId = req.params.id;
-  const imagesLocalPath = req.file?.path;
-  if (!imagesLocalPath) {
-    throw new ApiError(401, "image is required");
-  }
-  const image = await uploadOnCloudinary(imagesLocalPath);
-  if (!image.url) {
-    throw new ApiError(401, "Error while uploading image");
-  }
-  const updatedPost = await Post.findByIdAndUpdate(
-    postId,
-    {
-      $set: {
-        images: image?.url,
+  console.log(req.files)
+  const imagesLocalPath = req.files[0]?.path;
+
+  try {
+    if (!imagesLocalPath) {
+      throw new ApiError(401, "Image is required");
+    }
+    console.log(imagesLocalPath)
+    const image = await uploadOnCloudinary(imagesLocalPath);
+    console.log("resonse",image)
+
+    if (!image?.url) {
+      throw new ApiError(401, "Error while uploading image");
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $set: {
+          images: image?.url,
+        },
       },
-    },
-    { new: true }
-  );
-  return res.status(200).json(
-    new ApiResponse(200,updatedPost,"Post image updated successfully")
-  )
+      { new: true }
+    );
+
+    return res.status(200).json(
+      new ApiResponse(200, updatedPost, "Post image updated successfully")
+    );
+  } catch (error) {
+    console.error("Error updating post image:", error);
+    return res.status(error.statusCode || 500).json(new ApiResponse(error.statusCode || 500, null, error.message));
+  }
 });
+
 
 export const deletePost = asyncHandler(async (req, res) => {
   const postId = req.params.id;
@@ -221,7 +234,7 @@ export const PendingPosts = asyncHandler(async (req, res) => {
   // console.log('Request Parameters:', req.params);
   // console.log('Request Query:', req.query);
   const posts = await Post.find({ status: "Pending" });
-  console.log(posts);
+  // console.log(posts);
 
   if (posts.length === 0) {
     throw new ApiError(401, "Post not found");

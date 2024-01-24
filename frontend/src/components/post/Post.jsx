@@ -90,7 +90,28 @@ export default function Post({ post, userId, ownerId }) {
             <br />
           </b>
           <span className="postText">{post?.description}</span>
-          <img className="postImg" src={post?.images[0]} alt="" />
+          {/* <img className="postImg" src={post?.images[0]} alt="" /> */}
+          <div className="postImageContainer">
+            {post?.images.map((image, index) => (
+              <div key={index} className="postImageItem">
+                {image.endsWith(".pdf") ? (
+                  <a href={image} target="_blank"
+                  rel="noopener noreferrer">
+                    <div>
+                      <iframe
+                        title={`pdf-${index}`}
+                        src={image}
+                        width="100%"
+                        height="500px"
+                      ></iframe>
+                    </div>
+                  </a>
+                ) : (
+                  <img className="postImg" src={image} alt={`post-${index}`} />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="postBottom">
           <div

@@ -119,3 +119,10 @@
 .searchResultsList .searchResultName{
     margin-left: 2vmax;
 }
+
+.topbarLeft{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vmax;
+}

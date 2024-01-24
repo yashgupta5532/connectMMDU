@@ -78,3 +78,15 @@
     border-bottom: 1px dashed gray;
     font-size: 15px;
 }
+
+
+@media screen and (max-width:580px) {
+    .post{
+        width: 90%;
+        margin: 4vmax auto;
+    }
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+    
+}

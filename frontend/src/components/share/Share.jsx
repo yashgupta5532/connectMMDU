@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { PermMedia,EmojiEmotions } from "@mui/icons-material";
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import axios from "axios";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
-import FeelingDialog from "./FeelingDialog";
+import FeelingDialog from "./FeelingDialog.js";
 
 export default function Share({ user, myId }) {
   const alert = useAlert();

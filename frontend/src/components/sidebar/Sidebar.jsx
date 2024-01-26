@@ -17,7 +17,7 @@ import Diversity1Icon from "@mui/icons-material/Diversity1";
 
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 
 export default function Sidebar({ user }) {

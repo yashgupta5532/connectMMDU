@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteMessage, getMessage, markAsReadMessage, sendMessage } from "../controller/messageController";
+import { deleteMessage, getMessage, markAsReadMessage, sendMessage } from "../controller/messageController.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
 
 const router = express.Router();

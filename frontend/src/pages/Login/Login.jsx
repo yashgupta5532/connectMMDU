@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import axios from "axios";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");

@@ -3,7 +3,7 @@ import "./topbar.css";
 import { Search, Person, Chat, Notifications } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 import Modal from "react-modal";
 import MenuIcon from "@mui/icons-material/Menu";
 

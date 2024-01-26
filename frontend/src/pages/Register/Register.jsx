@@ -6,7 +6,7 @@ import "./Register2.css";
 import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 
 const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing"];
 

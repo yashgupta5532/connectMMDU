@@ -4,7 +4,7 @@ import axios from "axios";
 import { Fragment } from "react";
 import "./ResetPassword.css";
 import { useAlert } from "react-alert";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 
 function ResetPassword() {
   const { token } = useParams();

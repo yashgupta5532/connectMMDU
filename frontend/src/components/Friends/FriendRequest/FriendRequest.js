@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./FriendRequest.css";
 import axios from "axios";
-import { serverUrl } from "../../../constants";
+import { serverUrl } from "../../../constants.js";
 import { useAlert } from "react-alert";
-import Suggestion from "../Suggestion/Suggestion";
-import Loader from "../../Loader/Loader";
+import Suggestion from "../Suggestion/Suggestion.js";
+import Loader from "../../Loader/Loader.js";
 // import { Link } from "react-router-dom";
 
 const FriendRequest = () => {

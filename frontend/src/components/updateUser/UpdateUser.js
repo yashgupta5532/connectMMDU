@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Select from "react-select";
 import axios from "axios";
-import { serverUrl } from "../../constants";
+import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 
 const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing"];

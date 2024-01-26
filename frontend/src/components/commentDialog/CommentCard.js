@@ -8,7 +8,7 @@ const CommentCard = ({
   name,
   avatar,
   comment,
-  // commentId,
+  commentId,
 }) => {
 
   return (

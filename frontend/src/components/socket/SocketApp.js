@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {io} from "socket.io-client"
-import { socketUrl } from '../../constants'
+import { socketUrl } from '../../constants.js'
 
 const SocketApp = () => {
     const socket=io(socketUrl)

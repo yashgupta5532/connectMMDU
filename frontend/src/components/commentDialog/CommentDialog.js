@@ -6,7 +6,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import CommentCard from "./CommentCard";
+import CommentCard from "./CommentCard.js";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";

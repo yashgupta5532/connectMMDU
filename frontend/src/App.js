@@ -12,6 +12,8 @@ import Contact from "./components/Contact/Contact.js";
 import UpdateUser from "./components/updateUser/UpdateUser.js";
 import AdminDashboard from "./components/Admin/AdminDashboard.js";
 import ContactInfo from "./components/Admin/ContactInfo.js";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword.js"
+import ResetPassword from "./components/forgotPassword/ResetPassword.js"
 // import SocketApp from "./components/socket/SocketApp.js"
 // import { io } from "socket.io-client";
 
@@ -51,6 +53,8 @@ function App() {
           <Route path="/update/profile" element={<UpdateUser />} />
           <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
           <Route path="/admin/all-contact" element={<ContactInfo/>}/>
+          <Route path="/forgot/password" element={<ForgotPassword/>}/>
+          <Route path="/reset/password/:token" element={<ResetPassword/>}/>
         </Routes>
       </Router>
     </Fragment>

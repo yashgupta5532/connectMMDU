@@ -66,7 +66,7 @@ const Suggestion = () => {
       <h1 className="h-center">People you may Know !</h1>
       <div className="f-wrap">
         {suggestedFriends?.map((friend) => (
-          <Link to={`/profile/${friend?._id}`} key={friend?._id} >
+          // <Link to={`/profile/${friend?._id}`} key={friend?._id} >
             <div className="friend-request-container">
             <div className="friend-user-container">
               <div className="images">
@@ -96,7 +96,7 @@ const Suggestion = () => {
               </button> */}
             </div>
           </div>
-          </Link>
+          // </Link>
         ))}
       </div>
     </Fragment>

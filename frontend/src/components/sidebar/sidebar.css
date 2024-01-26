@@ -4,7 +4,7 @@
     overflow-y: scroll;
     position: sticky;
     top: 50px;
-    z-index: 100;
+    /* z-index: 100; */
 }
 
 ::-webkit-scrollbar {
@@ -73,7 +73,7 @@
 @media screen and (max-width: 600px) {
     .sidebarList span {
       display: block;
-      /* visibility: hidden;  */
+      visibility: hidden; 
     }
 
     .sidebarListItem {

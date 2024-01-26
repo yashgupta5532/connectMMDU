@@ -3,6 +3,8 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
 
 export const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -140,9 +142,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: false,
-    // expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    // domain: "localhost",
-    // SameSite: "None",
+   
   };
 
   return res
@@ -445,14 +445,9 @@ export const getAllFriends = asyncHandler(async (req, res) => {
 });
 
 export const getAllFriendRequestsUsers = asyncHandler(async (req, res) => {
-  // const allFriends=await User.find({
-  //   _id:{
-  //     $in:req.user.friendRequests.sender
-  //   }
-  // }).populate("sender")
-  // .exec();
+  
   const allFriends = req.user.friendRequests;
-  // console.log(allFriends);
+  console.log(allFriends);
   if (allFriends.length <= 0) {
     throw new ApiError(401, "No friend Requests");
   }
@@ -590,11 +585,11 @@ export const updateOnlineStatus = asyncHandler(async (req, res) => {
     throw new ApiError(401, "User not found ");
   }
   user.online = online;
-  user.lastActivity = new Data();
+  user.lastActivity = new Date();
   await user.save({ validateBeforeSave: false });
   return res
     .status(200)
-    .json(new ApiResponse(200, null, `status updated to ${online}`));
+    .json(new ApiResponse(200, user, `status updated to ${online}`));
 });
 
 export const isOnline = asyncHandler(async (req, res) => {
@@ -617,13 +612,91 @@ export const isOnline = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, `User is ${online ? "online" : "offline"}`));
 });
 
-export const getAllOnlineUsers = asyncHandler(async (req,res)=>{
-  const onlineUsers=await User.find({online:true}).select("-password -refreshToken")
+export const getAllOnlineUsers = asyncHandler(async (req, res) => {
+  const onlineUsers = await User.find({ online: true }).select(
+    "-password -refreshToken"
+  );
   // console.log("online suers",onlineUsers);
-  if(onlineUsers.length<=0){
-    throw new ApiError(401,"No online friends")
+  if (onlineUsers.length <= 0) {
+    throw new ApiError(401, "No online friends");
   }
-  return res.status(200).json(
-    new ApiResponse(200,onlineUsers,"Fetched all online users")
-  )
-})
+  return res
+    .status(200)
+    .json(new ApiResponse(200, onlineUsers, "Fetched all online users"));
+});
+
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(401, "User not found"); // Added a space after "401"
+  }
+
+  // Generate a reset token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+  const expires = Date.now() + 3600000; // Token expires in 1 hour
+
+  // Save the reset token to the user's document
+  user.resetPasswordToken = resetToken;
+  user.resetPasswordExpires = expires;
+  await user.save({ validateBeforeSave: false });
+
+  // Send a password reset email
+  const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: process.env.SMTP_MAIL,
+      pass: process.env.SMTP_PASSWORD,
+    },
+  });
+  console.log("heaaders ", req.headers);
+  const resetLink = `${process.env.CORS_ORIGIN_URL}/reset/password/${resetToken}`;
+
+  const mailOptions = {
+    from: process.env.SMTP_MAIL,
+    to: user.email,
+    subject: "CONNECT-MMDU Password Recovery",
+    text: `To reset your password, click the following link: ${resetLink}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      throw new ApiError(401, "Error while sending mail");
+    }
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, null, "password reset mail send successfully")
+      );
+  });
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  const token = req.params.token;
+  const { newPassword, confirmPassword } = req.body;
+  if (!token) {
+    throw new ApiError(401, "Token not found in params");
+  }
+  const user = await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    throw new ApiError(403, "Invalid resetPassword Token or has expired");
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw new ApiError(401, "new password and confirm password doesnot match");
+  }
+
+  user.password = newPassword;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save({ validateBeforeSave: false });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Password reset successfully"));
+});

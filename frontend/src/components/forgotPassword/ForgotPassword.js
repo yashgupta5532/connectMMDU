@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import ForgotPasswordContainer from "./ForgotPasswordContainer";
+import ForgotPasswordContainer from "./ForgotPasswordContainer.js";
 import axios from "axios";
 import { useAlert } from "react-alert";
+import { serverUrl } from "../../constants.js";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const backendUrl = process.env.REACT_APP_BACKTEND_URL;
-  const alert= useAlert();
+  const alert = useAlert();
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setMessage("");
@@ -17,18 +17,18 @@ const ForgotPassword = () => {
   const handleSendResetLink = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post(`${backendUrl}/user/password/forgot`, {
+      const {data} = await axios.post(`${serverUrl}/user/forgot/password`, {
         email,
-      });
-      alert.success(response?.data.message)
-      setMessage(response?.data.message);
+      },{withCredentials:true});
+      if(data?.success){
+        alert.success(data?.message)
+        setMessage("")
+      }else{
+        alert.error(data?.message)
+      }
     } catch (error) {
       console.error("Error:", error);
-      if (error.response && error.response.status === 404) {
-        setMessage("No user found with this email address.");
-      } else {
-        setMessage("Error sending reset link. Please try again later.");
-      }
+      alert.error(error)
     } finally {
       setIsLoading(false);
     }

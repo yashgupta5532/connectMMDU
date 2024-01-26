@@ -9,11 +9,11 @@ dotenv.config({ path: "./db/.env" });
 
 const server = createServer(app);
 
-const io = new Server(server,{
-  cors:{
-    origin: "http://localhost:3000",
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CORS_ORIGIN_URL,
     credentials: true,
-  }
+  },
 });
 
 cloudinary.config({
@@ -30,10 +30,10 @@ connectDb().then(() => {
 
 io.on("connection", (socket) => {
   console.log("A client connected");
-  console.log("userid",socket.id);
-  socket.emit("welcome","welcome to the server")
+  // console.log("userid",socket.id);
+  socket.emit("welcome", "welcome to the server");
   socket.on("message", (msg) => {
-    console.log("message event received", msg);
+    // console.log("message event received", msg);
     io.emit("message", msg);
   });
 

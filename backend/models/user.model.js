@@ -63,10 +63,10 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
-    coverImage:[
+    coverImage: [
       {
-      type:String
-      }
+        type: String,
+      },
     ],
     interests: [{ type: String }],
     hobbies: [{ type: String }],
@@ -128,18 +128,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "Something status",
     },
-    online:{
-      type:Boolean,
-      default:false,
+    online: {
+      type: Boolean,
+      default: false,
     },
-    lastActivity:{
-      type:Date
+    lastActivity: {
+      type: Date,
     },
     accountBlockedUntil: {
       type: Date,
     },
     refreshToken: {
       type: String,
+    },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
     },
   },
   {

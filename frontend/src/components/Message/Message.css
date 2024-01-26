@@ -61,27 +61,60 @@
 
 .message-body-container{
     background-image: url("https://imgs.search.brave.com/dnBpniNkPnGwA1tcTMe_Wfj27PFyvo-0N4LnbLFQEuk/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMTI4/ODA5OS5qcGc");
-    height: 77vh;
+    min-height: 35vh;
     background-position: center;
     background-size: cover;
+    /* overflow-y: auto; */
 }
 
 .message-body-container .message ul{
     display: flex;
     flex-direction: column;
-    max-width: 20vw;
+    /* max-width: 20vw; */
     word-break: break-all;
 }
 
-.message-body-container .message .text-msg{
+
+.message-body-container .message .text-msg {
     word-wrap: break-word;
     padding: 1vmax;
-    background-color: #b2b2b2;
     border-radius: 15px;
     text-align: center;
-    justify-content: space-evenly;
     list-style: none;
-    margin: 1vmax;
+    /* margin: 0.5vmax; */
+    max-width: 100%;
+    margin-right: 10px;
+}
+.main-message-container .message .text-msg p{
+    padding: 0px;
+    margin: 0px;
+    max-height: 25vh;
+    max-width: 30vw;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+
+.main-message-container .message .message-svg{
+    height: 25px;
+}
+
+.message-body-container .message .rightSide ,.message-body-container .message .rightSide2 {
+    background-color: #6a6565;
+    color: white;
+    align-self: flex-end;
+    
+}
+.message-body-container .message .rightSide2 {
+    background-color: unset;
+}
+
+.message-body-container .message .leftSide, .message .leftSide2 {
+    background-color: #b2b2b2;
+    align-self: flex-start;
+    color: white;
+}
+.message-body-container .message .leftSide2 {
+    background-color: unset;
 }
 
 
@@ -121,11 +154,3 @@
     text-align: center;
 }
 
-.left{
-    float: left;
-    /* background-color: green; */
-}
-.right{
-    float: right;
-    /* background-color: rgb(128, 117, 0); */
-}

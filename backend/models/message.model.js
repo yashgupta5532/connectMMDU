@@ -16,16 +16,12 @@ const messageSchema = new mongoose.Schema(
       type: "String",
       required: true,
     },
-    // timeStamps:{
-    //     type:Date,
-    //     default:Date.now,
-    // },
     read: {
       type: Boolean,
       default: false,
     },
   },
-  { timeStamps: true }
+  { timestamps: true }
 );
 
 export const Message = mongoose.model("Message", messageSchema);

@@ -7,20 +7,24 @@ import {
   deleteProfile,
   deleteProfileAdmin,
   followUnfollowUser,
+  forgotPassword,
   getAllFriendRequestsUsers,
   getAllFriends,
   getAllOnlineUsers,
   getMyDetails,
   getUserDetails,
+  isOnline,
   loginUser,
   logoutUser,
   matchers,
   registerUser,
+  resetPassword,
   searchUser,
   sendFriendRequest,
   unBlockUserAccount,
   updateAvatar,
   updateCoverImage,
+  updateOnlineStatus,
   updateProfile,
 } from "../controller/userController.js";
 import { isAdmin, verifyJwt } from "../middleware/auth.middleware.js";
@@ -76,8 +80,15 @@ router.route("/delete/profile").delete(deleteProfile); //user
 
 router.route("/delete/profile/admin/:id").delete(isAdmin, deleteProfileAdmin); //Admin
 
-router.route("/block/:id").put(verifyJwt,isAdmin,blockUserAccount); //Admin
+router.route("/block/:id").put(verifyJwt, isAdmin, blockUserAccount); //Admin
 
 router.route("/un-block/:id").put(unBlockUserAccount); //automatically done in 24 hours
+
+router.route("/update/online/status").put(verifyJwt, updateOnlineStatus);
+router.route("/is-online").get(verifyJwt, isOnline);
+
+router.route("/forgot/password").post(forgotPassword);
+
+router.route("/reset/password/:token").post(resetPassword);
 
 export default router;

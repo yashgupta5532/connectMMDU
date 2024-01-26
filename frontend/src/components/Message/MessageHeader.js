@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
 import CallIcon from "@mui/icons-material/Call";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,8 +13,13 @@ import Online from "../online/Online.jsx";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
-
-// const socket = io("http://localhost:8000");
+import ScrollToBottom from "react-scroll-to-bottom";
+import { css } from "@emotion/css";
+import { format } from "timeago.js";
+import {socketUrl} from "../../constants.js"
+const ROOT_CSS = css({
+  height: 600,
+});
 
 const MessageHeader = () => {
   const { userId } = useParams();
@@ -22,6 +27,41 @@ const MessageHeader = () => {
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
   const alert = useAlert();
+  const [visibleMessages, setVisibleMessages] = useState([]);
+
+  const messagesRef = useRef([]);
+  messagesRef.current = messagesRef.current.slice(0, messages.length);
+
+  const handleIntersection = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const messageId = entry.target.dataset.messageId;
+        if (!visibleMessages.includes(messageId)) {
+          markAsReadMessage(messageId);
+          setVisibleMessages((prevVisibleMessages) => [
+            ...prevVisibleMessages,
+            messageId,
+          ]);
+        }
+      }
+    });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    });
+
+    messagesRef.current.forEach((messageRef) => {
+      observer.observe(messageRef);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [messages]);
 
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -32,7 +72,6 @@ const MessageHeader = () => {
             withCredentials: true,
           }
         );
-        console.log("data profile ", data);
         if (data?.success) {
           setUser(data?.data);
         } else {
@@ -50,7 +89,6 @@ const MessageHeader = () => {
       const { data } = await axios.get(`${serverUrl}/message/all/${userId}`, {
         withCredentials: true,
       });
-      console.log("all messages ", data);
       if (data?.success) {
         setMessages(data?.data);
       } else {
@@ -58,9 +96,11 @@ const MessageHeader = () => {
       }
     };
     fetchAllMessages();
-  }, [userId]);
+  }, [userId, message]);
 
-  const socket = io("http://localhost:8000");
+
+  const socket = io(socketUrl);
+  
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket.id);
@@ -74,6 +114,11 @@ const MessageHeader = () => {
     };
   }, [socket]);
 
+  const markAsReadMessage = async (messageId) => {
+    const {data} = await axios.put(`${serverUrl}/message/read/${messageId}`, {},{withCredentials:true});
+    
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await axios.post(
@@ -81,15 +126,31 @@ const MessageHeader = () => {
       { content: message },
       { withCredentials: true }
     );
-    console.log("mesga ", data);
     if (data?.success) {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) => [...prevMessages, data.data]);
       alert.success(data?.message);
       setMessage("");
     } else {
       alert.error(data?.message);
     }
-    // socket.emit("chat message", message);
+  };
+
+  const handleDeleteMsg = async (messageId) => {
+    try {
+      const { data } = await axios.delete(
+        `${serverUrl}/message/delete/${messageId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (data?.success) {
+        alert.success(data.message);
+      } else {
+        alert.error(data?.message);
+      }
+    } catch (error) {
+      alert.error(error);
+    }
   };
 
   return (
@@ -126,26 +187,56 @@ const MessageHeader = () => {
             </div>
           </div>
 
-          {/* Message body here  */}
           <div className="message-body-container">
-            <div className="message ">
-              <ul>
-                {messages &&
-                  messages.map((message) => (
-                    <div key={message?._id} className="text-msg">
-                      <li
-                        className={`${
-                          userId === message?.sender ? "right" : "left"
-                        }`}
-                      >
-                        {message?.content}
-                      </li>
-                      <DoneAllIcon style={{ color: `${message.read} ? "blue" : "white"`}} />
-                      <DeleteIcon style={{ color: "red", height: 50, float: "right" }}/>
-                    </div>
-                  ))}
-              </ul>
-            </div>
+            <ScrollToBottom className={ROOT_CSS}>
+              <div className="message">
+                <ul>
+                  {messages &&
+                    messages.map((message) => (
+                      <Fragment key={message._id}>
+                        <li
+                          ref={(el) => el && messagesRef.current.push(el)}
+                          data-message-id={message._id}
+                          className={`text-msg ${
+                            userId === message.sender
+                              ? "rightSide"
+                              : "leftSide"
+                          }`}
+                        >
+                          <p>{message?.content}</p>
+                          {(message?.sender === userId ||
+                            message.receiver === userId) && (
+                            <DeleteIcon
+                              className="message-svg"
+                              style={{
+                                color: "red",
+                                float: "right",
+                              }}
+                              onClick={() => handleDeleteMsg(message?._id)}
+                            />
+                          )}
+                          <DoneAllIcon
+                            className="message-svg"
+                            style={{
+                              color: message.read ? "blue" : "white",
+                            }}
+                          />
+                        </li>
+                        <p
+                          className={`text-msg ${
+                            userId === message.sender
+                              ? "rightSide2"
+                              : "leftSide2"
+                          }`}
+                          style={{ marginTop: "-0.75vmax" }}
+                        >
+                          {format(message?.createdAt)}
+                        </p>
+                      </Fragment>
+                    ))}
+                </ul>
+              </div>
+            </ScrollToBottom>
           </div>
 
           <form onSubmit={handleSubmit}>

@@ -1,31 +1,40 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Fragment } from "react";
 import "./ResetPassword.css";
 import { useAlert } from "react-alert";
+import { serverUrl } from "../../constants";
 
 function ResetPassword() {
   const { token } = useParams();
+  console.log("token is",token)
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const alert = useAlert();
-
+  const navigate = useNavigate();
   const handleResetPassword = async () => {
-    const backendUrl=process.env.REACT_APP_BACKTEND_URL;
     try {
-      if (password !== confirmPassword) {
-        alert.error("Invalid password");
-        return;
-      }
-      const response = await axios.post(`${backendUrl}/user/password/reset/${token}`, {
-        newPassword: password,confirmPassword:confirmPassword
-      });
-      alert.success(response?.data.message);
-    } catch (error) {
-      alert.error(
-        error.response ? error.response.data.error : "Internal server error"
+      const { data } = await axios.post(
+        `${serverUrl}/user/reset/password/${token}`,
+        {
+          newPassword: password,
+          confirmPassword,
+        },
+        { withCredentials: true }
       );
+      console.log(data);
+      if (data?.success) {
+        console.log(data?.message);
+        alert.success(data?.message);
+        setPassword("");
+        setConfirmPassword("");
+        navigate("/login");
+      } else {
+        alert.error(data?.message);
+      }
+    } catch (error) {
+      alert.error(error);
     }
   };
 

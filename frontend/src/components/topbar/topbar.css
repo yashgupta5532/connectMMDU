@@ -1,5 +1,5 @@
 .topbarContainer {
-    height: 50px;
+    /* height: 50px; */
     width: 100%;
     background-color: #1877f2;
     display: flex;
@@ -32,7 +32,9 @@
     border-radius: 30px;
     display: flex;
     align-items: center;
+    padding: 0.5vmax;
 }
+
 
 .searchIcon {
     font-size: 20px !important;
@@ -54,6 +56,7 @@
     align-items: center;
     justify-content: space-around;
     color: white;
+    width: 100%;
 }
 
 .topbarLink {
@@ -125,4 +128,15 @@
     justify-content: center;
     align-items: center;
     padding: 1vmax;
+}
+.searchResultsContainer{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.ReactModal__Content ,.ReactModal__Content--after-open{
+    width: 80vw;
 }

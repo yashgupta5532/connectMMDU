@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./share.css";
 import { Link } from "react-router-dom";
 import { PermMedia, Label, Room, EmojiEmotions } from "@mui/icons-material";
+import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import axios from "axios";
 import { serverUrl } from "../../constants";
 import { useAlert } from "react-alert";
@@ -72,8 +73,10 @@ export default function Share({ user, myId }) {
                 marginBottom: "10px",
               }}
             >
-              <img className="shareProfileImg" src={user?.avatar} alt="" />
-              <p className="shareInput">{user?.fullname}</p>
+              <img className="shareProfileImg " src={user?.avatar} alt="" />
+              {user && user.online && <span className="rightbarOnline2"></span>}
+              
+              <p className="shareInput ">{user?.fullname}</p>
             </div>
           </Link>
           <input
@@ -108,8 +111,8 @@ export default function Share({ user, myId }) {
             </div>
             <div className="shareOptions">
               <div className="shareOption">
-                <Room htmlColor="green" className="shareIcon" />
-                <span className="shareOptionText">Location</span>
+                <CropOriginalIcon htmlColor="green" className="shareIcon" />
+                <span className="shareOptionText">Posts :{user?.posts.length}</span>
               </div>
             </div>
             <div className="shareOptions">

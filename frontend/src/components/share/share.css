@@ -100,3 +100,14 @@ color: transparent; /* Hide text color on focus or active states */
     left: -15px; /* Adjust position to overlay the input */
     cursor: pointer;
   }
+
+.rightbarOnline2{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #32cd32;
+    position: relative;
+    top: 0px;
+    right: 15px;
+    border: 2px solid white;
+}

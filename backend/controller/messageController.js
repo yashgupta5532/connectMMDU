@@ -3,6 +3,7 @@ import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import mongoose from "mongoose";
 
 //create message
 const sendMessage = asyncHandler(async (req, res) => {
@@ -75,21 +76,33 @@ const markAsReadMessage = asyncHandler(async (req, res) => {
 const deleteMessage = asyncHandler(async (req, res) => {
   const messageId = req.params.id;
   const userId = req.user._id;
-  const message = await Message.findById(messageId); 
-  console.log(message.sender ,userId ,message.receiver)
-    if (!message) {
-      throw new ApiError(404, "Message not found"); 
-    }
-    if (!(message.sender === userId || message.receiver === userId)) {
-      throw new ApiError(403, "You can delete your message only");
-    }
-    await message.deleteOne();
-    await message.save({validateBeforeSave:false})
-    await User.findByIdAndUpdate(userId, {
-      $pull: { messages: messageId }, 
-    });
 
-    return res.status(200).json(new ApiResponse(200, "Message deleted"));
+  const isValidObjectId = mongoose.Types.ObjectId.isValid(messageId);
+  if (!isValidObjectId) {
+    throw new ApiError(400, "Invalid message ID");
+  }
+
+  const message = await Message.findById(messageId); 
+
+  // Check if the message exists
+  if (!message) {
+    throw new ApiError(404, "Message not found"); 
+  }
+
+  // Check if the user is the sender or receiver of the message
+  if (!(message.sender === userId || message.receiver === userId)) {
+    throw new ApiError(403, "You can delete your message only");
+  }
+
+  // Delete the message
+  await message.deleteOne();
+
+  // Remove the message ID from the user's messages array
+  await User.findByIdAndUpdate(userId, {
+    $pull: { messages: messageId }, 
+  });
+
+  return res.status(200).json(new ApiResponse(200, "Message deleted"));
 });
 
 export { sendMessage, getMessage, markAsReadMessage, deleteMessage };

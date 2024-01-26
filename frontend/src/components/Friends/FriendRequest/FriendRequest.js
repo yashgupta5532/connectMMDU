@@ -81,7 +81,7 @@ const FriendRequest = () => {
           <div className="f-wrap">
             {userDetails &&
               userDetails.map((user) => (
-                  <Link to={`/profile/${user?._id}`} key={user?._id}  >
+                  // <Link to={`/profile/${user?._id}`} key={user?._id}  >
                 <div className="friend-request-container">
                   <div className="friend-user-container">
                     <div className="images">
@@ -112,7 +112,7 @@ const FriendRequest = () => {
                     </button>
                   </div>
                 </div>
-                  </Link>
+                  // </Link>
               ))}
           </div>
           <Suggestion />

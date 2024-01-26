@@ -12,6 +12,7 @@ import {
   School,
 } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import CloseFriend from "../closeFriend/CloseFriend";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
@@ -83,9 +84,9 @@ export default function Sidebar({ user }) {
           </Link>
 
           {user && user.role === "admin" && (
-            <Link to="/admin">
+            <Link to="/admin/dashboard">
               <li className="sidebarListItem">
-                <PlayCircleFilledOutlined className="sidebarIcon" />
+                <AdminPanelSettingsIcon className="sidebarIcon" />
                 <span className="sidebarListItemText">Admin</span>
               </li>
             </Link>

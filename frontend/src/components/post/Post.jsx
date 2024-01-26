@@ -7,6 +7,7 @@ import { serverUrl } from "../../constants.js";
 import { useAlert } from "react-alert";
 import CommentDialog from "../commentDialog/CommentDialog.js";
 import UpdatePostDialog from "../Postd/UpdatePostDialog.js";
+import { format} from 'timeago.js';
 
 export default function Post({ post, userId, ownerId }) {
   const [like, setLike] = useState(post?.likes.length);
@@ -71,10 +72,14 @@ export default function Post({ post, userId, ownerId }) {
           <Link to={`profile/${ownerId}`}>
             <div className="postTopLeft">
               <img className="postProfileImg" src={postOwner?.avatar} alt="" />
+              {postOwner && postOwner?.online && <span className="rightbarOnline3"></span>}
               <span className="postUsername">{postOwner?.username}</span>
+              <div>
+              <span className="postDate" style={{color:"blue", marginRight:"1vmax"}}> {format(postOwner?.lastActivity)}</span>
               <span className="postDate">
-                {post?.createdAt.substring(0, 10)}
+                {format(post?.createdAt,'en_US')}
               </span>
+              </div>
             </div>
           </Link>
           <div className="postTopRight">

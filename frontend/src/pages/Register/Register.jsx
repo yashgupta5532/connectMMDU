@@ -212,6 +212,13 @@ const Register = () => {
       avatar: avatarFile,
     }));
   };
+  const handleCoverImage = (e) => {
+    const coverFile = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      coverImage: coverFile,
+    }));
+  };
 
   const openInterestModal = () => setIsInterestModalOpen(true);
   const closeInterestModal = () => setIsInterestModalOpen(false);
@@ -250,6 +257,16 @@ const Register = () => {
             name="avatar"
             onChange={handleAvatarChange}
             required
+          />
+        </label>
+        <label className="register-label">
+          CoverImage:
+          <input
+            className="register-input loginInput"
+            type="file"
+            name="coverImage"
+            onChange={handleCoverImage}
+            // required
           />
         </label>
 
@@ -315,7 +332,7 @@ const Register = () => {
             maxLength={10}
             placeholder="Enter your ContactNo"
             onChange={handleChange}
-            required
+            // required
           />
           {errors.contactNo && (
             <span className="error-message">{errors.contactNo}</span>
@@ -331,7 +348,7 @@ const Register = () => {
             value={formData.DOB}
             placeholder="Enter your D.O.B"
             onChange={handleChange}
-            required
+            // required
           />
           {errors.DOB && <span className="error-message">{errors.DOB}</span>}
         </label>

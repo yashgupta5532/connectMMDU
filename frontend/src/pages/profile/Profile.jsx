@@ -40,7 +40,6 @@ export default function Profile() {
     fetchMyDetials();
   }, [alert]);
 
-
   useEffect(() => {
     const fetchMyInfo = async () => {
       try {
@@ -100,7 +99,7 @@ export default function Profile() {
           <div className="profilerightBottom">
             <div className="feed">
               <div className="feedWrapper">
-                <Share user={user} myId={myDetails?._id}/>
+                <Share user={user} myId={myDetails?._id} />
                 {myPosts &&
                   myPosts.map((post) => (
                     <Post

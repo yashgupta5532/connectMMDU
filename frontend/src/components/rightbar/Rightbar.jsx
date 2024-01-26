@@ -13,7 +13,7 @@ export default function Rightbar({ user }) {
   const HomeRightbar = ({ user }) => {
     return (
       <>
-        <div className="birthdayContainer">
+        {/* <div className="birthdayContainer">
           <img className="birthdayImg" src="assets/gift.png" alt="" />
           <span className="birthdayText">
             <div className="rightbarFollowing">
@@ -21,8 +21,8 @@ export default function Rightbar({ user }) {
               <span className="rightbarFollowingname">{user?.username}</span>
             </div>
           </span>
-        </div>
-        <img className="rignhtbarAd" src="assets/ad.png" alt="" />
+        </div> */}
+        {/* <img className="rignhtbarAd" src="assets/ad.png" alt="" /> */}
         <h4 className="rightbarTitle">Online Friends</h4>
         <ul className="rightbarfriendList">
           <Online />

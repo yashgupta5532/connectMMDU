@@ -12,6 +12,7 @@ export default function Home() {
   const [user, setUser] = useState(null);
 
   const alert = useAlert();
+
   useEffect(() => {
     const fetchMyInfo = async () => {
       try {
@@ -31,11 +32,47 @@ export default function Home() {
     fetchMyInfo();
   }, [alert]);
 
+  const updateUserLastActivity = async (userId, online) => {
+    try {
+      const { data } = await axios.put(
+        `${serverUrl}/user/update/online/status`,
+        { userId, online },
+        { withCredentials: true }
+      );
+      console.log("data is", data);
+    } catch (error) {
+      console.error("Error updating last activity:", error);
+    }
+  };
+
+  useEffect(() => {
+    const updatePeriodically = setInterval(() => {
+      updateUserLastActivity(user?._id, true);
+    }, 5 * 60 * 1000);
+
+    return () => clearInterval(updatePeriodically);
+  }, [user]);
+
+  useEffect(() => {
+    const handleUnload = () => {
+      updateUserLastActivity(user?._id, false);
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("load", () =>
+      updateUserLastActivity(user?._id, true)
+    );
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
+  }, [user]);
+
   return (
     <>
       <Topbar user={user} />
       <div className="homeContainer">
-        <Sidebar user={user}/>
+        <Sidebar user={user} />
         <Feed user={user} />
         <Rightbar user={user} />
       </div>

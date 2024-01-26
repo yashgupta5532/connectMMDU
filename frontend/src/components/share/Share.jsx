@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./share.css";
 import { Link } from "react-router-dom";
-import { PermMedia, Label, Room, EmojiEmotions } from "@mui/icons-material";
+import { PermMedia,EmojiEmotions } from "@mui/icons-material";
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import axios from "axios";
 import { serverUrl } from "../../constants";

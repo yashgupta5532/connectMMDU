@@ -5,7 +5,7 @@ import { serverUrl } from "../../../constants";
 import { useAlert } from "react-alert";
 import Suggestion from "../Suggestion/Suggestion";
 import Loader from "../../Loader/Loader";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const FriendRequest = () => {
   const [allFriendRequestUser, setAllFriendRequestUser] = useState([]);

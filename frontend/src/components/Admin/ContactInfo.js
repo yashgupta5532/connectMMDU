@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import "./ContactInfo.css"; // Import your CSS file
 import { useAlert } from "react-alert";
 import axios from "axios";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { serverUrl } from "../../constants.js";
 
 const ContactInfo = () => {
@@ -19,7 +19,7 @@ const ContactInfo = () => {
       }
     };
     fetchAllContact();
-  }, []);
+  }, [alert]);
 
   return (
     <Fragment>

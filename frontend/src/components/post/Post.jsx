@@ -13,9 +13,9 @@ export default function Post({ post, userId, ownerId }) {
   const [like, setLike] = useState(post?.likes.length);
   const [isliked, setIsLiked] = useState(post?.likes.includes(userId));
   const [comments, setComments] = useState(post?.comments.length);
-  const [isCommented, setIsCommented] = useState(
-    post?.comments.includes({ user: userId })
-  );
+  // const [isCommented, setIsCommented] = useState(
+  //   post?.comments.includes({ user: userId })
+  // );
   const [postOwner, setPostOwner] = useState("");
   const [isEditPostDialogOpen, setIsEditPostDialogOpen] = useState(false);
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);

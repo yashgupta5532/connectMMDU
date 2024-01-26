@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Dialog, DialogTitle, DialogContent, Button } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 const FeelingDialog = ({ open, onClose }) => {
   return (

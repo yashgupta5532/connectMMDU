@@ -21,14 +21,14 @@ export default function Online({ message = false }) {
         if (data?.success) {
           setOnlineUsers(data?.data);
         } else {
-          alert.error(data?.message);
+          alert.error(data?.message.toString());
         }
       } catch (error) {
-        alert.error(error);
+        // alert.error(error.toString());
       }
     };
     fetchOnlinUsers();
-  }, [alert]);
+  }, []);
 
   return (
     <Fragment>

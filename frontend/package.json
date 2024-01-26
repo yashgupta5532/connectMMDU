@@ -24,15 +24,15 @@
     "react-select": "^5.8.0",
     "socket.io-client": "^4.7.4",
     "styled-components": "^6.1.8",
-    "timeago.js": "^4.0.0-beta.3",
+    "timeago.js": "^4.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "install-server": "cd backend && npm install",
     "start-server": "cd backend && node server.js",
-    "install-client": "cd client && npm install",
-    "build-client": "cd client && npm run build",
-    "start-client": "cd client && npm run start"
+    "install-client": "cd frontend && npm install",
+    "build-client": "cd frontend && npm run build",
+    "start-client": "cd frontend && npm run start"
   },
   "eslintConfig": {
     "extends": [

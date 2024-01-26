@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import "./rightbar.css";
-import { Users } from "../../dummyData";
 import Online from "../online/Online";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";

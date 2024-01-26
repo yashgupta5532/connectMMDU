@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Select from "react-select";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants";
 import { useAlert } from "react-alert";
@@ -14,7 +13,6 @@ const UpdateUser = () => {
   const [formData, setFormData] = useState({});
   const [initialFormData, setInitialFormData] = useState({});
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
   const alert = useAlert();
 

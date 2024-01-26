@@ -1,14 +1,14 @@
 import React from "react";
 import "./CommentCard.css";
 import { Link } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const CommentCard = ({
   userId,
   name,
   avatar,
   comment,
-  commentId,
+  // commentId,
 }) => {
 
   return (

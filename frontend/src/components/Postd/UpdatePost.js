@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import "./UpdatePost.css";
 import Loader from "../Loader/Loader.js";
 import axios from "axios";
@@ -58,7 +58,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
             },
           }
         );
-        console.log("image is", data);
+        // console.log("image is", data);
         if (data?.success) {
           alert.success(data?.message);
         } else {
@@ -86,6 +86,8 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
       } catch (error) {
         console.error("Error updating post:", error);
         alert.error("Error updating post. Please try again.");
+      }finally{
+        setLoading(false)
       }
     }
   };

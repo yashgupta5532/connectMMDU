@@ -25,7 +25,7 @@ export default function CloseFriend({ message = false }) {
       }
     };
     fetchAllFriends();
-  }, []);
+  }, [alert]);
 
   return (
     <Fragment>

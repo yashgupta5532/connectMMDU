@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import axios from "axios";
 import {serverUrl} from "../../../constants.js"
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const Suggestion = () => {
   const alert = useAlert();

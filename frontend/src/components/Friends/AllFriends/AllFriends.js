@@ -24,7 +24,7 @@ const AllFriends = () => {
       }
     };
     fetchAllFriends();
-  }, []);
+  }, [alert]);
 
   // console.log("all friends ",allFriends)
   return (

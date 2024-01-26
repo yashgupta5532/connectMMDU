@@ -26,7 +26,7 @@ const AdminDashboard = () => {
     } catch (error) {
       alert.error(error);
     }
-  }, []);
+  }, [alert]);
 
   const updatepostStatus = async (postId, newStatus) => {
     try {

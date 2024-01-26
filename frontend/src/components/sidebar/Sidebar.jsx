@@ -3,13 +3,11 @@ import "./sidebar.css";
 import {
   RssFeed,
   Chat,
-  PlayCircleFilledOutlined,
   Group,
   Bookmark,
   HelpOutline,
   WorkOutline,
   Event,
-  School,
 } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';

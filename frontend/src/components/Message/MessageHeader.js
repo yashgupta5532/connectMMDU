@@ -16,7 +16,7 @@ import { useAlert } from "react-alert";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { css } from "@emotion/css";
 import { format } from "timeago.js";
-import {socketUrl} from "../../constants.js"
+import { socketUrl } from "../../constants.js";
 const ROOT_CSS = css({
   height: 600,
 });
@@ -32,27 +32,28 @@ const MessageHeader = () => {
   const messagesRef = useRef([]);
   messagesRef.current = messagesRef.current.slice(0, messages.length);
 
-  const handleIntersection = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const messageId = entry.target.dataset.messageId;
-        if (!visibleMessages.includes(messageId)) {
-          markAsReadMessage(messageId);
-          setVisibleMessages((prevVisibleMessages) => [
-            ...prevVisibleMessages,
-            messageId,
-          ]);
-        }
-      }
-    });
-  };
-
   useEffect(() => {
-    const observer = new IntersectionObserver(handleIntersection, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5,
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const messageId = entry.target.dataset.messageId;
+            if (!visibleMessages.includes(messageId)) {
+              markAsReadMessage(messageId);
+              setVisibleMessages((prevVisibleMessages) => [
+                ...prevVisibleMessages,
+                messageId,
+              ]);
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5,
+      }
+    );
 
     messagesRef.current.forEach((messageRef) => {
       observer.observe(messageRef);
@@ -61,7 +62,7 @@ const MessageHeader = () => {
     return () => {
       observer.disconnect();
     };
-  }, [messages]);
+  }, [messages,visibleMessages]);
 
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -96,11 +97,10 @@ const MessageHeader = () => {
       }
     };
     fetchAllMessages();
-  }, [userId, message]);
-
+  }, [userId, message, alert]);
 
   const socket = io(socketUrl);
-  
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket.id);
@@ -115,8 +115,11 @@ const MessageHeader = () => {
   }, [socket]);
 
   const markAsReadMessage = async (messageId) => {
-    const {data} = await axios.put(`${serverUrl}/message/read/${messageId}`, {},{withCredentials:true});
-    
+    await axios.put(
+      `${serverUrl}/message/read/${messageId}`,
+      {},
+      { withCredentials: true }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -198,9 +201,7 @@ const MessageHeader = () => {
                           ref={(el) => el && messagesRef.current.push(el)}
                           data-message-id={message._id}
                           className={`text-msg ${
-                            userId === message.sender
-                              ? "rightSide"
-                              : "leftSide"
+                            userId === message.sender ? "rightSide" : "leftSide"
                           }`}
                         >
                           <p>{message?.content}</p>

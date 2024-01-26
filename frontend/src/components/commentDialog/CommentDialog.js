@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -48,15 +48,8 @@ const fetchPostOwnerDetails = async (ownerId) => {
     };
   
     fetchCommentDetails();
-  }, []);
+  }, [comments]);
   
-
-  // const handlePostComment = () => {
-  //   onPostComment(comment);
-  //   setComment("");
-  //   onClose();
-  // };
-
   const handlePostComment = async () => {
     const { data } = await axios.post(
       `${serverUrl}/post/comment/${postId}`,

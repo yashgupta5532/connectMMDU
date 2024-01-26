@@ -10,7 +10,6 @@ import FeelingDialog from "./FeelingDialog";
 
 export default function Share({ user, myId }) {
   const alert = useAlert();
-  // console.log(user?._id,myId,user?._id===myId);
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
 
@@ -112,7 +111,7 @@ export default function Share({ user, myId }) {
             <div className="shareOptions">
               <div className="shareOption">
                 <CropOriginalIcon htmlColor="green" className="shareIcon" />
-                <span className="shareOptionText">Posts :{user?.posts.length}</span>
+                <span className="shareOptionText">Posts {user?.posts.length}</span>
               </div>
             </div>
             <div className="shareOptions">

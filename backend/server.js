@@ -1,11 +1,11 @@
-import { connectDb } from "./db/db.js";
-import { app } from "./app.js";
 import dotenv from "dotenv";
+dotenv.config({ path: "./db/.env" });
+import { connectDb } from "./db/db.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { v2 as cloudinary } from "cloudinary";
+import { app } from "./app.js";
 
-dotenv.config({ path: "./db/.env" });
 
 const server = createServer(app);
 

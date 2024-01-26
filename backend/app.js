@@ -1,16 +1,19 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./db/.env" });
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const app = express();
-
+console.log("cors", process.env.CORS_ORIGIN_URL);
 app.use(
   cors({
-    // origin: process.env.CORS_ORIGIN_URL,
-    origin: "http://localhost:3000",
+    origin: process.env.CORS_ORIGIN_URL,
+    // origin: "http://localhost:3000",
     credentials: true,
   })
 );
+
 app.use(express.json({ limit: "30kb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

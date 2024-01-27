@@ -20,8 +20,6 @@
     "react-router-dom": "^6.21.2",
     "react-scroll-to-bottom": "^4.2.0",
     "react-select": "^5.8.0",
-    "react-toast": "^1.0.3",
-    "react-toast-template-basic": "^1.0.2",
     "react-toastify": "^10.0.4",
     "socket.io-client": "^4.7.4",
     "styled-components": "^6.1.8",

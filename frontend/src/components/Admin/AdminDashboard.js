@@ -56,7 +56,7 @@ const AdminDashboard = () => {
         }
       } else if (newStatus === "Rejected") {
         const { data } = await axios.put(
-          `${serverUrl}/post/approve/${postId}`,
+          `${serverUrl}/post/reject/${postId}`,
           {},
           {
             withCredentials: true,

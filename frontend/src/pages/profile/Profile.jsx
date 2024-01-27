@@ -34,11 +34,19 @@ export default function Profile() {
           toast.error(data?.message);
         }
       } catch (error) {
-        toast.error(error.response.data?.message);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
       }
     };
     fetchMyDetials();
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -53,21 +61,37 @@ export default function Profile() {
         if (data?.success) {
           setUser(data?.data);
         } else {
-          // toast.error(data?.message);;
+          toast.error(data?.message);;
         }
-      } catch (error) {}
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
+      }
     };
     fetchMyInfo();
   }, [userId]);
 
   useEffect(() => {
     const fetchMyPosts = async () => {
-      const { data } = await axios.get(`${serverUrl}/post/myPosts/${userId}`, {
-        withCredentials: true,
-      });
-      if (data?.success) {
-        setMyPosts(data?.data);
+     try {
+       const { data } = await axios.get(`${serverUrl}/post/myPosts/${userId}`, {
+         withCredentials: true,
+       });
+       if (data?.success) {
+         setMyPosts(data?.data);
+       }else{
+        toast.error(data?.message)
+       }
+     } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
       }
+     }
     };
     fetchMyPosts();
   }, [userId]);

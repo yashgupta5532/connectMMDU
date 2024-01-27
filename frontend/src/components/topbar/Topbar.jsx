@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import Modal from "react-modal";
+import { toast } from "react-toastify";
 import MenuIcon from "@mui/icons-material/Menu";
 
 export default function Topbar({ user }) {
@@ -30,16 +31,31 @@ export default function Topbar({ user }) {
       }
     } catch (error) {
       console.error("Error during search:", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
       setSearchResults([]);
       setIsModalOpen(false);
     }
   };
 
-  const hideMenu = () => {
-    const menuTextElements = document.querySelectorAll(".sidebarList span");
+  const hideMenu = (e) => {
+    console.log(e.view.outerWidth);
+    const width = e.view.outerWidth;
+    const menuTextElements = document.querySelectorAll(".sidebarListItemText");
+    const sidebarContainer = document.getElementById("sidebar-container");
     menuTextElements.forEach((element) => {
       element.classList.toggle("hidden");
     });
+    if (width < 590) {
+      sidebarContainer.classList.toggle("hidden");
+    }
     setHideMenuText(!hideMenuText);
   };
 
@@ -50,7 +66,7 @@ export default function Topbar({ user }) {
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <MenuIcon style={{color:"white"}} className="sidebarIcon" onClick={hideMenu} />
+        <MenuIcon className="sidebarIcon" onClick={hideMenu} />
         <span className="logo">Connect MMDU</span>
       </div>
 
@@ -111,10 +127,10 @@ export default function Topbar({ user }) {
               </span>
             </div>
           </Link>
-          <div className="topbarIconItem">
+          {/* <div className="topbarIconItem">
             <Notifications />
             <span className="topbarIconBadge">1</span>
-          </div>
+          </div> */}
         </div>
         <img src={user?.avatar} alt="avatar" className="topbarImg" />
       </div>

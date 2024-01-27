@@ -25,31 +25,47 @@ export default function Share({ user, myId }) {
       formData.append("images", images[i]);
     }
 
-    const { data } = await axios.post(
-      `${serverUrl}/post/createPost`,
-      formData,
-      {
-        withCredentials: true,
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/post/createPost`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("reso is ", data);
+      if (data?.success) {
+        toast.success(data?.message);
+      } else {
+        toast.error(data?.message);
       }
-    );
-    console.log("reso is ", data);
-    if (data?.success) {
-      toast.success(data?.message);
-    } else {
-      toast.error(data?.message);
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
   };
 
   const followHandler = async () => {
-    const { data } = await axios.post(
-      `${serverUrl}/user/follow-unFollow/${user?._id}`,
-      null,
-      { withCredentials: true }
-    );
-    if (data?.success) {
-      toast.success(data?.message);
-    } else {
-      toast.error(data?.message);
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/user/follow-unFollow/${user?._id}`,
+        null,
+        { withCredentials: true }
+      );
+      if (data?.success) {
+        toast.success(data?.message);
+      } else {
+        toast.error(data?.message);
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
   };
   const [isFeelingDialogOpen, setFeelingDialogOpen] = useState(false);

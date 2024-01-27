@@ -64,8 +64,11 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
           toast.error(data?.message);
         }
       } catch (error) {
-        console.error("Error updating image:", error);
-        toast.error("Error updating image. Please try again.");
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
       }
     }
 

@@ -21,11 +21,15 @@ const FriendRequest = () => {
           { withCredentials: true }
         );
 
-        if (data.success) {
+        if (data?.success) {
           setAllFriendRequestUser(data?.data);
         }
       } catch (error) {
-        toast.error(error.response.data.message);
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
       } finally {
         setIsLoading(false);
       }
@@ -67,7 +71,15 @@ const FriendRequest = () => {
         toast.error("Error", data.message);
       }
     } catch (error) {
-      toast.error(error.response.data?.message);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

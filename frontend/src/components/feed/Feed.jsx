@@ -4,6 +4,7 @@ import Share from "../share/Share.jsx";
 import Post from "../post/Post.jsx";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
+import {toast} from "react-toastify"
 
 export default function Feed({ user }) {
   const [allPosts, setAllPosts] = useState([]);
@@ -22,7 +23,15 @@ export default function Feed({ user }) {
       };
       fetchAllPosts();
     } catch (error) {
-      console.log(error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   }, []);
 

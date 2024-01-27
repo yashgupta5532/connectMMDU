@@ -17,16 +17,24 @@ const UpdatePostDialog = ({
   const handleDeletePost = async () => {
     const deletemsg = prompt("Do you really want to delete post", "yes/no");
     if (deletemsg === "yes") {
-      const { data } = await axios.delete(
-        `${serverUrl}/post/delete/${postId}`,
-        {
-          withCredentials: true,
+      try {
+        const { data } = await axios.delete(
+          `${serverUrl}/post/delete/${postId}`,
+          {
+            withCredentials: true,
+          }
+        );
+        if (data?.success) {
+          toast.success(data?.message);
+        } else {
+          toast.error(data?.message);
         }
-      );
-      if (data?.success) {
-        toast.success(data?.message);
-      } else {
-        toast.error(data?.message);
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
       }
     } else {
       toast.success("post prevented from being delete");

@@ -125,7 +125,11 @@ const Register = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error("Error during registration:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
   };
 

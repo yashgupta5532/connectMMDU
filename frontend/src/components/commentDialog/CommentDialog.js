@@ -16,13 +16,25 @@ const CommentDialog = ({ open, onClose, postId, comments }) => {
   const [commentDetails, setCommentDetails] = useState([]);
 
   const fetchPostOwnerDetails = async (ownerId) => {
-    const { data } = await axios.get(
-      `${serverUrl}/user/userDetails/${ownerId}`,
-      { withCredentials: true }
-    );
-    if (data?.success) {
-      const userDetials = data?.data;
-      return userDetials;
+    try {
+      const { data } = await axios.get(
+        `${serverUrl}/user/userDetails/${ownerId}`,
+        { withCredentials: true }
+      );
+      if (data?.success) {
+        const userDetials = data?.data;
+        return userDetials;
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -49,18 +61,30 @@ const CommentDialog = ({ open, onClose, postId, comments }) => {
   }, [comments]);
 
   const handlePostComment = async () => {
-    const { data } = await axios.post(
-      `${serverUrl}/post/comment/${postId}`,
-      { comment },
-      { withCredentials: true }
-    );
-    console.log("comment response ", data);
-    if (data?.success) {
-      toast.success(data?.message);
-      setComment("");
-      onClose();
-    } else {
-      toast.error(data?.message);
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/post/comment/${postId}`,
+        { comment },
+        { withCredentials: true }
+      );
+      // console.log("comment response ", data);
+      if (data?.success) {
+        toast.success(data?.message);
+        setComment("");
+        onClose();
+      } else {
+        toast.error(data?.message);
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

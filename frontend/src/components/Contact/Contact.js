@@ -52,11 +52,18 @@ function Contact() {
         });
       } else {
         // Ensure that the error message is a string
-        toast.error(data?.message.toString());
+        toast.error(data?.message);
       }
     } catch (error) {
-      // Ensure that the error message is a string
-      toast.error(error.toString());
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

@@ -41,10 +41,14 @@ export default function Home() {
         { userId, online },
         { withCredentials: true }
       );
-      console.log("data is", data);
+      // console.log("data is", data);
     } catch (error) {
-      console.error("Error updating last activity:", error);
-      toast.error(error.response.data.message)
+      // console.error("Error updating last activity:", error);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
   };
 

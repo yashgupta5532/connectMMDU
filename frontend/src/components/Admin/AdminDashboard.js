@@ -9,22 +9,34 @@ const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
+    const fetchData = async () => {
+      try {
         const { data } = await axios.get(`${serverUrl}/post/admin`, {
           withCredentials: true,
         });
+
         if (data?.success) {
           setPosts(data?.data);
           toast.success(data?.message);
         } else {
-          toast.error(data?.message);
+          toast.error(data?.message || "An error occurred.");
         }
-      };
-      fetchData();
-    } catch (error) {
-      toast.error(error.response.data?.message);
-    }
+      } catch (error) {
+        console.error("Error:", error);
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
+      }
+    };
+
+    fetchData();
   }, [toast]);
 
   const updatepostStatus = async (postId, newStatus) => {

@@ -22,29 +22,51 @@ export default function Post({ post, userId, ownerId }) {
 
   useEffect(() => {
     const fetchPostOwnerDetails = async () => {
-      const { data } = await axios.get(
-        `${serverUrl}/user/userDetails/${ownerId}`,
-        { withCredentials: true }
-      );
-      if (data?.success) {
-        setPostOwner(data?.data);
-      } else {
-        toast.error(data?.message);
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/user/userDetails/${ownerId}`,
+          { withCredentials: true }
+        );
+        if (data?.success) {
+          setPostOwner(data?.data);
+        } else {
+          toast.error(data?.message);
+        }
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
       }
     };
     fetchPostOwnerDetails();
   });
 
   const likeHandler = async (postId) => {
-    const { data } = await axios.post(
-      `${serverUrl}/post/like-dislike/${postId}`,
-      null,
-      { withCredentials: true }
-    );
-    if (data) {
-      toast.success(data?.message);
-      setIsLiked(!isliked);
-      setLike(isliked ? like - 1 : like + 1);
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/post/like-dislike/${postId}`,
+        null,
+        { withCredentials: true }
+      );
+      if (data?.success) {
+        toast.success(data?.message);
+        setIsLiked(!isliked);
+        setLike(isliked ? like - 1 : like + 1);
+      }else{
+        toast.error(data?.message)
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
   };
 

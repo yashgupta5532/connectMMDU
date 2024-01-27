@@ -10,14 +10,28 @@ const ContactInfo = () => {
 
   useEffect(() => {
     const fetchAllContact = async () => {
-      const { data } = await axios.get(
-        `${serverUrl}/contact/admin/all-contact`,
-        { withCredentials: true }
-      );
-      if (data?.success) {
-        setContactFormSubmissions(data?.data);
-      } else {
-        toast.error(data?.message);
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/contact/admin/all-contact`,
+          { withCredentials: true }
+        );
+        if (data?.success) {
+          setContactFormSubmissions(data?.data);
+        } else {
+          toast.error(data?.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
       }
     };
     fetchAllContact();

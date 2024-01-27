@@ -85,13 +85,21 @@ const MessageHeader = () => {
 
   useEffect(() => {
     const fetchAllMessages = async () => {
-      const { data } = await axios.get(`${serverUrl}/message/all/${userId}`, {
-        withCredentials: true,
-      });
-      if (data?.success) {
-        setMessages(data?.data);
-      } else {
-        toast.error(data?.message);
+      try {
+        const { data } = await axios.get(`${serverUrl}/message/all/${userId}`, {
+          withCredentials: true,
+        });
+        if (data?.success) {
+          setMessages(data?.data);
+        } else {
+          toast.error(data?.message);
+        }
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
       }
     };
     fetchAllMessages();
@@ -122,18 +130,26 @@ const MessageHeader = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post(
-      `${serverUrl}/message/send/${userId}`,
-      { content: message },
-      { withCredentials: true }
-    );
-    if (data?.success) {
-      setMessages((prevMessages) => [...prevMessages, data.data]);
-      toast.success(data?.message);
-      setMessage("");
+   try {
+     const { data } = await axios.post(
+       `${serverUrl}/message/send/${userId}`,
+       { content: message },
+       { withCredentials: true }
+     );
+     if (data?.success) {
+       setMessages((prevMessages) => [...prevMessages, data.data]);
+       toast.success(data?.message);
+       setMessage("");
+     } else {
+       toast.error(data?.message);
+     }
+   } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      toast.error(error.response.data.message);
     } else {
-      toast.error(data?.message);
+      toast.error('An unexpected error occurred.');
     }
+   }
   };
 
   const handleDeleteMsg = async (messageId) => {
@@ -150,7 +166,15 @@ const MessageHeader = () => {
         toast.error(data?.message);
       }
     } catch (error) {
-      toast.error(error.response.data?.message);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

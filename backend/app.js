@@ -5,11 +5,10 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const app = express();
-console.log("cors", process.env.CORS_ORIGIN_URL);
+// console.log("cors", process.env.CORS_ORIGIN_URL);
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN_URL || 'https://connectmmdu-frontend.onrender.com',
-    // origin: "http://localhost:3000",
     credentials: true,
   })
 );

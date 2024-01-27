@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/yashgupta5532/connectMMDU/issues"
   },
-  "homepage": "https://github.com/yashgupta5532/connectMMDU#readme"
+  "homepage": "https://github.com/yashgupta5532/connectMMDU#readme",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }

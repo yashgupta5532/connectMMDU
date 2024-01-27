@@ -4,7 +4,7 @@
 
 
 
-export const serverUrl="https://connectmmdu-backend.onrender.com"
+export const serverUrl="https://connectmmdu-backend.onrender.com/api/v1"
 
 export const socketUrl="https://connectmmdu-backend.onrender.com"
 

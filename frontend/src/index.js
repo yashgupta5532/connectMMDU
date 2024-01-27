@@ -16,9 +16,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 Modal.setAppElement("#root");
 root.render(
-  <>
+  <React.StrictMode>
     <AlertProvider template={AlertTemplate} {...options}>
       <App />
     </AlertProvider>
-  </>
+  </React.StrictMode>
 );

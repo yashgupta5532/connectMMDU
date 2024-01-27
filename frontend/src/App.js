@@ -4,12 +4,11 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
 import Profile from "./pages/profile/Profile.jsx";
-import Login from "./pages/login/Login.jsx";
-import Register from "./pages/register/Register.jsx";
+import Login from "./pages/Login/Login.jsx";
+import Register from "./pages/Register/Register.jsx";
 import FriendRequest from "./components/Friends/FriendRequest/FriendRequest.js";
 import AllFriends from "./components/Friends/AllFriends/AllFriends.js";
 import Message from "./components/Message/MessageHeader.js";

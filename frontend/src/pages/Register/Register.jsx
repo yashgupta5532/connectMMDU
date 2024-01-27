@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import "./register.css";
+import "./Register.css";
 import Select from "react-select";
 import "./Register2.css";
 import { toast } from "react-toastify";

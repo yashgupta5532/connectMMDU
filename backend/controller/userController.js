@@ -652,7 +652,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     },
   });
   console.log("heaaders ", req.headers);
-  const resetLink = `${process.env.CORS_ORIGIN_URL}/reset/password/${resetToken}`;
+  const resetLink = `${process.env.CORS_ORIGIN_URL || 'https://connectmmdu-frontend.onrender.com'}/reset/password/${resetToken}`;
 
   const mailOptions = {
     from: process.env.SMTP_MAIL,

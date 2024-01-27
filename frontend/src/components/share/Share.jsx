@@ -8,7 +8,7 @@ import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 import FeelingDialog from "./FeelingDialog.js";
 
-export default function Share({ user, myId }) {
+function Share({ user, myId }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
 
@@ -163,3 +163,6 @@ export default function Share({ user, myId }) {
     </div>
   );
 }
+
+
+export default Share;

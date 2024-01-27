@@ -9,7 +9,7 @@ import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 import {useNavigate} from "react-router-dom"
 
-export default function Home() {
+const Home=()=> {
   const [user, setUser] = useState(null);
   const navigate=useNavigate()
   useEffect(() => {
@@ -86,3 +86,6 @@ export default function Home() {
     </>
   );
 }
+
+
+export default Home;

@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import Share from "../../components/share/Share.jsx";
 import Post from "../../components/post/Post.jsx";
 
-export default function Profile() {
+const Profile=() =>{
   const { userId } = useParams();
   // console.log("user id ",userId)
   const [user, setUser] = useState(null);
@@ -141,3 +141,6 @@ export default function Profile() {
     </>
   );
 }
+
+
+export default Profile;

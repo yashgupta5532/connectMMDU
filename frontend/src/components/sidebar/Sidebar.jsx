@@ -19,7 +19,7 @@ import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 
-export default function Sidebar({ user }) {
+function Sidebar({ user }) {
   const [isFriendMenuOpen, setIsFriendMenuOpen] = useState(false);
   const navigate = useNavigate();
   const toggleFriendMenu = () => {
@@ -138,3 +138,6 @@ export default function Sidebar({ user }) {
     </Fragment>
   );
 }
+
+
+export default Sidebar;

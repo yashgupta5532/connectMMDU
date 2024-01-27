@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -28,10 +28,10 @@ export default function Login() {
     } catch (error) {
       console.log("error", error);
       if (error.response && error.response.data && error.response.data.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error('An unexpected error occurred.');
-      }
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
     }
   };
 
@@ -81,3 +81,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login;

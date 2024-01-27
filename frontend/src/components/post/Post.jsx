@@ -9,7 +9,7 @@ import CommentDialog from "../commentDialog/CommentDialog.js";
 import UpdatePostDialog from "../Postd/UpdatePostDialog.js";
 import { format } from "timeago.js";
 
-export default function Post({ post, userId, ownerId }) {
+function Post({ post, userId, ownerId }) {
   const [like, setLike] = useState(post?.likes.length);
   const [isliked, setIsLiked] = useState(post?.likes.includes(userId));
   const [comments, setComments] = useState(post?.comments.length);
@@ -180,3 +180,5 @@ export default function Post({ post, userId, ownerId }) {
     </div>
   );
 }
+
+export default Post;

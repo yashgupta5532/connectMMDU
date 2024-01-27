@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "./closeFriend.css";
 import { Link } from "react-router-dom";
 
-export default function CloseFriend({ message = false }) {
+const CloseFriend = ({ message = false }) => {
   const [allFriends, setAllFriends] = useState([]);
 
   useEffect(() => {
@@ -53,4 +53,6 @@ export default function CloseFriend({ message = false }) {
         ))}
     </Fragment>
   );
-}
+};
+
+export default CloseFriend;

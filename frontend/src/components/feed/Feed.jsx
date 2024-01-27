@@ -6,7 +6,7 @@ import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import {toast} from "react-toastify"
 
-export default function Feed({ user }) {
+function Feed({ user }) {
   const [allPosts, setAllPosts] = useState([]);
   useEffect(() => {
     try {
@@ -52,3 +52,5 @@ export default function Feed({ user }) {
     </div>
   );
 }
+
+export default Feed;

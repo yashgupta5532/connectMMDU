@@ -6,7 +6,7 @@ import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-export default function Rightbar({ user }) {
+function Rightbar({ user }) {
   //   console.log("user is ", user);
 
   const HomeRightbar = ({ user }) => {
@@ -147,3 +147,6 @@ export default function Rightbar({ user }) {
     </div>
   );
 }
+
+
+export default Rightbar;

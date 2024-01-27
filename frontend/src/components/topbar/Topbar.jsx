@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import { toast } from "react-toastify";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export default function Topbar({ user }) {
+function Topbar({ user }) {
   console.log("user is", user);
   const [keyword, setKeyword] = useState("");
   // const defaultAvatar =
@@ -161,3 +161,5 @@ export default function Topbar({ user }) {
     </div>
   );
 }
+
+export default Topbar;

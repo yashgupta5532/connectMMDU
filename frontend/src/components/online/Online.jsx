@@ -5,7 +5,7 @@ import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-export default function Online({ message = false }) {
+function Online({ message = false }) {
   const [onlineUsers, setOnlineUsers] = useState([]);
 
   useEffect(() => {
@@ -62,3 +62,5 @@ export default function Online({ message = false }) {
     </Fragment>
   );
 }
+
+export default Online;

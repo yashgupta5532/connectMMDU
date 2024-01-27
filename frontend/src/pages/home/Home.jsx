@@ -6,13 +6,12 @@ import Rightbar from "../../components/rightbar/Rightbar.jsx";
 import "./Home.css";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
+import {useNavigate} from "react-router-dom"
 
 export default function Home() {
   const [user, setUser] = useState(null);
-
-  const alert = useAlert();
-
+  const navigate=useNavigate()
   useEffect(() => {
     const fetchMyInfo = async () => {
       try {
@@ -22,15 +21,18 @@ export default function Home() {
         console.log("data is ", data);
         if (data?.success) {
           setUser(data?.data);
+          
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
+          navigate("/login")
         }
       } catch (error) {
-        alert.error(error);
+        toast.error(error?.response.data.message);
+        navigate("/login")
       }
     };
     fetchMyInfo();
-  }, [alert]);
+  }, []);
 
   const updateUserLastActivity = async (userId, online) => {
     try {
@@ -42,6 +44,7 @@ export default function Home() {
       console.log("data is", data);
     } catch (error) {
       console.error("Error updating last activity:", error);
+      toast.error(error.response.data.message)
     }
   };
 

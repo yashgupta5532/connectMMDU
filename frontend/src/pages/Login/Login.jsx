@@ -1,15 +1,13 @@
 import "./login.css";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const dispatch = useDispatch();
-  const alert = useAlert();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,12 +22,12 @@ export default function Login() {
         { withCredentials: true }
       );
       if (data.success) {
-        alert.success(data.message);
+        toast.success(data.message);
         navigate("/");
       }
     } catch (error) {
       console.log("error", error);
-      alert.error(`${error.response.data.message}`);
+      toast.error(`${error.response.data.message}`);
     }
   };
 

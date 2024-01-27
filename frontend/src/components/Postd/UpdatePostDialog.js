@@ -4,7 +4,7 @@ import UpdatePost from "./UpdatePost.js";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const UpdatePostDialog = ({
   open,
@@ -13,22 +13,23 @@ const UpdatePostDialog = ({
   image,
   title,
   description,
-}) => {  
-  const alert = useAlert();
-  
+}) => {
   const handleDeletePost = async () => {
-    const deletemsg=prompt("Do you really want to delete post","yes/no");
-    if(deletemsg === "yes"){
-      const { data } = await axios.delete(`${serverUrl}/post/delete/${postId}`, {
-        withCredentials: true,
-      });
+    const deletemsg = prompt("Do you really want to delete post", "yes/no");
+    if (deletemsg === "yes") {
+      const { data } = await axios.delete(
+        `${serverUrl}/post/delete/${postId}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (data?.success) {
-        alert.success(data?.message);
+        toast.success(data?.message);
       } else {
-        alert.error(data?.message);
+        toast.error(data?.message);
       }
-    }else{
-      alert.success("post prevented from being delete")
+    } else {
+      toast.success("post prevented from being delete");
     }
   };
 

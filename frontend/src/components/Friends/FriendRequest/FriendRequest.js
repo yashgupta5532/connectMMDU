@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import "./FriendRequest.css";
 import axios from "axios";
 import { serverUrl } from "../../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import Suggestion from "../Suggestion/Suggestion.js";
 import Loader from "../../Loader/Loader.js";
 // import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import Loader from "../../Loader/Loader.js";
 const FriendRequest = () => {
   const [allFriendRequestUser, setAllFriendRequestUser] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
-  const alert = useAlert();
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,14 +25,14 @@ const FriendRequest = () => {
           setAllFriendRequestUser(data?.data);
         }
       } catch (error) {
-        alert.error(error.response.data.message);
+        toast.error(error.response.data.message);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchAllFriendRequests();
-  }, [alert]);
+  }, [toast]);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -62,12 +62,12 @@ const FriendRequest = () => {
       );
       console.log("response of friendrequest", data);
       if (data.success) {
-        alert.success(data.message);
+        toast.success(data.message);
       } else {
-        alert.error("Error", data.message);
+        toast.error("Error", data.message);
       }
     } catch (error) {
-      alert.error(error);
+      toast.error(error.response.data?.message);
     }
   };
 
@@ -81,7 +81,7 @@ const FriendRequest = () => {
           <div className="f-wrap">
             {userDetails &&
               userDetails.map((user) => (
-                  // <Link to={`/profile/${user?._id}`} key={user?._id}  >
+                // <Link to={`/profile/${user?._id}`} key={user?._id}  >
                 <div className="friend-request-container">
                   <div className="friend-user-container">
                     <div className="images">
@@ -112,7 +112,7 @@ const FriendRequest = () => {
                     </button>
                   </div>
                 </div>
-                  // </Link>
+                // </Link>
               ))}
           </div>
           <Suggestion />

@@ -1,42 +1,43 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import axios from "axios";
-import {serverUrl} from "../../../constants.js"
+import { serverUrl } from "../../../constants.js";
 // import { Link } from "react-router-dom";
 
 const Suggestion = () => {
-  const alert = useAlert();
   const [suggestedFriends, setSuggestedFriends] = useState([]);
   const [sentFriendRequests, setSentFriendRequests] = useState({});
 
   useEffect(() => {
     const fetchSuggestedFriends = async () => {
       try {
-        const { data } = await axios.get(
-          `${serverUrl}/user/find/matchers`,
-          { withCredentials: true }
-        );
+        const { data } = await axios.get(`${serverUrl}/user/find/matchers`, {
+          withCredentials: true,
+        });
         console.log("response in suggestion", data?.data);
         if (data?.success) {
           setSuggestedFriends(data?.data);
         }
       } catch (error) {
-        alert.error(error.response.data.message);
+        toast.error(error.response.data.message);
       }
     };
-  
+
     fetchSuggestedFriends();
-  }, [alert]);
+  }, [toast]);
 
   useEffect(() => {
-    const storedRequests = JSON.parse(localStorage.getItem("sentFriendRequests")) || {};
+    const storedRequests =
+      JSON.parse(localStorage.getItem("sentFriendRequests")) || {};
     setSentFriendRequests(storedRequests);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("sentFriendRequests", JSON.stringify(sentFriendRequests));
+    localStorage.setItem(
+      "sentFriendRequests",
+      JSON.stringify(sentFriendRequests)
+    );
   }, [sentFriendRequests]);
-  
 
   const handleFriendRequest = async (userId) => {
     console.log("clicked", process.env.REACT_APP_BACKEND_URL);
@@ -52,12 +53,12 @@ const Suggestion = () => {
           ...prevRequests,
           [userId]: !prevRequests[userId],
         }));
-        alert.success(data.message);
+        toast.success(data.message);
       } else {
-        alert.error("Error", data.message);
+        toast.error("Error", data.message);
       }
     } catch (error) {
-      alert.error(error);
+      toast.error(error.response.data?.message);
     }
   };
 
@@ -67,7 +68,7 @@ const Suggestion = () => {
       <div className="f-wrap">
         {suggestedFriends?.map((friend) => (
           // <Link to={`/profile/${friend?._id}`} key={friend?._id} >
-            <div className="friend-request-container">
+          <div className="friend-request-container">
             <div className="friend-user-container">
               <div className="images">
                 <img src={friend?.avatar} alt="img" />

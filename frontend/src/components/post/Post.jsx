@@ -4,10 +4,10 @@ import "./post.css";
 import { MoreVert } from "@mui/icons-material";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import CommentDialog from "../commentDialog/CommentDialog.js";
 import UpdatePostDialog from "../Postd/UpdatePostDialog.js";
-import { format} from 'timeago.js';
+import { format } from "timeago.js";
 
 export default function Post({ post, userId, ownerId }) {
   const [like, setLike] = useState(post?.likes.length);
@@ -19,7 +19,6 @@ export default function Post({ post, userId, ownerId }) {
   const [postOwner, setPostOwner] = useState("");
   const [isEditPostDialogOpen, setIsEditPostDialogOpen] = useState(false);
   const [isCommentDialogOpen, setIsCommentDialogOpen] = useState(false);
-  const alert = useAlert();
 
   useEffect(() => {
     const fetchPostOwnerDetails = async () => {
@@ -30,7 +29,7 @@ export default function Post({ post, userId, ownerId }) {
       if (data?.success) {
         setPostOwner(data?.data);
       } else {
-        alert.error(data?.message);
+        toast.error(data?.message);
       }
     };
     fetchPostOwnerDetails();
@@ -43,7 +42,7 @@ export default function Post({ post, userId, ownerId }) {
       { withCredentials: true }
     );
     if (data) {
-      alert.success(data?.message);
+      toast.success(data?.message);
       setIsLiked(!isliked);
       setLike(isliked ? like - 1 : like + 1);
     }
@@ -72,13 +71,21 @@ export default function Post({ post, userId, ownerId }) {
           <Link to={`profile/${ownerId}`}>
             <div className="postTopLeft">
               <img className="postProfileImg" src={postOwner?.avatar} alt="" />
-              {postOwner && postOwner?.online && <span className="rightbarOnline3"></span>}
+              {postOwner && postOwner?.online && (
+                <span className="rightbarOnline3"></span>
+              )}
               <span className="postUsername">{postOwner?.username}</span>
               <div>
-              <span className="postDate" style={{color:"blue", marginRight:"1vmax"}}> {format(postOwner?.lastActivity)}</span>
-              <span className="postDate">
-                {format(post?.createdAt,'en_US')}
-              </span>
+                <span
+                  className="postDate"
+                  style={{ color: "blue", marginRight: "1vmax" }}
+                >
+                  {" "}
+                  {format(postOwner?.lastActivity)}
+                </span>
+                <span className="postDate">
+                  {format(post?.createdAt, "en_US")}
+                </span>
               </div>
             </div>
           </Link>
@@ -100,8 +107,7 @@ export default function Post({ post, userId, ownerId }) {
             {post?.images.map((image, index) => (
               <div key={index} className="postImageItem">
                 {image.endsWith(".pdf") ? (
-                  <a href={image} target="_blank"
-                  rel="noopener noreferrer">
+                  <a href={image} target="_blank" rel="noopener noreferrer">
                     <div>
                       <iframe
                         title={`pdf-${index}`}

@@ -3,15 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Fragment } from "react";
 import "./ResetPassword.css";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import { serverUrl } from "../../constants.js";
 
 function ResetPassword() {
   const { token } = useParams();
-  console.log("token is",token)
+  console.log("token is", token);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const alert = useAlert();
+
   const navigate = useNavigate();
   const handleResetPassword = async () => {
     try {
@@ -26,15 +26,15 @@ function ResetPassword() {
       console.log(data);
       if (data?.success) {
         console.log(data?.message);
-        alert.success(data?.message);
+        toast.success(data?.message);
         setPassword("");
         setConfirmPassword("");
         navigate("/login");
       } else {
-        alert.error(data?.message);
+        toast.error(data?.message);
       }
     } catch (error) {
-      alert.error(error);
+      toast.error(error.response.data?.message);
     }
   };
 

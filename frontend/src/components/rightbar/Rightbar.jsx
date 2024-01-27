@@ -3,7 +3,7 @@ import "./rightbar.css";
 import Online from "../online/Online.jsx";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 export default function Rightbar({ user }) {
@@ -32,7 +32,7 @@ export default function Rightbar({ user }) {
 
   const ProfileRightbar = ({ user }) => {
     const [allFriends, setAllFriends] = useState([]);
-    const alert = useAlert();
+
     useEffect(() => {
       const fetchAllFriends = async () => {
         try {
@@ -43,14 +43,14 @@ export default function Rightbar({ user }) {
           if (data?.success) {
             setAllFriends(data?.data);
           } else {
-            alert.error(data?.message);
+            toast.error(data?.message);
           }
         } catch (error) {
-          alert.error(error);
+          toast.error(error.response.data?.message);
         }
       };
       fetchAllFriends();
-    }, [alert]);
+    }, [toast]);
     return (
       <>
         <h4 className="rightbarTitle">User information</h4>
@@ -116,7 +116,7 @@ export default function Rightbar({ user }) {
                 <div className="rightbarFollowing">
                   <img
                     src={friend?.avatar}
-                    alt={friend?.username} 
+                    alt={friend?.username}
                     className="rightbarFollowingImg"
                   />
                   <span className="rightbarFollowingname">

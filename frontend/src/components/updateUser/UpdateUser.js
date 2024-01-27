@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import Select from "react-select";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing"];
 
@@ -13,8 +13,6 @@ const UpdateUser = () => {
   const [formData, setFormData] = useState({});
   const [initialFormData, setInitialFormData] = useState({});
   const [user, setUser] = useState(null);
-
-  const alert = useAlert();
 
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -27,10 +25,10 @@ const UpdateUser = () => {
           setFormData(data?.data);
           setInitialFormData(data?.data);
         } else {
-          // alert.error(data?.message)
+          // toast.error(data?.message);
         }
       } catch (error) {
-        // alert.error(error)
+        // toast.error(error.response.data?.message);
       }
     };
     fetchMyInfo();
@@ -98,11 +96,15 @@ const UpdateUser = () => {
         }
       }
 
-      const uniqueInterests = new Set(formData.interests.map((interest) => interest.trim()));
+      const uniqueInterests = new Set(
+        formData.interests.map((interest) => interest.trim())
+      );
       formDataToSend.append("interests", [...uniqueInterests].join(","));
-    
+
       // For hobbies:
-      const uniqueHobbies = new Set(formData.hobbies.map((hobby) => hobby.trim()));
+      const uniqueHobbies = new Set(
+        formData.hobbies.map((hobby) => hobby.trim())
+      );
       formDataToSend.append("hobbies", [...uniqueHobbies].join(","));
 
       console.log("formdata to send is ", formDataToSend);
@@ -118,9 +120,9 @@ const UpdateUser = () => {
         console.log("data is avatar ", data);
         if (data?.success) {
           setFormData(data?.data);
-          alert.success(data?.message);
+          toast.success(data?.message);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       }
 
@@ -132,12 +134,12 @@ const UpdateUser = () => {
       console.log("data is updated ", data);
       if (data?.success) {
         setFormData(data?.data);
-        alert.success(data?.message);
+        toast.success(data?.message);
       } else {
-        alert.error(data?.message);
+        toast.error(data?.message);
       }
     } catch (error) {
-      alert.error("Error during updating profile:", error);
+      toast.error("Error during updating profile:", error);
     }
   };
 
@@ -246,7 +248,7 @@ const UpdateUser = () => {
     // setNewInterest("");  // Uncomment if needed to clear the input field
     closeInterestModal();
   };
-  
+
   const handleAddHobby = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,

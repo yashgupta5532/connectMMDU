@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import "./closeFriend.css";
 import { Link } from "react-router-dom";
 
 export default function CloseFriend({ message = false }) {
   const [allFriends, setAllFriends] = useState([]);
-  const alert = useAlert();
+
   useEffect(() => {
     const fetchAllFriends = async () => {
       try {
@@ -18,20 +18,25 @@ export default function CloseFriend({ message = false }) {
         if (data?.success) {
           setAllFriends(data?.data);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       } catch (error) {
-        alert.error(error);
+        toast.error(error.response.data?.message);
       }
     };
     fetchAllFriends();
-  }, [alert]);
+  }, [toast]);
 
   return (
     <Fragment>
       {allFriends &&
         allFriends.map((friend) => (
-          <Link to={`${message ? `/message/${friend?._id}` : `/profile/${friend?._id}`}`} key={friend?._id}>
+          <Link
+            to={`${
+              message ? `/message/${friend?._id}` : `/profile/${friend?._id}`
+            }`}
+            key={friend?._id}
+          >
             <li className="sidebarFriend" key={friend?._id}>
               <img className="sidebarFriendImg" src={friend?.avatar} alt="" />
               <span className="sidearFriendName">{friend?.username}</span>

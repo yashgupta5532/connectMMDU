@@ -3,11 +3,10 @@ import "./AdminDashboard.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
   const [posts, setPosts] = useState([]);
-  const alert = useAlert();
 
   useEffect(() => {
     try {
@@ -17,16 +16,16 @@ const AdminDashboard = () => {
         });
         if (data?.success) {
           setPosts(data?.data);
-          alert.success(data?.message);
+          toast.success(data?.message);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       };
       fetchData();
     } catch (error) {
-      alert.error(error);
+      toast.error(error.response.data?.message);
     }
-  }, [alert]);
+  }, [toast]);
 
   const updatepostStatus = async (postId, newStatus) => {
     try {
@@ -39,9 +38,9 @@ const AdminDashboard = () => {
           }
         );
         if (data?.success) {
-          alert.success(data?.message);
+          toast.success(data?.message);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       } else if (newStatus === "Rejected") {
         const { data } = await axios.put(
@@ -52,9 +51,9 @@ const AdminDashboard = () => {
           }
         );
         if (data?.success) {
-          alert.success(data?.message);
+          toast.success(data?.message);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       }
       setPosts((prevPosts) =>
@@ -63,7 +62,7 @@ const AdminDashboard = () => {
         )
       );
     } catch (error) {
-      alert.error("Error updating post status:", error);
+      toast.error("Error updating post status:", error);
     }
   };
 
@@ -73,10 +72,10 @@ const AdminDashboard = () => {
         `${serverUrl}/post/delete-admin/${postId}`,
         { withCredentials: true }
       );
-      if(data?.success){
-        alert.success(data?.message)
-      }else{
-        alert.error(data?.message)
+      if (data?.success) {
+        toast.success(data?.message);
+      } else {
+        toast.error(data?.message);
       }
       setPosts((prevPosts) =>
         prevPosts.filter((post) => {
@@ -84,7 +83,7 @@ const AdminDashboard = () => {
         })
       );
     } catch (error) {
-      alert.error("error while deleting the post", error);
+      toast.error("error while deleting the post", error);
     }
   };
 

@@ -9,24 +9,22 @@ import {
 import CommentCard from "./CommentCard.js";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const CommentDialog = ({ open, onClose, postId, comments }) => {
   const [comment, setComment] = useState("");
   const [commentDetails, setCommentDetails] = useState([]);
-  
-  const alert=useAlert();
 
-const fetchPostOwnerDetails = async (ownerId) => {
-      const { data } = await axios.get(
-        `${serverUrl}/user/userDetails/${ownerId}`,
-        { withCredentials: true }
-      );
-      if (data?.success) {
-        const userDetials = data?.data
-        return userDetials
-      }
-    };
+  const fetchPostOwnerDetails = async (ownerId) => {
+    const { data } = await axios.get(
+      `${serverUrl}/user/userDetails/${ownerId}`,
+      { withCredentials: true }
+    );
+    if (data?.success) {
+      const userDetials = data?.data;
+      return userDetials;
+    }
+  };
 
   useEffect(() => {
     const fetchCommentDetails = async () => {
@@ -46,28 +44,32 @@ const fetchPostOwnerDetails = async (ownerId) => {
         setCommentDetails(commentDetailsArray);
       }
     };
-  
+
     fetchCommentDetails();
   }, [comments]);
-  
+
   const handlePostComment = async () => {
     const { data } = await axios.post(
       `${serverUrl}/post/comment/${postId}`,
-      {comment},
+      { comment },
       { withCredentials: true }
     );
-    console.log("comment response ",data);
+    console.log("comment response ", data);
     if (data?.success) {
-      alert.success(data?.message);
+      toast.success(data?.message);
       setComment("");
       onClose();
-    }else{
-      alert.error(data?.message)
+    } else {
+      toast.error(data?.message);
     }
   };
 
   return (
-    <Dialog open={open} onClose={onClose} PaperProps={{ style: { minWidth: '50vw', minHeight: '40vh' } }}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      PaperProps={{ style: { minWidth: "50vw", minHeight: "40vh" } }}
+    >
       {commentDetails.map((commentDetail) => (
         <CommentCard key={commentDetail?.commentId} {...commentDetail} />
       ))}

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import "./share.css";
 import { Link } from "react-router-dom";
-import { PermMedia,EmojiEmotions } from "@mui/icons-material";
-import CropOriginalIcon from '@mui/icons-material/CropOriginal';
+import { PermMedia, EmojiEmotions } from "@mui/icons-material";
+import CropOriginalIcon from "@mui/icons-material/CropOriginal";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import FeelingDialog from "./FeelingDialog.js";
 
 export default function Share({ user, myId }) {
-  const alert = useAlert();
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
 
@@ -17,7 +16,7 @@ export default function Share({ user, myId }) {
     const selectedImages = e.target.files;
     setImages(selectedImages);
   };
-  
+
   const handleCreatePost = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -25,15 +24,19 @@ export default function Share({ user, myId }) {
     for (let i = 0; i < images.length; i++) {
       formData.append("images", images[i]);
     }
-   
-    const { data } =  await axios.post(`${serverUrl}/post/createPost`, formData, {
-      withCredentials: true,
-    });
+
+    const { data } = await axios.post(
+      `${serverUrl}/post/createPost`,
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
     console.log("reso is ", data);
     if (data?.success) {
-      alert.success(data?.message);
+      toast.success(data?.message);
     } else {
-      alert.error(data?.message);
+      toast.error(data?.message);
     }
   };
 
@@ -44,9 +47,9 @@ export default function Share({ user, myId }) {
       { withCredentials: true }
     );
     if (data?.success) {
-      alert.success(data?.message);
+      toast.success(data?.message);
     } else {
-      alert.error(data?.message);
+      toast.error(data?.message);
     }
   };
   const [isFeelingDialogOpen, setFeelingDialogOpen] = useState(false);
@@ -74,7 +77,7 @@ export default function Share({ user, myId }) {
             >
               <img className="shareProfileImg " src={user?.avatar} alt="" />
               {user && user.online && <span className="rightbarOnline2"></span>}
-              
+
               <p className="shareInput ">{user?.fullname}</p>
             </div>
           </Link>
@@ -111,7 +114,9 @@ export default function Share({ user, myId }) {
             <div className="shareOptions">
               <div className="shareOption">
                 <CropOriginalIcon htmlColor="green" className="shareIcon" />
-                <span className="shareOptionText">Posts {user?.posts.length}</span>
+                <span className="shareOptionText">
+                  Posts {user?.posts.length}
+                </span>
               </div>
             </div>
             <div className="shareOptions">

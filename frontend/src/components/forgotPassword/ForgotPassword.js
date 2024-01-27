@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import ForgotPasswordContainer from "./ForgotPasswordContainer.js";
 import axios from "axios";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import { serverUrl } from "../../constants.js";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const alert = useAlert();
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setMessage("");
@@ -17,18 +17,22 @@ const ForgotPassword = () => {
   const handleSendResetLink = async () => {
     try {
       setIsLoading(true);
-      const {data} = await axios.post(`${serverUrl}/user/forgot/password`, {
-        email,
-      },{withCredentials:true});
-      if(data?.success){
-        alert.success(data?.message)
-        setMessage("")
-      }else{
-        alert.error(data?.message)
+      const { data } = await axios.post(
+        `${serverUrl}/user/forgot/password`,
+        {
+          email,
+        },
+        { withCredentials: true }
+      );
+      if (data?.success) {
+        toast.success(data?.message);
+        setMessage("");
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
       console.error("Error:", error);
-      alert.error(error)
+      toast.error(error.response.data?.message);
     } finally {
       setIsLoading(false);
     }

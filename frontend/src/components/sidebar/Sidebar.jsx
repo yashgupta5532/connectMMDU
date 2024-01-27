@@ -10,7 +10,7 @@ import {
   Event,
 } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import CloseFriend from "../closeFriend/CloseFriend";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
@@ -18,12 +18,11 @@ import Diversity1Icon from "@mui/icons-material/Diversity1";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 export default function Sidebar({ user }) {
   const [isFriendMenuOpen, setIsFriendMenuOpen] = useState(false);
-  
-  const alert = useAlert();
+
   const toggleFriendMenu = () => {
     setIsFriendMenuOpen(!isFriendMenuOpen);
   };
@@ -35,15 +34,14 @@ export default function Sidebar({ user }) {
       });
       console.log("data is", data);
       if (data.success) {
-        alert.success(data.message);
+        toast.success(data.message);
       } else {
-        alert.error(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
-      alert.error(error);
+      toast.error(error.response.data?.message);
     }
   };
-
 
   return (
     <div className="sidebar">
@@ -119,7 +117,9 @@ export default function Sidebar({ user }) {
             <span className="sidebarListItemText">Logout</span>
           </li>
         </ul>
-        <button className="sidebarButton btn sidebarListItemText">Show More</button>
+        <button className="sidebarButton btn sidebarListItemText">
+          Show More
+        </button>
         <hr className="sidebarHr" />
         <ul className="sidebarFriendList">
           <CloseFriend />

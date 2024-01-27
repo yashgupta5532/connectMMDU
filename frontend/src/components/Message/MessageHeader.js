@@ -12,7 +12,7 @@ import CloseFriend from "../closeFriend/CloseFriend.jsx";
 import Online from "../online/Online.jsx";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { css } from "@emotion/css";
 import { format } from "timeago.js";
@@ -26,7 +26,7 @@ const MessageHeader = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
-  const alert = useAlert();
+
   const [visibleMessages, setVisibleMessages] = useState([]);
 
   const messagesRef = useRef([]);
@@ -62,7 +62,7 @@ const MessageHeader = () => {
     return () => {
       observer.disconnect();
     };
-  }, [messages,visibleMessages]);
+  }, [messages, visibleMessages]);
 
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -76,11 +76,9 @@ const MessageHeader = () => {
         if (data?.success) {
           setUser(data?.data);
         } else {
-          // alert.error(data?.message);
+          // toast.error(data?.message);;
         }
-      } catch (error) {
-        // alert.error(error);
-      }
+      } catch (error) {}
     };
     fetchMyInfo();
   }, [userId]);
@@ -93,11 +91,11 @@ const MessageHeader = () => {
       if (data?.success) {
         setMessages(data?.data);
       } else {
-        alert.error(data?.message);
+        toast.error(data?.message);
       }
     };
     fetchAllMessages();
-  }, [userId, message, alert]);
+  }, [userId, message, toast]);
 
   const socket = io(socketUrl);
 
@@ -131,10 +129,10 @@ const MessageHeader = () => {
     );
     if (data?.success) {
       setMessages((prevMessages) => [...prevMessages, data.data]);
-      alert.success(data?.message);
+      toast.success(data?.message);
       setMessage("");
     } else {
-      alert.error(data?.message);
+      toast.error(data?.message);
     }
   };
 
@@ -147,12 +145,12 @@ const MessageHeader = () => {
         }
       );
       if (data?.success) {
-        alert.success(data.message);
+        toast.success(data.message);
       } else {
-        alert.error(data?.message);
+        toast.error(data?.message);
       }
     } catch (error) {
-      alert.error(error);
+      toast.error(error.response.data?.message);
     }
   };
 

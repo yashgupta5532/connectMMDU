@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import "./Contact.css";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 function Contact() {
-  const alert = useAlert();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -24,7 +23,7 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Assuming formData contains the form fields
     const dataToSend = {
       name: formData.name,
@@ -33,7 +32,7 @@ function Contact() {
       contactNo: formData.contactNo,
       message: formData.message,
     };
-  
+
     // Send a POST request to your backend API
     try {
       const { data } = await axios.post(
@@ -43,7 +42,7 @@ function Contact() {
       );
       console.log("data is ", data);
       if (data?.success) {
-        alert.success(data.message);
+        toast.success(data.message);
         setFormData({
           name: "",
           address: "",
@@ -53,14 +52,14 @@ function Contact() {
         });
       } else {
         // Ensure that the error message is a string
-        alert.error(data?.message.toString());
+        toast.error(data?.message.toString());
       }
     } catch (error) {
       // Ensure that the error message is a string
-      alert.error(error.toString());
+      toast.error(error.toString());
     }
   };
-  
+
   return (
     <div className="contact-container">
       <h1>Contact Us</h1>

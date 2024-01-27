@@ -2,12 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./online.css";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 export default function Online({ message = false }) {
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const alert = useAlert();
+
   useEffect(() => {
     const fetchOnlinUsers = async () => {
       try {
@@ -21,10 +21,10 @@ export default function Online({ message = false }) {
         if (data?.success) {
           setOnlineUsers(data?.data);
         } else {
-          alert.error(data?.message.toString());
+          toast.error(data?.message.toString());
         }
       } catch (error) {
-        // alert.error(error.toString());
+        // toast.error(error.toString());
       }
     };
     fetchOnlinUsers();

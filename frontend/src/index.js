@@ -1,24 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.js";
-import { transitions, positions, Provider as AlertProvider } from "react-alert";
-import AlertTemplate from "react-alert-template-basic";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Modal from "react-modal";
 
 const options = {
-  position: positions.BOTTOM_CENTER,
-  timeout: 5000,
-  offset: "30px",
-  transition: transitions.SCALE,
+  position: 'bottom-center',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
 };
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 Modal.setAppElement("#root");
 root.render(
   <React.StrictMode>
-    <AlertProvider template={AlertTemplate} {...options}>
+    <ToastContainer {...options} />
       <App />
-    </AlertProvider>
   </React.StrictMode>
 );

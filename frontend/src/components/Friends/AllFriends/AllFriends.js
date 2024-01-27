@@ -2,29 +2,29 @@ import React, { Fragment, useEffect, useState } from "react";
 import "./AllFriends.css";
 import axios from "axios";
 import { serverUrl } from "../../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const AllFriends = () => {
   const [allFriends, setAllFriends] = useState([]);
-  const alert = useAlert();
+
   useEffect(() => {
     const fetchAllFriends = async () => {
       try {
-        const {data} = await axios.get(`${serverUrl}/user/all/friends`,{
+        const { data } = await axios.get(`${serverUrl}/user/all/friends`, {
           withCredentials: true,
         });
         // console.log("data res",data);
         if (data?.success) {
           setAllFriends(data?.data);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       } catch (error) {
-        alert.error(error);
+        toast.error(error.response.data?.message);
       }
     };
     fetchAllFriends();
-  }, [alert]);
+  }, [toast]);
 
   // console.log("all friends ",allFriends)
   return (
@@ -34,7 +34,7 @@ const AllFriends = () => {
           allFriends.map((user) => (
             <div key={user?._id} className="profile-container">
               <div className="bg-img">
-                <img  src={user?.coverImage} alt="imaging" />
+                <img src={user?.coverImage} alt="imaging" />
               </div>
               <div className="user-info">
                 <div className="info">

@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import "./register.css";
 import Select from "react-select";
 import "./Register2.css";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
@@ -32,7 +32,6 @@ const Register = () => {
     yearOfStudy: "",
   });
 
-  const alert = useAlert();
   const navigate = useNavigate();
 
   const branchOptions = [
@@ -119,14 +118,14 @@ const Register = () => {
       );
       console.log("data is", data);
       if (data.success) {
-        alert.success(data.message);
+        toast.success(data.message);
         navigate("/login");
       } else {
         // const errorResponse = await response.json();
-        alert.error(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
-      alert.error("Error during registration:", error);
+      toast.error("Error during registration:", error);
     }
   };
 

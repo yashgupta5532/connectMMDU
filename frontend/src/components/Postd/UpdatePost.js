@@ -4,14 +4,13 @@ import "./UpdatePost.css";
 import Loader from "../Loader/Loader.js";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 const UpdatePost = ({ postId, image, titled, desc }) => {
   const [images, setImage] = useState(image);
   const [title, setTitle] = useState(titled);
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState(desc);
-  const alert = useAlert();
 
   // const handleImageChange = (e) => {
   //   const file = e.target.files;
@@ -32,21 +31,21 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedData = {};
-  
+
     if (title !== titled) {
       updatedData.title = title;
     }
     if (description !== desc) {
       updatedData.description = description;
     }
-  
+
     // Handle image update
     if (images !== image) {
       const formData = new FormData();
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
-  
+
       try {
         const { data } = await axios.put(
           `${serverUrl}/post/update-post/image/${postId}`,
@@ -60,16 +59,16 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
         );
         // console.log("image is", data);
         if (data?.success) {
-          alert.success(data?.message);
+          toast.success(data?.message);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       } catch (error) {
         console.error("Error updating image:", error);
-        alert.error("Error updating image. Please try again.");
+        toast.error("Error updating image. Please try again.");
       }
     }
-  
+
     // Handle other updates
     if (Object.keys(updatedData).length > 0) {
       try {
@@ -79,19 +78,18 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
           { withCredentials: true }
         );
         if (data?.success) {
-          alert.success(data?.message);
+          toast.success(data?.message);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       } catch (error) {
         console.error("Error updating post:", error);
-        alert.error("Error updating post. Please try again.");
-      }finally{
-        setLoading(false)
+        toast.error("Error updating post. Please try again.");
+      } finally {
+        setLoading(false);
       }
     }
   };
-  
 
   return (
     <Fragment>
@@ -106,11 +104,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
             <form className="updatePost-form" onSubmit={handleSubmit}>
               <div className="form " style={{ textAlign: "center" }}>
                 {images && <img src={images} alt="post" />}
-                <input
-                  type="file"
-                  name="images"
-                  onChange={handleImageChange}
-                />
+                <input type="file" name="images" onChange={handleImageChange} />
               </div>
               <div className="form">
                 {" "}

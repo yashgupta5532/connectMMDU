@@ -6,7 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Rightbar from "../../components/rightbar/Rightbar.jsx";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import Share from "../../components/share/Share.jsx";
 import Post from "../../components/post/Post.jsx";
@@ -16,7 +16,7 @@ export default function Profile() {
   // console.log("user id ",userId)
   const [user, setUser] = useState(null);
   const [myPosts, setMyPosts] = useState([]);
-  const alert = useAlert();
+
   const defaultCoverImage =
     "https://imgs.search.brave.com/nday_SBE87w0EnZwLFKAvAvEKX6UQZA5RNjU4dX1Geg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzE0LzRl/Lzc2LzE0NGU3NjM2/N2EwNzA0NWI3ODQ1/ZmIwYTY2OWQ3OGNh/LmpwZw";
 
@@ -31,14 +31,14 @@ export default function Profile() {
         if (data?.success) {
           setMyDetails(data?.data);
         } else {
-          alert.error(data?.message);
+          toast.error(data?.message);
         }
       } catch (error) {
-        alert.error(error);
+        toast.error(error.response.data?.message);
       }
     };
     fetchMyDetials();
-  }, [alert]);
+  }, [toast]);
 
   useEffect(() => {
     const fetchMyInfo = async () => {
@@ -53,11 +53,9 @@ export default function Profile() {
         if (data?.success) {
           setUser(data?.data);
         } else {
-          // alert.error(data?.message);
+          // toast.error(data?.message);;
         }
-      } catch (error) {
-        // alert.error(error);
-      }
+      } catch (error) {}
     };
     fetchMyInfo();
   }, [userId]);

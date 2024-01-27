@@ -1,25 +1,27 @@
 import React, { useEffect, useState, Fragment } from "react";
 import "./ContactInfo.css"; // Import your CSS file
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 import axios from "axios";
 // import { Link } from "react-router-dom";
 import { serverUrl } from "../../constants.js";
 
 const ContactInfo = () => {
   const [contactFormSubmissions, setContactFormSubmissions] = useState([]);
-  const alert = useAlert();
 
   useEffect(() => {
     const fetchAllContact = async () => {
-      const {data}=await axios.get(`${serverUrl}/contact/admin/all-contact`,{withCredentials:true})
-      if(data?.success){
-        setContactFormSubmissions(data?.data)
-      }else{
-        alert.error(data?.message)
+      const { data } = await axios.get(
+        `${serverUrl}/contact/admin/all-contact`,
+        { withCredentials: true }
+      );
+      if (data?.success) {
+        setContactFormSubmissions(data?.data);
+      } else {
+        toast.error(data?.message);
       }
     };
     fetchAllContact();
-  }, [alert]);
+  }, [toast]);
 
   return (
     <Fragment>

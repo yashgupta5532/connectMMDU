@@ -130,7 +130,7 @@ function Sidebar({ user }) {
             Show More
           </button>
           <hr className="sidebarHr" />
-          <ul className="sidebarFriendList">
+          <ul className="sidebarFriendList ">
             <CloseFriend />
           </ul>
         </div>

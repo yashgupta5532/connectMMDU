@@ -1,6 +1,8 @@
+
+
 .login {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #f0f2f5;
     display: flex;
     align-items: center;
@@ -47,6 +49,7 @@
     border: 1px solid gray;
     font-size: 18px;
     padding-left: 20px;
+    width: 80%;
 }
 
 .loginInput:focus {
@@ -98,14 +101,14 @@
     
 }
 
-
-@media screen and (max-width:600px){
-    .loginWrapper{
+@media screen and (max-width: 600px) {
+    .login .loginWrapper {
         display: flex;
         flex-direction: column;
         padding: 1vmax;
     }
-    .loginLeft{
+
+    .login .loginWrapper .loginLeft {
         margin-bottom: 4vmax;
     }
 }

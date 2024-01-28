@@ -141,10 +141,11 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
-    domain: process.env.DOMAIN || 'connectmmdu-frontend.onrender.com',
-    sameSite: 'Lax',
+    secure: process.env.NODE_ENV === 'production',
+    domain: process.env.NODE_ENV === 'production' ? process.env.DOMAIN || 'connectmmdu-frontend.onrender.com' : undefined,
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : undefined,
   };
+  
 
   return res
     .status(200)

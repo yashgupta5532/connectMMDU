@@ -7,11 +7,11 @@ import "./Home.css";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-const Home=()=> {
+const Home = () => {
   const [user, setUser] = useState(null);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchMyInfo = async () => {
       try {
@@ -21,14 +21,13 @@ const Home=()=> {
         console.log("data is ", data);
         if (data?.success) {
           setUser(data?.data);
-          
         } else {
           toast.error(data?.message);
-          navigate("/login")
+          navigate("/login");
         }
       } catch (error) {
         toast.error(error?.response.data.message);
-        navigate("/login")
+        navigate("/login");
       }
     };
     fetchMyInfo();
@@ -44,10 +43,14 @@ const Home=()=> {
       // console.log("data is", data);
     } catch (error) {
       // console.error("Error updating last activity:", error);
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
       } else {
-        toast.error('An unexpected error occurred.');
+        toast.error("An unexpected error occurred.");
       }
     }
   };
@@ -85,7 +88,6 @@ const Home=()=> {
       </div>
     </>
   );
-}
-
+};
 
 export default Home;

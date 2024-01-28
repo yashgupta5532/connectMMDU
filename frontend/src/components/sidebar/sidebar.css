@@ -79,6 +79,18 @@
     list-style: none;
 }
 
+.sidebar3{
+    /* margin: -16px; */
+    position: relative;
+    padding: 0px;
+    min-width: 13vw;
+}
+
+@media screen and (max-width: 680px) {
+    .sidebar .sidebarWrapper .sidebarButton{
+        display: none;
+    }
+}
 
 @media screen and (max-width: 600px) {
     .sidebarList span {
@@ -86,7 +98,9 @@
       visibility: hidden;  */
       display: none;
     }
-
+    .sidebar{
+        max-width: 8vw;
+    }
     .sidebarListItem {
       background-color: transparent;
       padding: 0.75vmax 15px; 
@@ -104,4 +118,12 @@
     ::-webkit-scrollbar {
         width: 0px;
     }
+   
   }
+
+
+@media screen and (max-width:540px) { 
+    .sidebar .sidebarWrapper .sidebarButton,.sidebar .sidebarWrapper .sidebarFriendList{
+        display: none;
+    }
+} 

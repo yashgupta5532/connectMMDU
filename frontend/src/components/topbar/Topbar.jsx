@@ -47,16 +47,23 @@ function Topbar({ user }) {
 
   const hideMenu = (e) => {
     console.log(e.view.outerWidth);
-    const width = e.view.outerWidth;
-    const menuTextElements = document.querySelectorAll(".sidebarListItemText");
-    const sidebarContainer = document.getElementById("sidebar-container");
-    menuTextElements.forEach((element) => {
-      element.classList.toggle("hidden");
-    });
-    if (width < 590) {
-      sidebarContainer.classList.toggle("hidden");
+    if (e.view.outerWidth < 660) {
+      const width = e.view.outerWidth;
+      const menuTextElements = document.querySelectorAll(
+        ".sidebarListItemText"
+      );
+      const sidebarContainer = document.getElementById("sidebar-container");
+      menuTextElements.forEach((element) => {
+        element.classList.toggle("hidden");
+      });
+      if (width < 590) {
+        sidebarContainer.classList.toggle("hidden");
+      }
+      if (width < 530) {
+        sidebarContainer.classList.add("sidebar3");
+      }
+      setHideMenuText(!hideMenuText);
     }
-    setHideMenuText(!hideMenuText);
   };
 
   const closeModal = () => {

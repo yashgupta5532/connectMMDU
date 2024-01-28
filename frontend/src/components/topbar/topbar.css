@@ -143,3 +143,9 @@
     width: 80vw;
 }
 
+@media screen and (max-width:450px) {
+    .topbarContainer{
+        width: 105%;
+        overflow-x: hidden;
+    }
+}

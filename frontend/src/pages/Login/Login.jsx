@@ -1,13 +1,15 @@
-import "./Login.css";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -28,11 +30,15 @@ const Login = () => {
     } catch (error) {
       console.log("error", error);
       if (error.response && error.response.data && error.response.data.message) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error('An unexpected error occurred.');
-        }
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
+  };
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -55,14 +61,21 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <input
-                placeholder="Password"
-                className="loginInput"
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="passwordInputContainer">
+                <input
+                  placeholder="Password"
+                  className="loginInput"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {showPassword ? (
+                  <VisibilityOffIcon className="eye-icon" onClick={handleTogglePassword} />
+                ) : (
+                  <RemoveRedEyeIcon className="eye-icon" onClick={handleTogglePassword} />
+                )}
+              </div>
               <button className="loginButton" type="submit">
                 Log In
               </button>
@@ -80,6 +93,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

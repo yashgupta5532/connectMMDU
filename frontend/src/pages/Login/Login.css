@@ -53,6 +53,16 @@
     outline: none;
 }
 
+.passwordInputContainer{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+}
+.passwordInputContainer .eye-icon{
+    margin-left: -5vmax;
+}
+
 .loginButton {
     height: 50px;
     border-radius: 10px;

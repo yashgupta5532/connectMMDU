@@ -141,8 +141,8 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,        
-    domain: '.onrender.com', // Adjust based on your domain
+    secure: true,
+    domain: process.env.DOMAIN || 'connectmmdu-frontend.onrender.com',
     sameSite: 'Lax',
   };
 

@@ -90,9 +90,11 @@ export const registerUser = asyncHandler(async (req, res) => {
     username,
     email,
     password,
-    avatar: avatar.url,
+    avatar:
+      avatar?.url ??
+      "https://imgs.search.brave.com/_QS-C_ZdFRoEEb83lITyO3dY1Y6syO6ywUb65b2ZRcQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyLnBuZw",
     coverImage:
-      coverImage?.url ||
+      coverImage?.url ??
       "https://imgs.search.brave.com/QFLg7TGQUKA9UvSvojofsO00DvMQB-zW8Obk9IX3TMs/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvaS1sb3ZlLXlv/dS1iYWNrZ3JvdW5k/LWlubGI1bWI4Zjhz/a3RmMGguanBn",
     martialStatus,
     gender,
@@ -141,11 +143,10 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    domain: process.env.NODE_ENV === 'production' ? process.env.DOMAIN || 'connectmmdu-frontend.onrender.com' : undefined,
-    sameSite: process.env.NODE_ENV === 'production' ? 'None' : undefined,
+    secure: true,
+    domain: ".connectmmdu-frontend.onrender.com",
+    sameSite: "None"
   };
-  
 
   return res
     .status(200)
@@ -447,7 +448,6 @@ export const getAllFriends = asyncHandler(async (req, res) => {
 });
 
 export const getAllFriendRequestsUsers = asyncHandler(async (req, res) => {
-  
   const allFriends = req.user.friendRequests;
   console.log(allFriends);
   if (allFriends.length <= 0) {
@@ -654,7 +654,9 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     },
   });
   console.log("heaaders ", req.headers);
-  const resetLink = `${process.env.CORS_ORIGIN_URL || 'https://connectmmdu-frontend.onrender.com'}/reset/password/${resetToken}`;
+  const resetLink = `${
+    process.env.CORS_ORIGIN_URL || "https://connectmmdu-frontend.onrender.com"
+  }/reset/password/${resetToken}`;
 
   const mailOptions = {
     from: process.env.SMTP_MAIL,

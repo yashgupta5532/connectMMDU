@@ -143,9 +143,9 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    domain: process.env.NODE_ENV === "production" ? ".onrender.com" : undefined,
-    sameSite: process.env.NODE_ENV === "production" ? "None" : undefined,
+    secure: true,
+    domain: ".onrender.com",
+    sameSite: "None",
     path: "/",
   };
 

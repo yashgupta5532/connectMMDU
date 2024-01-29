@@ -3,7 +3,7 @@ import "./AllFriends.css";
 import axios from "axios";
 import { serverUrl } from "../../../constants.js";
 import { toast } from "react-toastify";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const AllFriends = () => {
   const [allFriends, setAllFriends] = useState([]);
@@ -44,17 +44,8 @@ const AllFriends = () => {
             <Link to={`/profile/${user?._id}`}>
               <div key={user?._id} className="profile-container">
                 <div className="bg-img">
-                  <img
-                    src={
-                      user?.coverImage[0] !== undefined &&
-                      user?.coverImage !== null
-                        ? user?.coverImage
-                        : "https://imgs.search.brave.com/QFLg7TGQUKA9UvSvojofsO00DvMQB-zW8Obk9IX3TMs/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvaS1sb3ZlLXlv/dS1iYWNrZ3JvdW5k/LWlubGI1bWI4Zjhz/a3RmMGguanBn"
-                    }
-                    alt="imaging"
-                  />
+                  <img src={user?.coverImage[0]} alt="imaging" />
                 </div>
-
                 <div className="user-info">
                   <div className="info">
                     <div className="avatar">

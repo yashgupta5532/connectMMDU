@@ -24,11 +24,12 @@ function Online({ message = false }) {
           toast.error(data?.message.toString());
         }
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error('An unexpected error occurred.');
-        }
+        console.log(error)
+        // if (error.response && error.response.data && error.response.data.message) {
+        //   toast.error(error.response.data.message);
+        // } else {
+        //   toast.error('An unexpected error occurred.');
+        // }
       }
     };
     fetchOnlinUsers();

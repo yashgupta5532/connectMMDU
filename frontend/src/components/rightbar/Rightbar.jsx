@@ -39,22 +39,23 @@ function Rightbar({ user }) {
           const { data } = await axios.get(`${serverUrl}/user/all/friends`, {
             withCredentials: true,
           });
-          console.log("data res", data);
+          // console.log("data res", data);
           if (data?.success) {
             setAllFriends(data?.data);
           } else {
             toast.error(data?.message);
           }
         } catch (error) {
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.message
-          ) {
-            toast.error(error.response.data.message);
-          } else {
-            toast.error("An unexpected error occurred.");
-          }
+          console.log(error)
+          // if (
+          //   error.response &&
+          //   error.response.data &&
+          //   error.response.data.message
+          // ) {
+          //   toast.error(error.response.data.message);
+          // } else {
+          //   toast.error("An unexpected error occurred.");
+          // }
         }
       };
       fetchAllFriends();

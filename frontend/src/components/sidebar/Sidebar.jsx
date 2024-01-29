@@ -18,8 +18,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
+import Loader from "../Loader/Loader.js"
 
 function Sidebar({ user }) {
+  const [loading,setLoading]=useState(false)
   const [isFriendMenuOpen, setIsFriendMenuOpen] = useState(false);
   const navigate = useNavigate();
   const toggleFriendMenu = () => {
@@ -28,6 +30,7 @@ function Sidebar({ user }) {
 
   const handleLogout = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.post(`${serverUrl}/user/logout`, null, {
         withCredentials: true,
       });
@@ -49,11 +52,17 @@ function Sidebar({ user }) {
         toast.error("An unexpected error occurred.");
       }
     }
+    finally{
+      setLoading(false)
+    }
   };
 
   return (
     <Fragment>
-      <div className="sidebar" id="sidebar-container">
+     {
+      loading ? <Loader /> :
+      <>
+       <div className="sidebar" id="sidebar-container">
         <div className="sidebarWrapper ">
           <ul className="sidebarList">
             <li className="sidebarListItem ">
@@ -135,6 +144,8 @@ function Sidebar({ user }) {
           </ul>
         </div>
       </div>
+      </>
+     }
     </Fragment>
   );
 }

@@ -16,6 +16,7 @@ const Profile=() =>{
   // console.log("user id ",userId)
   const [user, setUser] = useState(null);
   const [myPosts, setMyPosts] = useState([]);
+  const [loading,setLoading] =useState(false)
 
   const defaultCoverImage =
     "https://imgs.search.brave.com/nday_SBE87w0EnZwLFKAvAvEKX6UQZA5RNjU4dX1Geg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzE0LzRl/Lzc2LzE0NGU3NjM2/N2EwNzA0NWI3ODQ1/ZmIwYTY2OWQ3OGNh/LmpwZw";
@@ -25,6 +26,7 @@ const Profile=() =>{
   useEffect(() => {
     const fetchMyDetials = async () => {
       try {
+        setLoading(true)
         const { data } = await axios.get(`${serverUrl}/user/myDetails`, {
           withCredentials: true,
         });
@@ -43,6 +45,9 @@ const Profile=() =>{
         } else {
           toast.error("An unexpected error occurred.");
         }
+      }
+      finally{
+        setLoading(false)
       }
     };
     fetchMyDetials();

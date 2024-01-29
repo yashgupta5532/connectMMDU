@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,Fragment} from "react";
 import "./share.css";
 import { Link } from "react-router-dom";
 import { PermMedia, EmojiEmotions } from "@mui/icons-material";
@@ -7,10 +7,12 @@ import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 import FeelingDialog from "./FeelingDialog.js";
+import Loader from "../Loader/Loader.js"
 
 function Share({ user, myId }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
+  const [loading,setLoading]=useState(false);
 
   const handleImageChange = (e) => {
     const selectedImages = e.target.files;
@@ -26,6 +28,7 @@ function Share({ user, myId }) {
     }
 
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `${serverUrl}/post/createPost`,
         formData,
@@ -33,9 +36,11 @@ function Share({ user, myId }) {
           withCredentials: true,
         }
       );
-      console.log("reso is ", data);
+      // console.log("reso is ", data);
       if (data?.success) {
         toast.success(data?.message);
+        setDescription("");
+        
       } else {
         toast.error(data?.message);
       }
@@ -45,6 +50,8 @@ function Share({ user, myId }) {
       } else {
         toast.error('An unexpected error occurred.');
       }
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -76,7 +83,9 @@ function Share({ user, myId }) {
   };
 
   return (
-    <div className="share">
+   <Fragment>
+    {
+      loading ? <Loader /> : <div className="share">
       <div className="shareWrapper">
         <div>
           <Link to={`/profile/${user?._id}`}>
@@ -161,6 +170,8 @@ function Share({ user, myId }) {
         />
       </div>
     </div>
+    }
+   </Fragment>
   );
 }
 

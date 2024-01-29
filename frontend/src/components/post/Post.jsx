@@ -46,7 +46,7 @@ function Post({ post, userId, ownerId }) {
       }
     };
     fetchPostOwnerDetails();
-  });
+  },[]);
 
   const likeHandler = async (postId) => {
     try {

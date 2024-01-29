@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchMyInfo = async () => {
       try {

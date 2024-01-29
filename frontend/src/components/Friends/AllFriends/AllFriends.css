@@ -1,42 +1,78 @@
-
-.profile-container-header{
-    margin-left: 1.5vw;
-    width: 30vw;
+/* Assuming these styles are outside media queries */
+.profile-container-header {
+    padding: 1vmax;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.profile-container-header .profile-container .bg-img{
-   width: inherit;
-   height: 8vh;
-}
-.profile-container-header .profile-container .bg-img img{
-    width: 30vw;
-}
+.profile-container {
+    margin: 2vmax;
+    max-width: 30vw;
+    max-height: 35vw;
+    padding: 1vmax;
+    /* position: relative; */
 
-.profile-container-header .profile-container .avatar{
-    width: 10vw;
-}
-
-.profile-container-header .profile-container .avatar img{
-    width: inherit;
-    border-radius: 50%;
-}
-.profile-container-header .profile-container .info{
+  }
+  
+  .profile-container .bg-img {
+    width: 100%;
+    height: 18vh;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .profile-container .bg-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-container .user-info {
+    background-color: rgb(188, 167, 167);
+    border-radius: 0 0 10px;
+    padding: 1vmax;
     position: relative;
-    top: 26vh;
-    left: 3vw;
-    z-index: 2;
-}
-.profile-container-header .profile-container .follow{
+    top: -1vmax;
+  }
+  
+  .profile-container .info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-container .avatar {
+    width: 10vw;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .profile-container .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-container .follow {
     padding: 0.5vmax;
     margin-top: 0.5vmax;
     background-color: royalblue;
     color: white;
     border-radius: 5px;
-    margin-left: -1vw;
-}
-
-.profile-container-header .profile-container .user-info{
-    background-color: rgb(188, 167, 167);
-    border-radius: 0 0 10px;
-}
-
+    margin-left: 1vw;
+  }
+  
+  .profile-container .user-details {
+    margin-left: 2vw;
+    color: white;
+  }
+  
+  .profile-container .user-details h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .profile-container .user-details p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  

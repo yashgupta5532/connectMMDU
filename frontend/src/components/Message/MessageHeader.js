@@ -95,10 +95,14 @@ const MessageHeader = () => {
           toast.error(data?.message);
         }
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
-          toast.error('An unexpected error occurred.');
+          toast.error("An unexpected error occurred.");
         }
       }
     };
@@ -130,26 +134,30 @@ const MessageHeader = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   try {
-     const { data } = await axios.post(
-       `${serverUrl}/message/send/${userId}`,
-       { content: message },
-       { withCredentials: true }
-     );
-     if (data?.success) {
-       setMessages((prevMessages) => [...prevMessages, data.data]);
-       toast.success(data?.message);
-       setMessage("");
-     } else {
-       toast.error(data?.message);
-     }
-   } catch (error) {
-    if (error.response && error.response.data && error.response.data.message) {
-      toast.error(error.response.data.message);
-    } else {
-      toast.error('An unexpected error occurred.');
+    try {
+      const { data } = await axios.post(
+        `${serverUrl}/message/send/${userId}`,
+        { content: message },
+        { withCredentials: true }
+      );
+      if (data?.success) {
+        setMessages((prevMessages) => [...prevMessages, data.data]);
+        toast.success(data?.message);
+        setMessage("");
+      } else {
+        toast.error(data?.message);
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
-   }
   };
 
   const handleDeleteMsg = async (messageId) => {
@@ -185,6 +193,9 @@ const MessageHeader = () => {
           <h3 style={{ marginBottom: "10px" }}>All Friends</h3>
           <hr style={{ marginBottom: "10px" }} />
           <CloseFriend message={true} />
+          <h3 style={{ marginBottom: "10px" }}>online users</h3>
+          <hr style={{ marginBottom: "10px" }} />
+          <Online message={true} />
         </div>
         <div className="message-container">
           <div className="receiver-header-container">
@@ -275,11 +286,6 @@ const MessageHeader = () => {
               </div>
             </div>
           </form>
-        </div>
-        <div className="online-user-container">
-          <h3 style={{ marginBottom: "10px" }}>online users</h3>
-          <hr style={{ marginBottom: "10px" }} />
-          <Online message={true} />
         </div>
       </div>
     </Fragment>

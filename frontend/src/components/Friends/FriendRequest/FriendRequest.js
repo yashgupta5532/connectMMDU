@@ -25,10 +25,14 @@ const FriendRequest = () => {
           setAllFriendRequestUser(data?.data);
         }
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
-          toast.error('An unexpected error occurred.');
+          toast.error("An unexpected error occurred.");
         }
       } finally {
         setIsLoading(false);
@@ -104,24 +108,29 @@ const FriendRequest = () => {
                     </div>
                     <div className="friends-count">
                       <img src={user?.avatar} alt="" />
-                      <p>{user?.FriendsCount} mutual Friends</p>
+                      <span>
+                        <b>{user?.FriendsCount}</b>
+                        <p>mutual Friends</p>
+                      </span>
                     </div>
-                    <button
-                      className="btn-confirm"
-                      onClick={() =>
-                        handleAcceptRejectFriendRequest("Accepted", user?._id)
-                      }
-                    >
-                      Confirm
-                    </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() =>
-                        handleAcceptRejectFriendRequest("Rejected", user?._id)
-                      }
-                    >
-                      Delete
-                    </button>
+                    <div className="d-flex">
+                      <button
+                        className="btn-confirm"
+                        onClick={() =>
+                          handleAcceptRejectFriendRequest("Accepted", user?._id)
+                        }
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        className="btn-delete"
+                        onClick={() =>
+                          handleAcceptRejectFriendRequest("Rejected", user?._id)
+                        }
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
                 // </Link>

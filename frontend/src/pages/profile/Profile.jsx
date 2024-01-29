@@ -18,8 +18,6 @@ const Profile=() =>{
   const [myPosts, setMyPosts] = useState([]);
   const [loading,setLoading] =useState(false)
 
-  const defaultCoverImage =
-    "https://imgs.search.brave.com/nday_SBE87w0EnZwLFKAvAvEKX6UQZA5RNjU4dX1Geg/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzE0LzRl/Lzc2LzE0NGU3NjM2/N2EwNzA0NWI3ODQ1/ZmIwYTY2OWQ3OGNh/LmpwZw";
 
   const [myDetails, setMyDetails] = useState(null);
 
@@ -111,7 +109,7 @@ const Profile=() =>{
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                src={user?.coverImage || defaultCoverImage}
+                src={user?.coverImage[0]}
                 alt="Cover"
               />
               <img className="profileUserImg" src={user?.avatar} alt="" />
@@ -132,7 +130,7 @@ const Profile=() =>{
                     <Post
                       key={post?._id}
                       post={post}
-                      userId={user?._id}
+                      userId={myDetails?._id}
                       ownerId={post?.owner}
                     />
                   ))}

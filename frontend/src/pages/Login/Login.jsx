@@ -3,21 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Loader from "../../components/Loader/Loader.js";
+import "./Login.css"
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await axios.post(
         `${serverUrl}/user/login`,
         {
@@ -32,12 +33,16 @@ const Login = () => {
       }
     } catch (error) {
       console.log("error", error);
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
       } else {
-        toast.error('An unexpected error occurred.');
+        toast.error("An unexpected error occurred.");
       }
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -80,9 +85,15 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     {showPassword ? (
-                      <VisibilityOffIcon className="eye-icon" onClick={handleTogglePassword} />
+                      <VisibilityOffIcon
+                        className="eye-icon"
+                        onClick={handleTogglePassword}
+                      />
                     ) : (
-                      <RemoveRedEyeIcon className="eye-icon" onClick={handleTogglePassword} />
+                      <RemoveRedEyeIcon
+                        className="eye-icon"
+                        onClick={handleTogglePassword}
+                      />
                     )}
                   </div>
                   <button className="loginButton" type="submit">
@@ -104,7 +115,6 @@ const Login = () => {
       )}
     </Fragment>
   );
-  
 };
 
 export default Login;

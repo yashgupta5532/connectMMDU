@@ -1,16 +1,11 @@
-.friend-request-container{
+.friend-request-container {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-evenly;
     margin: 1.5vmax;
+    box-sizing: border-box;
 }
 
-.f-wrap{
-    display: flex;
-    flex-wrap: wrap;
-    /* margin: 2vmax; */
-}
-
-.h-center{
+.h-center {
     margin: auto;
     text-align: center;
     font-weight: 700;
@@ -22,54 +17,77 @@
     text-shadow: 0px 0px 5px tomato;
 }
 
-.friend-request-container .friend-user-container{
+.f-wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.friend-request-container .friend-user-container {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    margin: 2vmax;
-    max-width: fit-content;
+    align-items: center;
+    max-width: 250px;
     border-radius: 15px;
     border: 1px solid black;
     padding-bottom: 1vmax;
+    margin: 2vmax;
+    box-sizing: border-box;
+}
+.friend-request-container{
+    box-shadow: 0 3vmax 5vmax rgb(206, 198, 198);
+
 }
 
-.friend-request-container .images img{
-    /* max-width: inherit; */
-    width: 15vw;
-    height: 20vh;
+.friend-request-container :hover{
+    box-shadow: 0 4vmax 10vmax rgba(123, 120, 120, 0.1);
+}
+
+.friend-request-container .images img {
+    max-width: 100%;
+    height: auto;
     border-radius: 15px;
+    object-fit: cover;
 }
 
-.friend-request-container .btn-confirm{
-    background-color: rgb(173, 168, 168);
+.friend-request-container .btn-confirm,
+.friend-request-container .btn-delete {
+    margin: 0.5vmax;
+    border-radius: 10px;
+    background-color: rgb(52 75 224);
+    text-align: center;
+    padding: 1vmax 4vmax;
+    color: white;
+}
+
+.friend-request-container .btn-confirm {
+    background-color: rgb(128, 200, 46);
     text-align: center;
 }
-.friend-request-container .name h3{
+
+
+.friend-request-container .name h3 {
     padding: 0.5vmax;
     font-weight: 800;
     font-family: "Roboto";
-    margin-left: 1vmax;
+    margin-top: 1vmax;
 }
-.friend-request-container .friends-count{
+
+.friend-request-container .friends-count {
     display: flex;
-    margin-left: 1.5vw;
-    padding: 1vh;
+    align-items: center;
+    margin-top: -2vmax;
 }
-.friend-request-container .friends-count img{
+
+.friend-request-container .friends-count img {
     margin-right: 1vmax;
-    width: 2vw;
-    height: 2vw;
-    border-radius: 100%;
+    width: 3.5vmax;
+    height: 3.5vmax;
+    border-radius: 50%;
 }
-.friend-request-container button{
-    margin: 0.2vmax 1vmax;
-    padding: 0.5vmax;
-    border-radius: 10px;
-}
-.friend-request-container .btn-delete{
-    background-color: royalblue;
-    color: white;
-    text-align: center;
-    font-family: "Roboto";
-    font-weight: 500;
+
+
+@media screen and (max-width: 530px){
+    .friend-request-container{
+        margin: auto;
+    }
 }

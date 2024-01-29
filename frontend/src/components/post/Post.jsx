@@ -113,7 +113,7 @@ function Post({ post, userId, ownerId }) {
             </div>
           </Link>
           <div className="postTopRight">
-            {userId === postOwner._id && (
+            {userId === postOwner?._id && (
               <MoreVert onClick={handleOpenEditDialog} />
             )}
           </div>

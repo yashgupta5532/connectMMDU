@@ -1,142 +1,177 @@
-/* body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-  } */
-  
-  .register-container {
-    margin:2vw 5vw;
-    background-color: #DAD3D2;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
-  
-  /* Register header styling */
-  .register-header {
-    text-align: center;
-    color: #333;
-    font-size: 1.8em;
-    border-bottom: 1px solid gray;
-    width: 20vw;
-    margin: auto;
-    padding: 1vmax;
-  }
-  
-  /* Register form styling */
-  .register-form {
-    padding: 1vmax 5vmax;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5vw;
-    margin: auto;
-    align-items: flex-start;
-  }
-  
-  .register-label {
-    margin: 10px;
-    color: #545050;
-  }
-  
-  .register-input,
-  .register-textarea,
-  .register-radio-input,
-  .add-interest-button {
-    margin-top: 5px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 100%;
-    font-weight: 500;
-    box-sizing: border-box;
-  }
-  
-  /* Register radio group styling */
-  .register-radio-group {
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* Add interest button styling */
-  .add-interest-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .add-interest-button:hover {
-    background-color: #45a049;
-  }
-  
-  /* Modal styling */
-  .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 60vw;
-    height: 80vh;
-  }
-  .modal h2 {
-    padding: 2vmax;
-    text-align: center;
-  }
-  .modal input[type="text"]{
-    padding: 1vmax;
-    /* display: flex; */
-    width: 20vw;
-    margin: 1vmax;
-    border-radius: 15px;
-  }
-  .modal button{
-    padding: 1vmax;
-    margin: 1vmax;
-    font-size: 1.2rem;
-    width: 10vw;
-    color: white;
-    background-color: rgb(75, 75, 155);
-    border-radius: 10px;
-  }
-  .interest-checkbox-label{
-    padding: 1vmax;
-    margin: 2vmax;
-    background-color: #333;
-    color: white;
-    border-radius: 19px;
-  }
-  .interest-checkbox-label input[type="checkbox"] {
-    padding: 1vmax;
-    margin: 1.5vmax;
-  }
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+}
 
-  .register-label select option{
-    padding: 3vmax;
-    border: 5px solid black;
+/* Container styles */
+.register-container {
+  margin: 2vw 5vw;
+  background-color: #DAD3D2;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Header styles */
+.register-header {
+  text-align: center;
+  color: #333;
+  font-size: 1.8em;
+  border-bottom: 1px solid gray;
+  width: 100%;
+  margin: auto;
+  padding: 1vmax;
+}
+
+/* Form styles */
+.register-form {
+  padding: 1vmax 5vmax;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5vw;
+  margin: auto;
+  align-items: flex-start;
+}
+
+.register-label {
+  margin: 10px;
+  color: #545050;
+  width: 100%;
+}
+
+.register-input,
+.register-textarea,
+.register-radio-input,
+.add-interest-button {
+  margin-top: 5px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+/* Radio group styles */
+.register-radio-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Add interest button styles */
+.add-interest-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-interest-button:hover {
+  background-color: #45a049;
+}
+
+/* Modal styles */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 70vw;
+  overflow-x: hidden;
+}
+
+.modal h2 {
+  padding: 2vmax;
+  text-align: center;
+}
+
+.modal input[type="text"] {
+  padding: 1vmax;
+  width: 100%;
+  margin: 1vmax 0;
+  border-radius: 15px;
+}
+
+.modal button {
+  padding: 1vmax;
+  margin: 1vmax;
+  font-size: 1.2rem;
+  width: 100%;
+  color: white;
+  background-color: rgb(75, 75, 155);
+  border-radius: 10px;
+}
+
+.interest-checkbox-label {
+  padding: 1vmax;
+  margin: 1vmax;
+  background-color: #333;
+  color: white;
+  border-radius: 19px;
+}
+
+.interest-options{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.interest-checkbox-label input[type="checkbox"] {
+  padding: 1vmax;
+  margin: 1vmax;
+}
+
+/* Select option styles */
+.register-label select {
+  width: 100%;
+  padding: 1vmax;
+  margin: 1vmax 0;
+  border-radius: 15px;
+}
+
+.register-label select option {
+  padding: 3vmax;
+  border: 5px solid black;
+}
+
+/* Overlay styles */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Button styles */
+.register-button {
+  display: flex;
+  padding: 2vmax;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.3rem;
+  background-color: rgb(80, 80, 197);
+}
+
+
+
+@media screen and (max-width: 600px) {
+  .register-form {
+      gap: 2vmax;
   }
-  /* Overlay styling */
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 460px) {
+  .register-form {
+      gap: 1vmax;
   }
-  
-.register-button{
-    /* width: 40%; */
-    display: flex;
-    padding: 2vmax;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    border-radius: 10px;
-    color: white;
-    font-size: 1.3rem;
-    background-color: rgb(80, 80, 197);
 }

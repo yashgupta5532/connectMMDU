@@ -1,10 +1,10 @@
-import React, { useEffect, useState ,Fragment} from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import Modal from "react-modal";
 import Select from "react-select";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
-import Loader from "../Loader/Loader.js"
+import Loader from "../Loader/Loader.js";
 
 const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing"];
 
@@ -135,6 +135,7 @@ const UpdateUser = () => {
           toast.error(data?.message);
         }
       }
+
       setLoading(true);
       const { data } = await axios.put(
         `${serverUrl}/user/update/profile`,

@@ -1,4 +1,4 @@
-import React, { useState ,Fragment} from "react";
+import React, { useState, Fragment } from "react";
 import "./share.css";
 import { Link } from "react-router-dom";
 import { PermMedia, EmojiEmotions } from "@mui/icons-material";
@@ -7,12 +7,12 @@ import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
 import FeelingDialog from "./FeelingDialog.js";
-import Loader from "../Loader/Loader.js"
+import Loader from "../Loader/Loader.js";
 
 function Share({ user, myId }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const selectedImages = e.target.files;
@@ -40,18 +40,21 @@ function Share({ user, myId }) {
       if (data?.success) {
         toast.success(data?.message);
         setDescription("");
-        
       } else {
         toast.error(data?.message);
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
       } else {
-        toast.error('An unexpected error occurred.');
+        toast.error("An unexpected error occurred.");
       }
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,10 +71,14 @@ function Share({ user, myId }) {
         toast.error(data?.message);
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
       } else {
-        toast.error('An unexpected error occurred.');
+        toast.error("An unexpected error occurred.");
       }
     }
   };
@@ -83,97 +90,104 @@ function Share({ user, myId }) {
   };
 
   return (
-   <Fragment>
-    {
-      loading ? <Loader /> : <div className="share">
-      <div className="shareWrapper">
-        <div>
-          <Link to={`/profile/${user?._id}`}>
-            <div
-              className="shareTop"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: "bolder",
-                color: "gray",
-                marginBottom: "10px",
-              }}
-            >
-              <img className="shareProfileImg " src={user?.avatar} alt="" />
-              {user && user.online && <span className="rightbarOnline2"></span>}
+    <Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="share">
+          <div className="shareWrapper">
+            <div>
+              <Link to={`/profile/${user?._id}`}>
+                <div
+                  className="shareTop"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontWeight: "bolder",
+                    color: "gray",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <img className="shareProfileImg " src={user?.avatar} alt="" />
+                  {user && user.online && (
+                    <span className="rightbarOnline2"></span>
+                  )}
 
-              <p className="shareInput ">{user?.fullname}</p>
+                  <p className="shareInput ">{user?.fullname}</p>
+                </div>
+              </Link>
+              <input
+                placeholder={`What's in your mind, ${user?.fullname} ?`}
+                className="shareInput"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+                style={{
+                  fontStyle: "italic",
+                  fontWeight: "bold",
+                  marginLeft: "10px",
+                }}
+              />
             </div>
-          </Link>
-          <input
-            placeholder={`What's in your mind, ${user?.fullname} ?`}
-            className="shareInput"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            style={{
-              fontStyle: "italic",
-              fontWeight: "bold",
-              marginLeft: "10px",
-            }}
-          />
-        </div>
-        <hr className="shareHr" />
-        <form onSubmit={handleCreatePost}>
-          <div className="shareBottom">
-            <div className="shareOptions">
-              <div className="shareOption">
-                <img src={images[0]} alt="" />
-                <PermMedia htmlColor="tomato" className="shareIcon" />
-                <label className="file">
-                  <input
-                    type="file"
-                    required
-                    name="images"
-                    onChange={handleImageChange}
-                  />
-                </label>
+            <hr className="shareHr" />
+            <form onSubmit={handleCreatePost}>
+              <div className="shareBottom">
+                <div className="shareOptions">
+                  <div className="shareOption">
+                    <img src={images[0]} alt="" />
+                    <PermMedia htmlColor="tomato" className="shareIcon" />
+                    <label className="file">
+                      <input
+                        type="file"
+                        required
+                        name="images"
+                        onChange={handleImageChange}
+                      />
+                    </label>
+                  </div>
+                </div>
+                <div className="shareOptions">
+                  <div className="shareOption">
+                    <CropOriginalIcon htmlColor="green" className="shareIcon" />
+                    <span className="shareOptionText">
+                      Posts {user?.posts.length}
+                    </span>
+                  </div>
+                </div>
+                <div className="shareOptions">
+                  <div className="shareOption" onClick={openFeelingDialog}>
+                    <EmojiEmotions
+                      htmlColor="goldenrod"
+                      className="shareIcon"
+                    />
+                    <span className="shareOptionText">Feelings</span>
+                  </div>
+                </div>
+                <button className="shareButton" type="submit">
+                  Share
+                </button>
+                <button
+                  className="shareButton"
+                  disabled={user?._id === myId ? true : false}
+                  onClick={followHandler}
+                  type="button"
+                  style={{ backgroundColor: "#1877f2"}}
+                >
+                  {user?.followers.includes(myId) ? "Following " : "Follow "}
+                  {user?.followers.length}
+                </button>
               </div>
-            </div>
-            <div className="shareOptions">
-              <div className="shareOption">
-                <CropOriginalIcon htmlColor="green" className="shareIcon" />
-                <span className="shareOptionText">
-                  Posts {user?.posts.length}
-                </span>
-              </div>
-            </div>
-            <div className="shareOptions">
-              <div className="shareOption" onClick={openFeelingDialog}>
-                <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
-                <span className="shareOptionText">Feelings</span>
-              </div>
-            </div>
-            <button className="shareButton" type="submit">
-              Share
-            </button>
-            <button
-              className="shareButton"
-              disabled={user?._id === myId ? true : false}
-              onClick={followHandler}
-              style={{ backgroundColor: "#1877f2" }}
-            >
-              {user?.followers.includes(myId) ? "Following " : "Follow "}
-              {user?.followers.length}
-            </button>
+            </form>
+            <FeelingDialog
+              open={isFeelingDialogOpen}
+              onClose={closeFeelingDialog}
+            />
           </div>
-        </form>
-        <FeelingDialog
-          open={isFeelingDialogOpen}
-          onClose={closeFeelingDialog}
-        />
-      </div>
-    </div>
-    }
-   </Fragment>
+        </div>
+      )}
+    </Fragment>
   );
 }
-
 
 export default Share;

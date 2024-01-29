@@ -1,4 +1,4 @@
-.login {
+/* .login {
     width: 100vw;
     min-height: 100vh;
     background-color: #f0f2f5;
@@ -18,6 +18,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .loginLogo {
@@ -83,6 +85,13 @@
     cursor: pointer;
 }
 
+.passwordInputContainer svg{
+    margin-left: -3vmax;
+    position: absolute;
+    margin-top: 1vmax;
+    display: inline-flex
+}
+
 @media screen and (max-width: 600px) {
     .login .loginWrapper {
         display: flex;
@@ -93,4 +102,4 @@
     .login .loginWrapper .loginLeft {
         margin-bottom: 4vmax;
     }
-}
+} */

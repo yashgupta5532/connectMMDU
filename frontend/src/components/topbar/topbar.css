@@ -1,41 +1,39 @@
 .topbarContainer {
-    /* height: 50px; */
-    width: 100%;
+    width: 96%;
     background-color: #1877f2;
     display: flex;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 999;
-    padding: 1vmax;
+    padding: 2%;
 }
 
 .topbarLeft {
-    flex: 3;
+    flex: 2 1;
+    display: flex;
+    align-items: center;
 }
 
 .logo {
-    font-size: 24px;
-    margin-left: 20px;
+    font-size: 20px;
     font-weight: bold;
     color: white;
     cursor: pointer;
 }
 
 .topbarCentre {
-    flex: 5;
+    flex: 5 1;
 }
 
 .searchbar {
     width: 100%;
-    /* height: 30px; */
     background-color: white;
     border-radius: 30px;
     display: flex;
     align-items: center;
     padding: 0.5vmax;
 }
-
 
 .searchIcon {
     font-size: 20px !important;
@@ -47,7 +45,7 @@
     width: 70%;
 }
 
-.searchInput :focus{
+.searchInput:focus {
     outline: none;
 }
 
@@ -55,14 +53,14 @@
     flex: 4;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     color: white;
     width: 100%;
 }
 
 .topbarLink {
     margin-right: 10px;
-    font-size: 14px;
+    font-size: 17px;
     cursor: pointer;
 }
 
@@ -74,7 +72,6 @@
     margin-right: 15px;
     cursor: pointer;
     position: relative;
-
 }
 
 .topbarIconBadge {
@@ -100,17 +97,17 @@
     cursor: pointer;
 }
 
-.searchResultsList li{
+.searchResultsList li {
     list-style: none;
-
 }
-.searchResultsList img{
+
+.searchResultsList img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
 }
 
-.searchResultsList li a{
+.searchResultsList li a {
     display: flex;
     align-items: center;
     padding: 1vmax;
@@ -120,18 +117,11 @@
     width: 100%;
 }
 
-.searchResultsList .searchResultName{
+.searchResultsList .searchResultName {
     margin-left: 2vmax;
 }
 
-/* .topbarLeft{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5vmax;
-} */
-
-.searchResultsContainer{
+.searchResultsContainer {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -139,13 +129,104 @@
     align-items: center;
 }
 
-.ReactModal__Content ,.ReactModal__Content--after-open{
-    width: 80vw;
+.ReactModal__Content,
+.ReactModal__Content--after-open {
+    margin-top: 5vmax;
+    padding: 2vmax;
+    max-width: 80%;
+    z-index: 200;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
-@media screen and (max-width:450px) {
-    .topbarContainer{
-        width: 105%;
+@media screen and (max-width: 550px) {
+    .topbarLeft span {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .topbarContainer {
+        overflow-x: auto;
+        justify-content: center;
+    }
+
+    .topbarCentre {
+        flex: 5 1;
+    }
+
+    .topbarRight {
+        align-items: center;
+        justify-content: space-evenly;
+        color: white;
+        width: 100%;
+    }
+
+    .logo {
+        font-size: 16px;
+        margin-left: 5px;
+    }
+
+    .searchbar {
+        width: 100%;
+        padding: 0.3vmax;
+    }
+
+    .searchInput {
+        width: 60%;
+    }
+
+    .topbarRight,
+    .topbarIcons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .topbarLink {
+        margin-right: 5px;
+        font-size: 12px;
+    }
+
+    .topbarIcons {
+        margin-top: 5px;
+    }
+
+    .topbarIconItem {
+        margin-right: 10px;
+    }
+
+    .topbarIconBadge {
+        height: 12px;
+        width: 12px;
+        font-size: 10px;
+        top: -4px;
+        right: -4px;
+    }
+
+    .topbarImg {
+        height: 28px;
+        width: 28px;
+    }
+
+    .searchResultsList img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .searchResultsList li a {
+        padding: 0.8vmax;
+        margin: 0.5vmax;
+    }
+
+    .ReactModal__Content,
+    .ReactModal__Content--after-open {
+        margin-top: 3vmax;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .topbarContainer {
+        width: 110%;
         overflow-x: hidden;
     }
 }

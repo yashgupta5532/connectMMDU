@@ -61,18 +61,19 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (existingUser) {
-    throw new ApiError(400, "User Already Exists");
+    throw new ApiError(400, "User Already Exists with this email or username");
   }
 
   const avatarFilePath = req.files ? req.files?.avatar[0].path : null;
 
   let coverImageFilePath;
+  console.log("coverimageis", req.files.coverImage);
   if (
     req.files &&
-    Array.isArray(req.files.coverimage) &&
-    req.files.coverimage.length > 0
+    Array.isArray(req.files.coverImage) &&
+    req.files.coverImage.length > 0
   ) {
-    coverImageFilePath = req.files.coverimage[0].path;
+    coverImageFilePath = req.files.coverImage[0].path;
   }
 
   if (!avatarFilePath) {
@@ -90,12 +91,8 @@ export const registerUser = asyncHandler(async (req, res) => {
     username,
     email,
     password,
-    avatar:
-      avatar?.url ??
-      "https://imgs.search.brave.com/_QS-C_ZdFRoEEb83lITyO3dY1Y6syO6ywUb65b2ZRcQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS9ob3d0by9pbWdf/YXZhdGFyLnBuZw",
-    coverImage:
-      coverImage?.url ??
-      "https://imgs.search.brave.com/QFLg7TGQUKA9UvSvojofsO00DvMQB-zW8Obk9IX3TMs/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvaS1sb3ZlLXlv/dS1iYWNrZ3JvdW5k/LWlubGI1bWI4Zjhz/a3RmMGguanBn",
+    avatar: avatar.url,
+    coverImage: coverImage?.url,
     martialStatus,
     gender,
     contactNo,
@@ -144,9 +141,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
-    // domain: ".onrender.com",
     sameSite: "None",
-    // path: "/",
   };
 
   return res
@@ -218,6 +213,7 @@ export const updateAvatar = asyncHandler(async (req, res) => {
 });
 
 export const updateCoverImage = asyncHandler(async (req, res) => {
+  console.log("coverimag", req.file);
   const coverImagePath = req.file.path;
   if (!coverImagePath) {
     throw new ApiError(401, "coverImage is required");

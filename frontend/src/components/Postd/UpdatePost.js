@@ -64,6 +64,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
           toast.error(data?.message);
         }
       } catch (error) {
+        // setTitle(titled)
         if (error.response && error.response.data && error.response.data.message) {
           toast.error(error.response.data.message);
         } else {
@@ -86,8 +87,11 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
           toast.error(data?.message);
         }
       } catch (error) {
-        console.error("Error updating post:", error);
-        toast.error("Error updating post. Please try again.");
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('An unexpected error occurred.');
+        }
       } finally {
         setLoading(false);
       }

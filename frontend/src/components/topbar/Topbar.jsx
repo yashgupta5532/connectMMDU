@@ -11,9 +11,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 function Topbar({ user }) {
   console.log("user is", user);
   const [keyword, setKeyword] = useState("");
-  // const defaultAvatar =
-  //   "https://imgs.search.brave.com/cIbwKjDMj9q3jhtd1OukCYhlZGdRRlYdxiBdjTbzKsw/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93d3cu/dzNzY2hvb2xzLmNv/bS93M2ltYWdlcy9h/dmF0YXIyLnBuZw";
-
   const [searchResults, setSearchResults] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hideMenuText, setHideMenuText] = useState(false);

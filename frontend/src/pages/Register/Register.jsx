@@ -1,4 +1,4 @@
-import React, { useState ,Fragment} from "react";
+import React, { useState, Fragment } from "react";
 import Modal from "react-modal";
 import "./Register.css";
 import Select from "react-select";
@@ -9,9 +9,9 @@ import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import Loader from "../../components/Loader/Loader.js";
 
-const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing"];
+const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing","Cooking","Photography","Music", "Fitness", "Traveling", "Gaming","Sports","Volunteering",];
 
-const defaultInterests = ["Football", "women", "men", "friendship", "love"];
+const defaultInterests = ["Football", "women", "men", "friendship", "love","Relationship","Political Engagement","Science and Research","Blogging"];
 
 const Register = () => {
   const [errors, setErrors] = useState({});
@@ -23,6 +23,7 @@ const Register = () => {
     email: "",
     password: "",
     avatar: null,
+    coverImage: [],
     contactNo: "",
     DOB: "",
     martialStatus: "",
@@ -102,6 +103,12 @@ const Register = () => {
 
       // Append the avatar file
       formDataToSend.append("avatar", formData.avatar);
+      
+      formData.coverImage.forEach((imageItem) => {
+        formDataToSend.append("coverImage", imageItem);
+      });
+
+      console.log("formDataToSend",formDataToSend);
 
       // Append interests and hobbies as arrays
       formData.interests.forEach((interest) => {
@@ -217,18 +224,23 @@ const Register = () => {
 
   const handleAvatarChange = (e) => {
     const avatarFile = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      avatar: avatarFile,
-    }));
+    if (avatarFile) {
+      setFormData((prevData) => ({
+        ...prevData,
+        avatar: avatarFile,
+      }));
+    }
   };
+  
   const handleCoverImage = (e) => {
-    const coverFile = e.target.files[0];
+    const coverFiles = e.target.files;
+    const filteredCoverFiles = Array.from(coverFiles).filter((file) => file);
     setFormData((prevData) => ({
       ...prevData,
-      coverImage: coverFile,
+      coverImage: filteredCoverFiles,
     }));
   };
+  
 
   const openInterestModal = () => setIsInterestModalOpen(true);
   const closeInterestModal = () => setIsInterestModalOpen(false);
@@ -280,7 +292,7 @@ const Register = () => {
                 type="file"
                 name="coverImage"
                 onChange={handleCoverImage}
-                // required
+                required
               />
             </label>
 

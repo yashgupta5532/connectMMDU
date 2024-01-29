@@ -3,6 +3,7 @@ import "./AllFriends.css";
 import axios from "axios";
 import { serverUrl } from "../../../constants.js";
 import { toast } from "react-toastify";
+import {Link} from "react-router-dom"
 
 const AllFriends = () => {
   const [allFriends, setAllFriends] = useState([]);
@@ -40,23 +41,36 @@ const AllFriends = () => {
       <div className="profile-container-header">
         {allFriends &&
           allFriends.map((user) => (
-            <div key={user?._id} className="profile-container">
-              <div className="bg-img">
-                <img src={user?.coverImage} alt="imaging" />
-              </div>
-              <div className="user-info">
-                <div className="info">
-                  <div className="avatar">
-                    <img src={user?.avatar} alt="imaging" />
+            <Link to={`/profile/${user?._id}`}>
+              <div key={user?._id} className="profile-container">
+                <div className="bg-img">
+                  <img
+                    src={
+                      user?.coverImage[0] !== undefined &&
+                      user?.coverImage !== null
+                        ? user?.coverImage
+                        : "https://imgs.search.brave.com/QFLg7TGQUKA9UvSvojofsO00DvMQB-zW8Obk9IX3TMs/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvaS1sb3ZlLXlv/dS1iYWNrZ3JvdW5k/LWlubGI1bWI4Zjhz/a3RmMGguanBn"
+                    }
+                    alt="imaging"
+                  />
+                </div>
+
+                <div className="user-info">
+                  <div className="info">
+                    <div className="avatar">
+                      <img src={user?.avatar} alt="imaging" />
+                    </div>
+                    <button className="follow">
+                      {user?.followers.length} Followers
+                    </button>
                   </div>
-                  <button className="follow">Following</button>
-                </div>
-                <div className="">
-                  <h3>Full name</h3>
-                  <p>some thing status</p>
+                  <div className="">
+                    <h3>{user?.fullname}</h3>
+                    <p>{user?.status}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
       </div>
     </Fragment>

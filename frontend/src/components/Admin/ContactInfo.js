@@ -23,15 +23,15 @@ const ContactInfo = () => {
       } catch (error) {
         console.error("Error:", error);
 
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          toast.error(error.response.data.message);
-        } else {
-          toast.error("An unexpected error occurred.");
-        }
+        // if (
+        //   error.response &&
+        //   error.response.data &&
+        //   error.response.data.message
+        // ) {
+        //   toast.error(error.response.data.message);
+        // } else {
+        //   toast.error("An unexpected error occurred.");
+        // }
       }
     };
     fetchAllContact();

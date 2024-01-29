@@ -137,6 +137,9 @@ body {
 .register-label select option {
   padding: 3vmax;
   border: 5px solid black;
+  width: 70%;
+  text-align: center;
+  margin: 1vmax auto;
 }
 
 /* Overlay styles */
@@ -162,7 +165,12 @@ body {
   background-color: rgb(80, 80, 197);
 }
 
-
+.css-b62m3t-container {
+  position: relative;
+  box-sizing: border-box;
+  width: fit-content;
+  text-align: center;
+}
 
 @media screen and (max-width: 600px) {
   .register-form {

@@ -172,6 +172,10 @@ body {
   text-align: center;
 }
 
+.error-message{
+  color: red;
+}
+
 @media screen and (max-width: 600px) {
   .register-form {
       gap: 2vmax;

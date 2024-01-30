@@ -65,32 +65,27 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 
   const avatarFilePath = req.files ? req.files?.avatar[0].path : null;
+  const coverImageFilePath = req.files ? req.files?.coverImage[0].path : null;
 
-  let coverImageFilePath;
-  if (
-    req.files &&
-    Array.isArray(req.files.coverImage) &&
-    req.files.coverImage.length > 0
-  ) {
-    coverImageFilePath = req.files.coverImage[0].path;
+  console.log(avatarFilePath,coverImageFilePath)
+
+  if(!coverImageFilePath){
+    throw new ApiError(400,"coverImage is required")
   }
-  // if(!coverImageFilePath){
-  //   throw new ApiError(400,"coverImage is required")
-  // }
 
   if (!avatarFilePath) {
     throw new ApiError(400, "avatar field is required");
   }
 
   const avatar = await uploadOnCloudinary(avatarFilePath);
-  let coverImage;
-  if (coverImageFilePath) {
-    coverImage = await uploadOnCloudinary(coverImageFilePath);
+  if(!avatar.url){
+    throw new ApiError(401,"Error while uploading Avatar")
   }
+  const coverImage = await uploadOnCloudinary(coverImageFilePath);
 
-  // if(!coverImage){
-  //   throw new ApiError(401,"Error while uploading coverImage")
-  // }
+  if(!coverImage.url){
+    throw new ApiError(401,"Error while uploading coverImage")
+  }
 
   const user = await User.create({
     fullname,
@@ -98,7 +93,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    coverImage: coverImage.url,
     martialStatus,
     gender,
     contactNo,

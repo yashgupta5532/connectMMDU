@@ -1,21 +1,20 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import "./Register.css";
 import Select from "react-select";
+import {toast} from "react-toastify"
 import "./Register2.css";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { serverUrl } from "../../constants.js";
-import Loader from "../../components/Loader/Loader.js";
+import { serverUrl } from "../../constants";
 
 const defaultHobbies = ["Reading", "Singing", "Coding", "Dancing","Cooking","Photography","Music", "Fitness", "Traveling", "Gaming","Sports","Volunteering",];
 
 const defaultInterests = ["Football", "women", "men", "friendship", "love","Relationship","Political Engagement","Science and Research","Blogging"];
 
+
 const Register = () => {
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     fullname: "",
@@ -23,7 +22,7 @@ const Register = () => {
     email: "",
     password: "",
     avatar: null,
-    coverImage: [],
+    coverImage:[],
     contactNo: "",
     DOB: "",
     martialStatus: "",
@@ -88,6 +87,7 @@ const Register = () => {
 
     try {
       const formDataToSend = new FormData();
+
       // Append other form fields
       formDataToSend.append("fullname", formData.fullname);
       formDataToSend.append("username", formData.username);
@@ -101,14 +101,12 @@ const Register = () => {
       formDataToSend.append("branch", formData.branch);
       formDataToSend.append("yearOfStudy", formData.yearOfStudy);
 
+      console.log("formData avatar ",formData.avatar)
       // Append the avatar file
       formDataToSend.append("avatar", formData.avatar);
-      
-      formData.coverImage.forEach((imageItem) => {
-        formDataToSend.append("coverImage", imageItem);
-      });
 
-      console.log("formDataToSend",formDataToSend);
+      // console.log("formData coverimage ",formData.coverImage)
+      formDataToSend.append("coverImage",formData.coverImage[0])
 
       // Append interests and hobbies as arrays
       formData.interests.forEach((interest) => {
@@ -118,7 +116,8 @@ const Register = () => {
       formData.hobbies.forEach((hobby) => {
         formDataToSend.append("hobbies", hobby);
       });
-      setLoading(true);
+
+      console.log("formData",formDataToSend)
       const { data } = await axios.post(
         `${serverUrl}/user/register`,
         formDataToSend,
@@ -133,17 +132,16 @@ const Register = () => {
         toast.error(data.message);
       }
     } catch (error) {
+      console.log("Error during registration:", error);
       if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("An unexpected error occurred.");
-      }
-    } finally {
-      setLoading(false);
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
     }
   };
 
@@ -224,24 +222,22 @@ const Register = () => {
 
   const handleAvatarChange = (e) => {
     const avatarFile = e.target.files[0];
-    if (avatarFile) {
-      setFormData((prevData) => ({
-        ...prevData,
-        avatar: avatarFile,
-      }));
-    }
-  };
-  
-  const handleCoverImage = (e) => {
-    const coverFiles = e.target.files;
-    const filteredCoverFiles = Array.from(coverFiles).filter((file) => file);
+    // console.log("e",e.target.files)
     setFormData((prevData) => ({
       ...prevData,
-      coverImage: [...filteredCoverFiles],
+      avatar: avatarFile,
     }));
-    
   };
-  
+  const handleCoverImage = (e) => {
+    const coverFile = e.target.files;
+    // console.log("cover",coverFile)
+    setFormData((prevData) => ({
+      ...prevData,
+      coverImage:coverFile,
+    }));
+    // console.log("form iamge",formData.coverImage)
+  };
+
   const openInterestModal = () => setIsInterestModalOpen(true);
   const closeInterestModal = () => setIsInterestModalOpen(false);
   const openHobbyModal = () => setIsHobbyModalOpen(true);
@@ -268,353 +264,345 @@ const Register = () => {
   };
 
   return (
-    <Fragment>
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="register-container">
-          <h2 className="register-header">Register</h2>
-          <form className="register-form" onSubmit={handleSubmit}>
-            <label className="register-label">
-              Avatar:
-              <input
-                className="register-input loginInput"
-                type="file"
-                name="avatar"
-                onChange={handleAvatarChange}
-                required
-              />
-            </label>
-            <label className="register-label">
-              CoverImage:
-              <input
-                className="register-input loginInput"
-                type="file"
-                name="coverImage"
-                onChange={handleCoverImage}
-                // required
-              />
-            </label>
+    <div className="register-container">
+      <h2 className="register-header">Register</h2>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <label className="register-label">
+          Avatar:
+          <input
+            className="register-input loginInput"
+            type="file"
+            name="avatar"
+            onChange={handleAvatarChange}
+            required
+          />
+        </label>
+        <label className="register-label">
+          CoverImage:
+          <input
+            className="register-input loginInput"
+            type="file"
+            name="coverImage"
+            onChange={handleCoverImage}
+            required
+          />
+        </label>
 
-            <label className="register-label">
-              Full Name:
+        <label className="register-label">
+          Full Name:
+          <input
+            className="register-input loginInput"
+            type="text"
+            name="fullname"
+            value={formData.fullname}
+            placeholder="Enter your full Name"
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label className="register-label">
+          Username:
+          <input
+            className="register-input loginInput"
+            type="text"
+            name="username"
+            value={formData.username}
+            placeholder="Enter your Username"
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label className="register-label">
+          Email:
+          <input
+            className="register-input loginInput"
+            type="email"
+            name="email"
+            value={formData.email}
+            placeholder="Enter your Email"
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label className="register-label">
+          Password:
+          <input
+            className="register-input loginInput"
+            type="password"
+            name="password"
+            value={formData.password}
+            placeholder="Enter your Password"
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label className="register-label">
+          Contact Number:
+          <input
+            className="register-input loginInput"
+            type="number"
+            name="contactNo"
+            value={formData.contactNo}
+            maxLength={10}
+            placeholder="Enter your ContactNo"
+            onChange={handleChange}
+            // required
+          />
+          {errors.contactNo && (
+            <span className="error-message">{errors.contactNo}</span>
+          )}
+        </label>
+
+        <label className="register-label">
+          Date of Birth:
+          <input
+            className="register-input loginInput"
+            type="date"
+            name="DOB"
+            value={formData.DOB}
+            placeholder="Enter your D.O.B"
+            onChange={handleChange}
+            // required
+          />
+          {errors.DOB && <span className="error-message">{errors.DOB}</span>}
+        </label>
+
+        <label className="register-label">
+          Martial Status:
+          <div className="register-radio-group">
+            <label className="register-radio-label">
               <input
-                className="register-input loginInput"
-                type="text"
-                name="fullname"
-                value={formData.fullname}
-                placeholder="Enter your full Name"
+                className="register-radio-input"
+                type="radio"
+                name="martialStatus"
+                value="Single"
+                checked={formData.martialStatus === "Single"}
                 onChange={handleChange}
                 required
               />
+              Single
             </label>
-
-            <label className="register-label">
-              Username:
+            <label className="register-radio-label">
               <input
-                className="register-input loginInput"
-                type="text"
-                name="username"
-                value={formData.username}
-                placeholder="Enter your Username"
+                className="register-radio-input"
+                type="radio"
+                name="martialStatus"
+                value="Coupled"
+                checked={formData.martialStatus === "Coupled"}
                 onChange={handleChange}
                 required
               />
+              Coupled
             </label>
+          </div>
+        </label>
 
-            <label className="register-label">
-              Email:
+        <label className="register-label">
+          Gender:
+          <div className="register-radio-group">
+            <label className="register-radio-label">
               <input
-                className="register-input loginInput"
-                type="email"
-                name="email"
-                value={formData.email}
-                placeholder="Enter your Email"
+                className="register-radio-input"
+                type="radio"
+                name="gender"
+                value="Male"
+                checked={formData.gender === "Male"}
                 onChange={handleChange}
                 required
               />
+              Male
             </label>
-
-            <label className="register-label">
-              Password:
+            <label className="register-radio-label">
               <input
-                className="register-input loginInput"
-                type="password"
-                name="password"
-                value={formData.password}
-                placeholder="Enter your Password"
+                className="register-radio-input"
+                type="radio"
+                name="gender"
+                value="Female"
+                checked={formData.gender === "Female"}
                 onChange={handleChange}
                 required
               />
+              Female
             </label>
-
-            <label className="register-label">
-              Contact Number:
+            <label className="register-radio-label">
               <input
-                className="register-input loginInput"
-                type="number"
-                name="contactNo"
-                value={formData.contactNo}
-                maxLength={10}
-                placeholder="Enter your ContactNo"
-                onChange={handleChange}
-                // required
-              />
-              {errors.contactNo && (
-                <span className="error-message">{errors.contactNo}</span>
-              )}
-            </label>
-
-            <label className="register-label">
-              Date of Birth:
-              <input
-                className="register-input loginInput"
-                type="date"
-                name="DOB"
-                value={formData.DOB}
-                placeholder="Enter your D.O.B"
-                onChange={handleChange}
-                // required
-              />
-              {errors.DOB && (
-                <span className="error-message">{errors.DOB}</span>
-              )}
-            </label>
-
-            <label className="register-label">
-              Martial Status:
-              <div className="register-radio-group">
-                <label className="register-radio-label">
-                  <input
-                    className="register-radio-input"
-                    type="radio"
-                    name="martialStatus"
-                    value="Single"
-                    checked={formData.martialStatus === "Single"}
-                    onChange={handleChange}
-                    required
-                  />
-                  Single
-                </label>
-                <label className="register-radio-label">
-                  <input
-                    className="register-radio-input"
-                    type="radio"
-                    name="martialStatus"
-                    value="Coupled"
-                    checked={formData.martialStatus === "Coupled"}
-                    onChange={handleChange}
-                    required
-                  />
-                  Coupled
-                </label>
-              </div>
-            </label>
-
-            <label className="register-label">
-              Gender:
-              <div className="register-radio-group">
-                <label className="register-radio-label">
-                  <input
-                    className="register-radio-input"
-                    type="radio"
-                    name="gender"
-                    value="Male"
-                    checked={formData.gender === "Male"}
-                    onChange={handleChange}
-                    required
-                  />
-                  Male
-                </label>
-                <label className="register-radio-label">
-                  <input
-                    className="register-radio-input"
-                    type="radio"
-                    name="gender"
-                    value="Female"
-                    checked={formData.gender === "Female"}
-                    onChange={handleChange}
-                    required
-                  />
-                  Female
-                </label>
-                <label className="register-radio-label">
-                  <input
-                    className="register-radio-input"
-                    type="radio"
-                    name="gender"
-                    value="Other"
-                    checked={formData.gender === "Other"}
-                    onChange={handleChange}
-                    required
-                  />
-                  Other
-                </label>
-              </div>
-            </label>
-
-            <label className="register-label">
-              Hobbies:
-              <button
-                className="add-interest-button loginButton"
-                type="button"
-                onClick={openHobbyModal}
-              >
-                Add Hobbies
-              </button>
-              <textarea
-                className="register-textarea"
-                type="text"
-                name="hobbies"
-                value={formData.hobbies.join("\n")}
+                className="register-radio-input"
+                type="radio"
+                name="gender"
+                value="Other"
+                checked={formData.gender === "Other"}
                 onChange={handleChange}
                 required
               />
+              Other
             </label>
+          </div>
+        </label>
 
-            <Modal
-              isOpen={isHobbyModalOpen}
-              onRequestClose={closeHobbyModal}
-              contentLabel="Select Hobbies Modal"
-              className="modal"
-              overlayClassName="overlay"
-            >
-              <h2>Select Hobbies</h2>
-              <div className="interest-options">
-                {defaultHobbies.map((hobby) => (
-                  <label key={hobby} className="interest-checkbox-label">
-                    <input
-                      type="checkbox"
-                      name={`hobby_${hobby}`}
-                      value={hobby}
-                      checked={formData.hobbies.includes(hobby)}
-                      onChange={handleChange}
-                    />
-                    {hobby}
-                  </label>
-                ))}
-              </div>
-              <input
-                type="text"
-                value={newHobbies}
-                onChange={handleAddHobbyChange}
-                placeholder="Enter new Hobbies"
-              />
-              <button onClick={handleAddHobby} className="loginButton">
-                Add
-              </button>
-              <button onClick={closeHobbyModal} className="loginButton">
-                Close
-              </button>
-            </Modal>
+        <label className="register-label">
+          Hobbies:
+          <button
+            className="add-interest-button loginButton"
+            type="button"
+            onClick={openHobbyModal}
+          >
+            Add Hobbies
+          </button>
+          <textarea
+            className="register-textarea"
+            type="text"
+            name="hobbies"
+            value={formData.hobbies.join("\n")}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-            <label className="register-label">
-              Interests:
-              <button
-                className="add-interest-button loginButton"
-                type="button"
-                onClick={openInterestModal}
-              >
-                Add Interests
-              </button>
-              <textarea
-                className="register-textarea"
-                type="text"
-                name="interests"
-                value={formData.interests.join("\n")}
-                onChange={handleChange}
-                required
-              />
-            </label>
+        <Modal
+          isOpen={isHobbyModalOpen}
+          onRequestClose={closeHobbyModal}
+          contentLabel="Select Hobbies Modal"
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <h2>Select Hobbies</h2>
+          <div className="interest-options">
+            {defaultHobbies.map((hobby) => (
+              <label key={hobby} className="interest-checkbox-label">
+                <input
+                  type="checkbox"
+                  name={`hobby_${hobby}`}
+                  value={hobby}
+                  checked={formData.hobbies.includes(hobby)}
+                  onChange={handleChange}
+                />
+                {hobby}
+              </label>
+            ))}
+          </div>
+          <input
+            type="text"
+            value={newHobbies}
+            onChange={handleAddHobbyChange}
+            placeholder="Enter new Hobbies"
+          />
+          <button onClick={handleAddHobby} className="loginButton">
+            Add
+          </button>
+          <button onClick={closeHobbyModal} className="loginButton">
+            Close
+          </button>
+        </Modal>
 
-            <Modal
-              isOpen={isInterestModalOpen}
-              onRequestClose={closeInterestModal}
-              contentLabel="Select Interests Modal"
-              className="modal"
-              overlayClassName="overlay"
-            >
-              <h2>Select Interests</h2>
-              <div className="interest-options">
-                {defaultInterests.map((interest) => (
-                  <label key={interest} className="interest-checkbox-label">
-                    <input
-                      type="checkbox"
-                      name={`interest_${interest}`}
-                      value={interest}
-                      checked={formData.interests.includes(interest)}
-                      onChange={handleChange}
-                    />
-                    {interest}
-                  </label>
-                ))}
-              </div>
-              <input
-                type="text"
-                value={newInterest}
-                onChange={handleInterestChange}
-                placeholder="Enter new interest"
-              />
-              <button onClick={handleAddInterest} className="loginButton">
-                Add
-              </button>
-              <button onClick={closeInterestModal} className="loginButton">
-                Close
-              </button>
-            </Modal>
+        <label className="register-label">
+          Interests:
+          <button
+            className="add-interest-button loginButton"
+            type="button"
+            onClick={openInterestModal}
+          >
+            Add Interests
+          </button>
+          <textarea
+            className="register-textarea"
+            type="text"
+            name="interests"
+            value={formData.interests.join("\n")}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-            <label className="register-label">
-              Department:
-              <Select
-                name="department"
-                options={departmentOptions}
-                value={departmentOptions.find(
-                  (option) => option.value === formData.department
-                )}
-                onChange={(selectedOption, actionMeta) =>
-                  handleListChange(selectedOption, actionMeta)
-                }
-                styles={customStyles}
-              />
-            </label>
+        <Modal
+          isOpen={isInterestModalOpen}
+          onRequestClose={closeInterestModal}
+          contentLabel="Select Interests Modal"
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <h2>Select Interests</h2>
+          <div className="interest-options">
+            {defaultInterests.map((interest) => (
+              <label key={interest} className="interest-checkbox-label">
+                <input
+                  type="checkbox"
+                  name={`interest_${interest}`}
+                  value={interest}
+                  checked={formData.interests.includes(interest)}
+                  onChange={handleChange}
+                />
+                {interest}
+              </label>
+            ))}
+          </div>
+          <input
+            type="text"
+            value={newInterest}
+            onChange={handleInterestChange}
+            placeholder="Enter new interest"
+          />
+          <button onClick={handleAddInterest} className="loginButton">
+            Add
+          </button>
+          <button onClick={closeInterestModal} className="loginButton">
+            Close
+          </button>
+        </Modal>
 
-            <label className="register-label">
-              Branch:
-              <Select
-                name="branch"
-                options={branchOptions}
-                value={branchOptions.find(
-                  (option) => option.value === formData.branch
-                )}
-                onChange={(selectedOption, actionMeta) =>
-                  handleListChange(selectedOption, actionMeta)
-                }
-                styles={customStyles}
-              />
-            </label>
+        <label className="register-label">
+          Department:
+          <Select
+            name="department"
+            options={departmentOptions}
+            value={departmentOptions.find(
+              (option) => option.value === formData.department
+            )}
+            onChange={(selectedOption, actionMeta) =>
+              handleListChange(selectedOption, actionMeta)
+            }
+            styles={customStyles}
+          />
+        </label>
 
-            <label className="register-label">
-              Year of Study:
-              <Select
-                name="yearOfStudy"
-                options={yearOfStudyOptions}
-                value={yearOfStudyOptions.find(
-                  (option) => option.value === formData.yearOfStudy
-                )}
-                onChange={(selectedOption, actionMeta) =>
-                  handleListChange(selectedOption, actionMeta)
-                }
-                styles={customStyles}
-              />
-            </label>
+        <label className="register-label">
+          Branch:
+          <Select
+            name="branch"
+            options={branchOptions}
+            value={branchOptions.find(
+              (option) => option.value === formData.branch
+            )}
+            onChange={(selectedOption, actionMeta) =>
+              handleListChange(selectedOption, actionMeta)
+            }
+            styles={customStyles}
+          />
+        </label>
 
-            <button className="register-button loginButton" type="submit">
-              Register
-            </button>
-          </form>
-        </div>
-      )}
-    </Fragment>
+        <label className="register-label">
+          Year of Study:
+          <Select
+            name="yearOfStudy"
+            options={yearOfStudyOptions}
+            value={yearOfStudyOptions.find(
+              (option) => option.value === formData.yearOfStudy
+            )}
+            onChange={(selectedOption, actionMeta) =>
+              handleListChange(selectedOption, actionMeta)
+            }
+            styles={customStyles}
+          />
+        </label>
+
+        <button className="register-button loginButton" type="submit">
+          Register
+        </button>
+      </form>
+    </div>
   );
 };
 

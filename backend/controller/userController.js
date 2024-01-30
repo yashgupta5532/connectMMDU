@@ -67,7 +67,6 @@ export const registerUser = asyncHandler(async (req, res) => {
   const avatarFilePath = req.files ? req.files?.avatar[0].path : null;
 
   let coverImageFilePath;
-  console.log("coverimageis", req.files.coverImage);
   if (
     req.files &&
     Array.isArray(req.files.coverImage) &&
@@ -75,9 +74,9 @@ export const registerUser = asyncHandler(async (req, res) => {
   ) {
     coverImageFilePath = req.files.coverImage[0].path;
   }
-  if(!coverImageFilePath){
-    throw new ApiError(400,"coverImage is required")
-  }
+  // if(!coverImageFilePath){
+  //   throw new ApiError(400,"coverImage is required")
+  // }
 
   if (!avatarFilePath) {
     throw new ApiError(400, "avatar field is required");
@@ -89,9 +88,9 @@ export const registerUser = asyncHandler(async (req, res) => {
     coverImage = await uploadOnCloudinary(coverImageFilePath);
   }
 
-  if(!coverImage){
-    throw new ApiError(401,"Error while uploading coverImage")
-  }
+  // if(!coverImage){
+  //   throw new ApiError(401,"Error while uploading coverImage")
+  // }
 
   const user = await User.create({
     fullname,
@@ -99,7 +98,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     avatar: avatar.url,
-    coverImage: coverImage?.url,
+    coverImage: coverImage?.url || "",
     martialStatus,
     gender,
     contactNo,

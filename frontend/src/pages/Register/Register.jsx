@@ -237,11 +237,11 @@ const Register = () => {
     const filteredCoverFiles = Array.from(coverFiles).filter((file) => file);
     setFormData((prevData) => ({
       ...prevData,
-      coverImage: filteredCoverFiles,
+      coverImage: [...filteredCoverFiles],
     }));
+    
   };
   
-
   const openInterestModal = () => setIsInterestModalOpen(true);
   const closeInterestModal = () => setIsInterestModalOpen(false);
   const openHobbyModal = () => setIsHobbyModalOpen(true);

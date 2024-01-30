@@ -292,7 +292,7 @@ const Register = () => {
                 type="file"
                 name="coverImage"
                 onChange={handleCoverImage}
-                required
+                // required
               />
             </label>
 

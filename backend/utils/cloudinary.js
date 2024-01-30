@@ -13,9 +13,10 @@ const uploadOnCloudinary = async (localFilePath) => {
     if (!localFilePath) return null;
 
     const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "auto",folder:"connectMMDU"
+      resource_type: "auto",
+      folder: "connectMMDU",
     });
-    // console.log("response ",response)
+    console.log("response ", response);
     if (!response) {
       fs.unlinkSync(localFilePath);
       throw new ApiError(402, "Error while uploading image ");
@@ -23,9 +24,9 @@ const uploadOnCloudinary = async (localFilePath) => {
     try {
       fs.unlinkSync(localFilePath);
     } catch (error) {
-      throw new ApiError(401,"Error while deleting localfle")
+      throw new ApiError(401, "Error while deleting localfle");
     }
-    
+
     return response;
   } catch (error) {
     fs.unlinkSync(localFilePath);

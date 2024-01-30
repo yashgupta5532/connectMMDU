@@ -64,27 +64,24 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User Already Exists with this email or username");
   }
 
-  const avatarFilePath = req.files ? req.files?.avatar[0].path : null;
-  const coverImageFilePath = req.files ? req.files?.coverImage[0].path : null;
+  const avatarLocalPath = req.files?.avatar[0]?.path;
+    //const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
-  console.log(avatarFilePath,coverImageFilePath)
+    let coverImageLocalPath;
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
+    
 
-  if(!coverImageFilePath){
-    throw new ApiError(400,"coverImage is required")
-  }
+    if (!avatarLocalPath) {
+        throw new ApiError(400, "Avatar file is required")
+    }
 
-  if (!avatarFilePath) {
-    throw new ApiError(400, "avatar field is required");
-  }
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
-  const avatar = await uploadOnCloudinary(avatarFilePath);
-  if(!avatar.url){
+  if(!avatar?.url){
     throw new ApiError(401,"Error while uploading Avatar")
-  }
-  const coverImage = await uploadOnCloudinary(coverImageFilePath);
-
-  if(!coverImage.url){
-    throw new ApiError(401,"Error while uploading coverImage")
   }
 
   const user = await User.create({
@@ -93,7 +90,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     avatar: avatar.url,
-    coverImage: coverImage.url,
+    coverImage: coverImage?.url || "",
     martialStatus,
     gender,
     contactNo,

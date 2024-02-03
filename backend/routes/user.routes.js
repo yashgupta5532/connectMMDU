@@ -11,6 +11,7 @@ import {
   getAllFriendRequestsUsers,
   getAllFriends,
   getAllOnlineUsers,
+  getAllUsers,
   getMyDetails,
   getUserDetails,
   isOnline,
@@ -22,12 +23,14 @@ import {
   searchUser,
   sendFriendRequest,
   unBlockUserAccount,
+  unBlockUserAccountByAdmin,
   updateAvatar,
   updateCoverImage,
   updateOnlineStatus,
   updateProfile,
+  updateRole,
 } from "../controller/userController.js";
-import { isAdmin, verifyJwt } from "../middleware/auth.middleware.js";
+import { isAccountBlocked, isAdmin, verifyJwt } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
@@ -78,9 +81,15 @@ router.route("/all/friends/requests").get(verifyJwt, getAllFriendRequestsUsers);
 
 router.route("/delete/profile").delete(deleteProfile); //user
 
-router.route("/delete/profile/admin/:id").delete(isAdmin, deleteProfileAdmin); //Admin
+router.route("/admin/all-users").get(verifyJwt,isAdmin,getAllUsers)
+
+router.route("/delete/profile/admin/:id").delete(verifyJwt,isAdmin, deleteProfileAdmin); //Admin
+
+router.route("/update/admin/role/:id").put(verifyJwt,isAdmin,updateRole)
 
 router.route("/block/:id").put(verifyJwt, isAdmin, blockUserAccount); //Admin
+
+router.route("/un-block/admin/:id").put(verifyJwt,isAdmin,unBlockUserAccountByAdmin)
 
 router.route("/un-block/:id").put(unBlockUserAccount); //automatically done in 24 hours
 

@@ -17,7 +17,7 @@ const AdminDashboard = () => {
 
         if (data?.success) {
           setPosts(data?.data);
-          toast.success(data?.message);
+          // toast.success(data?.message);
         } else {
           toast.error(data?.message || "An error occurred.");
         }
@@ -101,12 +101,17 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      <h1 style={{ textAlign: "center" }}>
-        All posts (Pending/Rejected/Approved)
-      </h1>
-      <Link to="/admin/all-contact" className="contact-info">
-        Contact us info{" "}
-      </Link>
+      <div className="admin-container-heading">
+        <h1 style={{ textAlign: "center" }}>
+          All posts (Pending/Rejected/Approved)
+        </h1>
+        <Link to="/admin/all-contact" className="contact-info">
+          Contact us info{" "}
+        </Link>
+        <Link to="/admin/all-users" className="contact-info">
+          Users
+        </Link>
+      </div>
       <ul>
         {posts.map((post) => (
           <li key={post._id}>

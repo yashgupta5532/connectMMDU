@@ -158,8 +158,16 @@
 }
 
 
-/* @media screen and (max-width: 700px) { */
-    .message-container {
-      max-height: calc(100vh - 10px); /* Adjust this value based on your design */
+.message-container {
+    max-height: calc(100vh - 10px); /* Adjust this value based on your design */
+}
+
+@media screen and (max-width: 430px) {
+    .message-container .receiver-header-container .receiver-header-info .side > div {
+        padding: 0px;
     }
-  /* } */
+    .message-container .receiver-header-info .receiver-avatar{
+        width: 7vh;
+        height: 7vh;
+    }
+}

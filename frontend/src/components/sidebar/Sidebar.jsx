@@ -1,4 +1,4 @@
-import React, { useState, Fragment ,useEffect} from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import "./sidebar.css";
 import {
   RssFeed,
@@ -18,10 +18,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { serverUrl } from "../../constants.js";
 import { toast } from "react-toastify";
-import Loader from "../Loader/Loader.js"
+import Loader from "../Loader/Loader.js";
 
 function Sidebar({ user }) {
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const [isFriendMenuOpen, setIsFriendMenuOpen] = useState(false);
   const navigate = useNavigate();
   const toggleFriendMenu = () => {
@@ -30,7 +30,7 @@ function Sidebar({ user }) {
 
   const handleLogout = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await axios.post(`${serverUrl}/user/logout`, null, {
         withCredentials: true,
       });
@@ -51,104 +51,113 @@ function Sidebar({ user }) {
       } else {
         toast.error("An unexpected error occurred.");
       }
-    }
-    finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Fragment>
-     {
-      loading ? <Loader /> :
-      <>
-       <div className="sidebar" id="sidebar-container">
-        <div className="sidebarWrapper ">
-          <ul className="sidebarList">
-            <li className="sidebarListItem ">
-              <RssFeed className="sidebarIcon" />
-              <span className="sidebarListItemText">News-Feed</span>
-            </li>
-            <li className="sidebarListItem" onClick={toggleFriendMenu}>
-              <Diversity1Icon className="sidebarIcon" />
-              <span className="sidebarListItemText">Friend</span>
-            </li>
-            {isFriendMenuOpen && (
-              <ul className="nestedList">
-                <Link to="/friend/request">
-                  <li className="nestedListItem sidebarListItem">
-                    <PersonAddIcon className="sidebarIcon" />
-                    <span className="sidebarListItemText">Friend Request</span>
-                  </li>
-                </Link>
-                <Link to="/friend/all">
-                  <li className="nestedListItem sidebarListItem">
-                    <Group className="sidebarIcon" />
-                    <span className="sidebarListItemText">Friends</span>
-                  </li>
-                </Link>
-                {/* Add more nested items as needed */}
-              </ul>
-            )}
-            <Link to={`/message/${user?._id}`}>
-              <li className="sidebarListItem">
-                <Chat className="sidebarIcon" />
-                <span className="sidebarListItemText">Chats</span>
-              </li>
-            </Link>
-
-            {user && user.role === "admin" && (
-              <Link to="/admin/dashboard">
-                <li className="sidebarListItem">
-                  <AdminPanelSettingsIcon className="sidebarIcon" />
-                  <span className="sidebarListItemText">Admin</span>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="sidebar" id="sidebar-container">
+            <div className="sidebarWrapper ">
+              <ul className="sidebarList">
+                <li className="sidebarListItem ">
+                  <RssFeed className="sidebarIcon" />
+                  <span className="sidebarListItemText">News-Feed</span>
                 </li>
-              </Link>
-            )}
+                <li className="sidebarListItem" onClick={toggleFriendMenu}>
+                  <Diversity1Icon className="sidebarIcon" />
+                  <span className="sidebarListItemText">Friend</span>
+                </li>
+                {isFriendMenuOpen && (
+                  <ul className="nestedList">
+                    <Link to="/friend/request">
+                      <li className="nestedListItem sidebarListItem">
+                        <PersonAddIcon className="sidebarIcon" />
+                        <span className="sidebarListItemText">
+                          Friend Request
+                        </span>
+                      </li>
+                    </Link>
+                    <Link to="/friend/all">
+                      <li className="nestedListItem sidebarListItem">
+                        <Group className="sidebarIcon" />
+                        <span className="sidebarListItemText">Friends</span>
+                      </li>
+                    </Link>
+                    {/* Add more nested items as needed */}
+                  </ul>
+                )}
+                <Link to={`/message/${user?._id}`}>
+                  <li className="sidebarListItem">
+                    <Chat className="sidebarIcon" />
+                    <span className="sidebarListItemText">Chats</span>
+                  </li>
+                </Link>
 
-            {/* <li className="sidebarListItem">
+                {user && user.role === "admin" && (
+                  <Link to="/admin/dashboard">
+                    <li className="sidebarListItem">
+                      <AdminPanelSettingsIcon className="sidebarIcon" />
+                      <span className="sidebarListItemText">Admin</span>
+                    </li>
+                  </Link>
+                )}
+
+                {/* <li className="sidebarListItem">
             <Group className="sidebarIcon" />
             <span className="sidebarListItemText">Groups</span>
           </li> */}
-            <Link to="/update/profile">
-              <li className="sidebarListItem">
-                <Bookmark className="sidebarIcon" />
-                <span className="sidebarListItemText">Update Profile</span>
-              </li>
-            </Link>
-            <Link to="/contact">
-              <li className="sidebarListItem">
-                <HelpOutline className="sidebarIcon" />
-                <span className="sidebarListItemText">Contact Us</span>
-              </li>
-            </Link>
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              <span className="sidebarListItemText">Jobs</span>
-            </li>
-            <li className="sidebarListItem">
-              <Event className="sidebarIcon" />
-              <span className="sidebarListItemText">Events</span>
-            </li>
-            <li className="sidebarListItem" onClick={handleLogout}>
-              <LogoutIcon className="sidebarIcon" />
-              <span className="sidebarListItemText">Logout</span>
-            </li>
-          </ul>
-          <button className="sidebarButton btn sidebarListItemText">
-            Show More
-          </button>
-          <hr className="sidebarHr" />
-          <ul className="sidebarFriendList ">
-            <CloseFriend />
-          </ul>
-        </div>
-      </div>
-      </>
-     }
+                <Link to="/update/profile">
+                  <li className="sidebarListItem">
+                    <Bookmark className="sidebarIcon" />
+                    <span className="sidebarListItemText">Update Profile</span>
+                  </li>
+                </Link>
+                <Link to="/contact">
+                  <li className="sidebarListItem">
+                    <HelpOutline className="sidebarIcon" />
+                    <span className="sidebarListItemText">Contact Us</span>
+                  </li>
+                </Link>
+                <a
+                  href="https://studywithmaterial.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <li className="sidebarListItem">
+                    <WorkOutline className="sidebarIcon" />
+                    <span className="sidebarListItemText">Notes</span>
+                  </li>
+                </a>
+                <Link to="/comingSoon">
+                  <li className="sidebarListItem">
+                    <Event className="sidebarIcon" />
+                    <span className="sidebarListItemText">Events</span>
+                  </li>
+                </Link>
+                <li className="sidebarListItem" onClick={handleLogout}>
+                  <LogoutIcon className="sidebarIcon" />
+                  <span className="sidebarListItemText">Logout</span>
+                </li>
+              </ul>
+              <button className="sidebarButton btn sidebarListItemText">
+                Show More
+              </button>
+              <hr className="sidebarHr" />
+              <ul className="sidebarFriendList ">
+                <CloseFriend />
+              </ul>
+            </div>
+          </div>
+        </>
+      )}
     </Fragment>
   );
 }
-
 
 export default Sidebar;

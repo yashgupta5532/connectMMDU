@@ -9,7 +9,7 @@ import CommentDialog from "../commentDialog/CommentDialog.js";
 import UpdatePostDialog from "../Postd/UpdatePostDialog.js";
 import { format } from "timeago.js";
 
-function Post({ post, userId, ownerId }) {
+function Post({ post, userId, ownerId ,profiling=false}) {
   const [like, setLike] = useState(post?.likes.length);
   const [isliked, setIsLiked] = useState(post?.likes.includes(userId));
   const [comments, setComments] = useState(post?.comments.length);
@@ -33,7 +33,7 @@ function Post({ post, userId, ownerId }) {
           toast.error(data?.message);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         // if (
         //   error.response &&
         //   error.response.data &&
@@ -46,7 +46,7 @@ function Post({ post, userId, ownerId }) {
       }
     };
     fetchPostOwnerDetails();
-  },[ownerId]);
+  }, [ownerId]);
 
   const likeHandler = async (postId) => {
     try {
@@ -59,14 +59,18 @@ function Post({ post, userId, ownerId }) {
         toast.success(data?.message);
         setIsLiked(!isliked);
         setLike(isliked ? like - 1 : like + 1);
-      }else{
-        toast.error(data?.message)
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
       } else {
-        toast.error('An unexpected error occurred.');
+        toast.error("An unexpected error occurred.");
       }
     }
   };
@@ -112,6 +116,12 @@ function Post({ post, userId, ownerId }) {
               </div>
             </div>
           </Link>
+
+          {profiling && (
+            <span className={`${post?.status} post-status-btn`}>
+              {post?.status}
+            </span>
+          )}
           <div className="postTopRight">
             {userId === postOwner?._id && (
               <MoreVert onClick={handleOpenEditDialog} />

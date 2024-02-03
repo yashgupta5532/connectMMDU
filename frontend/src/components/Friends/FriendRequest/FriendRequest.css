@@ -20,6 +20,7 @@
 .f-wrap{
     display: flex;
     flex-wrap: wrap;
+    
 }
 
 .friend-request-container .friend-user-container {

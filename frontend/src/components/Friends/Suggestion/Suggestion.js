@@ -19,29 +19,34 @@ const Suggestion = () => {
           setSuggestedFriends(data?.data);
         }
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
-          toast.error('An unexpected error occurred.');
+          toast.error("An unexpected error occurred.");
         }
       }
     };
 
     fetchSuggestedFriends();
   }, [toast]);
-
+  
   useEffect(() => {
     const storedRequests =
       JSON.parse(localStorage.getItem("sentFriendRequests")) || {};
     setSentFriendRequests(storedRequests);
   }, []);
-
+  
   useEffect(() => {
     localStorage.setItem(
       "sentFriendRequests",
       JSON.stringify(sentFriendRequests)
     );
   }, [sentFriendRequests]);
+
 
   const handleFriendRequest = async (userId) => {
     console.log("clicked", process.env.REACT_APP_BACKEND_URL);

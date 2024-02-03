@@ -22,18 +22,20 @@ const defaultHobbies = [
   "Gaming",
   "Sports",
   "Volunteering",
+  "Yoga","Painting"
 ];
 
 const defaultInterests = [
   "Football",
-  "women",
-  "men",
+  "Girls",
+  "Boys",
   "friendship",
   "love",
   "Relationship",
   "Political Engagement",
   "Science and Research",
   "Blogging",
+  "You-Tuber"
 ];
 
 const Register = () => {
@@ -66,14 +68,26 @@ const Register = () => {
     { value: "Civil", label: "Civil" },
     { value: "Electrical", label: "Electrical" },
     { value: "Mechanical", label: "Mechanical" },
+    { value: "Bio-Tech", label: "Bio-Tech" },
+    { value: "Agriculture", label: "Agriculture" },
+    { value: "MBBS", label: "MBBS" },
+    { value: "B-Pharma", label: "B-Pharma" },
+    { value: "Pharm-D", label: "Pharm-D" },
+    { value: "BBA", label: "BBA" },
+    { value: "MBA", label: "MBA" },
+    { value: "BA-LLB", label: "BA-LLB" },
     { value: "Other", label: "Other" },
   ];
   const departmentOptions = [
     { value: "", label: "Select Department", isDisabled: true },
     { value: "B-Tech", label: "B-Tech" },
     { value: "Pharmacy", label: "Pharmacy" },
+    { value: "MBBS", label: "MBBS" },
     { value: "BCA", label: "BCA" },
     { value: "LAW", label: "LAW" },
+    { value: "AGRICULTURE", label: "AGRICULTURE" },
+    { value: "Mangagement", label: "Management" },
+    { value: "Dental", label: "Dental" },
     { value: "Other", label: "Other" },
   ];
   const yearOfStudyOptions = [
@@ -125,12 +139,14 @@ const Register = () => {
       formDataToSend.append("branch", formData.branch);
       formDataToSend.append("yearOfStudy", formData.yearOfStudy);
 
-      console.log("formData avatar ", formData.avatar);
+      // console.log("formData avatar ", formData.avatar);
       // Append the avatar file
       formDataToSend.append("avatar", formData.avatar);
 
       // console.log("formData coverimage ",formData.coverImage)
+     if(formData.coverImage){
       formDataToSend.append("coverImage", formData.coverImage[0]);
+     }
 
       // Append interests and hobbies as arrays
       formData.interests.forEach((interest) => {
@@ -148,10 +164,10 @@ const Register = () => {
         formDataToSend,
         { withCredentials: true }
       );
-      console.log("data is", data);
+      // console.log("data is", data);
       if (data.success) {
         toast.success(data.message);
-        navigate("/login");
+        navigate("/");
       } else {
         // const errorResponse = await response.json();
         toast.error(data.message);
@@ -178,10 +194,17 @@ const Register = () => {
     if (name === "DOB") {
       const selectedDate = new Date(value);
       const currentDate = new Date();
-
+    
+      // Calculate the date 10 years ago
+      const tenYearsAgo = new Date(currentDate);
+      tenYearsAgo.setFullYear(currentDate.getFullYear() - 10);
+    
       if (selectedDate > currentDate) {
         setErrors((prevErrors) => ({ ...prevErrors, [name]: "Invalid date." }));
-      } else {
+      } else if (selectedDate > tenYearsAgo){
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "You are under age.So,you are not eligible to register" }));
+      }
+      else {
         setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
       }
     }
@@ -191,6 +214,16 @@ const Register = () => {
         setErrors((prevErrors) => ({
           ...prevErrors,
           [name]: "Contact number must be 10 digits.",
+        }));
+      } else {
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+      }
+    }
+    if (name === "password") {
+      if (value.length < 8) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: "Password must be atleast 8 digits",
         }));
       } else {
         setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
@@ -316,7 +349,7 @@ const Register = () => {
                   type="file"
                   name="coverImage"
                   onChange={handleCoverImage}
-                  required
+                  // required
                 />
               </label>
 
@@ -370,6 +403,9 @@ const Register = () => {
                   onChange={handleChange}
                   required
                 />
+                {errors.password && (
+                  <span className="error-message">{errors.password}</span>
+                )}
               </label>
 
               <label className="register-label">

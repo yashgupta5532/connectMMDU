@@ -6,14 +6,16 @@
   }
   
   .contact-info{
-    display: flex;
-    float: right;
-    position: relative;
-    right: -10vw;
-    top: -9vh;
     text-decoration: none;
     font-size: 2vmax;
     font-weight: bold;
+  }
+
+  .admin-dashboard .admin-container-heading{
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
   }
   
   .admin-dashboard h1{
@@ -22,6 +24,7 @@
     font-size: 24px;
     color: #333;
   }
+
   
   .admin-dashboard ul {
     list-style-type: none;

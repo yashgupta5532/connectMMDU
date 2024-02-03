@@ -90,6 +90,23 @@
     right: 5px;
 }
 
+.post-status-btn{
+    padding: 0.75vmax;
+    color:#ffffff;
+    border-radius: 15px;
+}
+
+.Approved{
+    background-color: green;
+}
+.Pending{
+    background-color: yellow;
+}
+.Rejected{
+    background-color: tomato;
+}
+
+
 @media screen and (max-width:580px) {
     .post{
         width: 90%;

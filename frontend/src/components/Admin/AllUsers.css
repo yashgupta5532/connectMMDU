@@ -1,0 +1,54 @@
+.all-users{
+    padding: 2vmax;
+    box-shadow: 0px 4px 3px 5px (rgb(168, 164, 164));
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+}
+
+.admin-users-list button{
+    padding: 1vmax;
+    color: white;
+    outline: none;
+    border-radius: 10px;
+}
+
+.all-users .block{
+    background-color: tomato;   
+}
+
+.all-users .delete{
+    background-color: red;
+}
+.all-users .makeAdmin{
+    background-color: green;
+}
+
+.auto-container{
+    margin: auto;
+    width: 100%;
+}
+
+.button-container{
+    margin: auto;
+}
+
+.admin-users-list{
+    background-color: royalblue;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0px 3px 5px 3px gray;
+    margin: 2vmax;
+}
+.admin-users-list :hover{
+    background-color: rgb(64, 103, 218);
+}
+@media screen and (max-width: 400px) {
+    .admin-users-list button{
+        margin: 0 0.5vmax;
+    }
+    .admin-users-list{
+        width: 100%;
+    }
+}

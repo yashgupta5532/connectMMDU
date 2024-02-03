@@ -90,7 +90,7 @@
 
 .shareBottom .shareOptions .file input[type="file"]:focus + label,
 .shareBottom .shareOptions .file input[type="file"]:active + label {
-color: transparent; /* Hide text color on focus or active states */
+color: black; /* Hide text color on focus or active states */
 }
 
 .shareBottom .shareOptions .file{

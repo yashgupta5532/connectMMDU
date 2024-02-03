@@ -44,7 +44,7 @@ const AllFriends = () => {
             <Link to={`/profile/${user?._id}`}>
               <div key={user?._id} className="profile-container">
                 <div className="bg-img">
-                  <img src={user?.coverImage[0]} alt="imaging" />
+                  <img src={user?.coverImage[0] || "/assets/bg.png"} alt="imaging" />
                 </div>
                 <div className="user-info">
                   <div className="info">

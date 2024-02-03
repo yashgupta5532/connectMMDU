@@ -1,0 +1,39 @@
+.blocked-user-container {
+    max-width: 400px;
+    min-height: 60vh;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da; /* Red background color (customize as needed) */
+    border: 1px solid #f5c6cb; /* Red border color (customize as needed) */
+    border-radius: 5px;
+    margin-top: 50px;
+  }
+  .flex-container{
+    display: flex;
+    flex-direction: column;
+    margin: 2vmax;
+  }
+  .flex-container a{
+    padding: 1vmax;
+    margin: 1vmax;
+  }
+  
+  .blocked-user-container h1 {
+    color: #721c24; /* Dark red text color (customize as needed) */
+  }
+  
+  .blocked-user-container p {
+    color: #721c24; /* Dark red text color (customize as needed) */
+  }
+  
+  .contact-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #dc3545; /* Red button background color (customize as needed) */
+    color: #fff; /* White button text color (customize as needed) */
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  

@@ -107,11 +107,11 @@ const Profile=() =>{
         <div className="profileRight">
           <div className="profilerightTop">
             <div className="profileCover">
-              <img
-                className="profileCoverImg"
-                src={user?.coverImage[0]}
-                alt="Cover"
-              />
+            <img
+              className="profileCoverImg"
+              src={user?.coverImage[0] || "/assets/bg.png"}
+              alt="Cover"
+            />
               <img className="profileUserImg" src={user?.avatar} alt="" />
             </div>
             <div className="profileInfo">
@@ -132,6 +132,7 @@ const Profile=() =>{
                       post={post}
                       userId={myDetails?._id}
                       ownerId={post?.owner}
+                      profiling={true}
                     />
                   ))}
                 {/* <Feed user={user} /> */}

@@ -197,7 +197,7 @@ export const deletePost = asyncHandler(async (req, res) => {
 });
 
 export const getAllPosts = asyncHandler(async (req, res) => {
-  const posts = await Post.find({ status: "Approved" });
+  const posts = await Post.find({ status: "Approved" }).sort({ createdAt: -1 });
   return res.status(200).json(new ApiResponse(200, posts));
 });
 
@@ -210,18 +210,20 @@ export const getSinglePost = asyncHandler(async (req, res) => {
 });
 
 export const getMyPosts = asyncHandler(async (req, res) => {
-  const userId=req.params.id
+  const userId = req.params.id;
   const user = await User.findById(userId);
   const postIds = user.posts;
-  // console.log(postIds);
-  const postDetails = await Promise.all(postIds.map((id) => Post.findById(id)));
+  // Fetch post details and sort by createdAt in descending order
+  const postDetails = await Promise.all(postIds.map((id) => Post.findById(id)))
+    .then(posts => posts.sort((a, b) => b.createdAt - a.createdAt));
+
   return res.status(200).json(new ApiResponse(200, postDetails));
 });
 
 export const Admin = asyncHandler(async (req, res) => {
   const posts = await Post.find({
     status: { $in: ["Pending", "Approved", "Rejected"] },
-  }).populate("owner");
+  }).populate("owner").sort({ createdAt: -1 });
 
   const filteredPosts = posts.filter((post) => post.owner !== null);
   return res

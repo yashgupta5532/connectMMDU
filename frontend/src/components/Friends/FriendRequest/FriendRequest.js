@@ -113,7 +113,7 @@ const FriendRequest = () => {
                         <p>mutual Friends</p>
                       </span>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex" style={{justifyContent:"center"}}>
                       <button
                         className="btn-confirm"
                         onClick={() =>

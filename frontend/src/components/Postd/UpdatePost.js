@@ -65,10 +65,14 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
         }
       } catch (error) {
         // setTitle(titled)
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
-          toast.error('An unexpected error occurred.');
+          toast.error("An unexpected error occurred.");
         }
       }
     }
@@ -76,6 +80,7 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
     // Handle other updates
     if (Object.keys(updatedData).length > 0) {
       try {
+        setLoading(true);
         const { data } = await axios.put(
           `${serverUrl}/post/update-post/${postId}`,
           updatedData,
@@ -87,10 +92,14 @@ const UpdatePost = ({ postId, image, titled, desc }) => {
           toast.error(data?.message);
         }
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
           toast.error(error.response.data.message);
         } else {
-          toast.error('An unexpected error occurred.');
+          toast.error("An unexpected error occurred.");
         }
       } finally {
         setLoading(false);

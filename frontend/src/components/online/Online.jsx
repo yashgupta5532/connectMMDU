@@ -17,7 +17,7 @@ function Online({ message = false }) {
             withCredentials: true,
           }
         );
-        console.log("data res", data);
+        // console.log("data res", data);
         if (data?.success) {
           setOnlineUsers(data?.data);
         } else {

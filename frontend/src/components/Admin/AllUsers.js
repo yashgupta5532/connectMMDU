@@ -7,7 +7,7 @@ import "./AllUsers.css";
 
 const AllUsers = (message = false) => {
   const [allUser, setAllUsers] = useState([]);
-  
+
   const currentUtcDate = new Date().toISOString();
 
   useEffect(() => {
@@ -36,7 +36,6 @@ const AllUsers = (message = false) => {
     };
     fetchAllUsers();
   }, []);
-
 
   const handleBlockUser = async (userId, status) => {
     try {
@@ -166,20 +165,12 @@ const AllUsers = (message = false) => {
                   </button>
 
                   <button
-                    className="block"
+                    className="delete"
                     onClick={() => {
-                      const currentUtcDate = new Date().toISOString();
-                      handleBlockUser(
-                        user?._id,
-                        user?.accountBlockedUntil > currentUtcDate
-                          ? "Un-Block"
-                          : "Block"
-                      );
+                      handleDeleteUser(user?._id);
                     }}
                   >
-                    {user?.accountBlockedUntil > new Date()
-                      ? "Un-Block"
-                      : "Block"}
+                    Delete
                   </button>
 
                   <button
